@@ -31,7 +31,7 @@
             {
                 if($sm->slug == 'index')
                 {
-                    $slug = 'view';
+                    $slug = 'View';
                 }
                 else {
 
@@ -39,6 +39,7 @@
                 }
                 $this_permission = $sm->system_name.' '.$slug;
                 $get_permission = DB::table('permissions')->where('name',$this_permission)->first();
+                // echo $this_permission.'<br>';
                 $count_permission = DB::table('role_has_permissions')->where('permission_id',$get_permission->id)->where('role_id',Auth::user()->roles()->pluck('id')->first())->count();
                 $countlabel = $countlabel + $count_permission;
             }
@@ -49,7 +50,7 @@
                 {
                     if($mm->slug == 'index')
                     {
-                        $slug = 'view';
+                        $slug = 'View';
                     }
                     else {
 
@@ -79,7 +80,7 @@
                 @php
                     if($m->slug == 'index')
                     {
-                        $slug = 'view';
+                        $slug = 'View';
                     }
                     else
                     {
@@ -94,7 +95,9 @@
                         {{ $m->name ?: $m->name_bn }}
                         @else
                         {{ $m->name_bn ?: $m->name }}
+
                         @endif
+
                     </span></div>
                 </a>
                 @endif
@@ -122,7 +125,7 @@
                     @php
                     if($mm->slug == 'index')
                     {
-                        $slug = 'view';
+                        $slug = 'View';
                     }
                     else
                     {
