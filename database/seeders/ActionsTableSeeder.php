@@ -22,56 +22,63 @@ class ActionsTableSeeder extends Seeder
             0 => 
             array (
                 'id' => 1,
-                'name' => 'Create',
+                'name' => 'create',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             1 => 
             array (
                 'id' => 2,
-                'name' => 'View',
+                'name' => 'view',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             2 => 
             array (
                 'id' => 3,
-                'name' => 'Edit',
+                'name' => 'edit',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             3 => 
             array (
                 'id' => 4,
-                'name' => 'Destroy',
+                'name' => 'destroy',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             4 => 
             array (
                 'id' => 5,
-                'name' => 'Status',
+                'name' => 'status',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             5 => 
             array (
                 'id' => 6,
-                'name' => 'Restore',
+                'name' => 'restore',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             6 => 
             array (
                 'id' => 7,
-                'name' => 'Delete',
+                'name' => 'delete',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
             7 => 
             array (
                 'id' => 8,
-                'name' => 'Print',
+                'name' => 'print',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
+            8 => 
+            array (
+                'id' => 9,
+                'name' => 'show',
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),

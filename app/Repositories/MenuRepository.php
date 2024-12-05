@@ -223,6 +223,7 @@ class MenuRepository implements MenuInterface{
 
             if($request->type != 1)
             {
+                Artisan::call('cache:forget spatie.permission.cache');
                 for ($i=0; $i < count($request->permissions) ; $i++)
                 {
                     Permission::create([

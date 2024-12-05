@@ -31,7 +31,7 @@
             {
                 if($sm->slug == 'index')
                 {
-                    $slug = 'View';
+                    $slug = 'view';
                 }
                 else {
 
@@ -50,7 +50,7 @@
                 {
                     if($mm->slug == 'index')
                     {
-                        $slug = 'View';
+                        $slug = 'view';
                     }
                     else {
 
@@ -80,7 +80,7 @@
                 @php
                     if($m->slug == 'index')
                     {
-                        $slug = 'View';
+                        $slug = 'view';
                     }
                     else
                     {
@@ -125,7 +125,7 @@
                     @php
                     if($mm->slug == 'index')
                     {
-                        $slug = 'View';
+                        $slug = 'view';
                     }
                     else
                     {
