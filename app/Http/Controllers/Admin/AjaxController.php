@@ -11,6 +11,8 @@ use App\Models\Size;
 use App\Models\Product;
 use App\Models\SupplierArea;
 use App\Models\Supplier;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class AjaxController extends Controller
 {
@@ -200,5 +202,17 @@ class AjaxController extends Controller
         }
 
         return view('stores.supplier.show_supplier',compact('data'));
+    }
+
+    public function error_solve()
+    {
+        $data = User::all();
+        foreach($data as $d)
+        {
+            $user = User::find($d->id);
+            $role = Role::find($d->role_id);
+            $user->assignRole($role);
+        }
+        return 'Ok';
     }
 }
