@@ -21,6 +21,8 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('error_solve',[AjaxController::class,'error_solve']);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
