@@ -201,96 +201,6 @@ class PermissionsTableSeeder extends Seeder
             ),
             20 => 
             array (
-                'id' => 68,
-                'name' => 'Role create',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            21 => 
-            array (
-                'id' => 69,
-                'name' => 'Role view',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            22 => 
-            array (
-                'id' => 70,
-                'name' => 'Role edit',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            23 => 
-            array (
-                'id' => 71,
-                'name' => 'Role destroy',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            24 => 
-            array (
-                'id' => 72,
-                'name' => 'Role status',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            25 => 
-            array (
-                'id' => 73,
-                'name' => 'Role restore',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            26 => 
-            array (
-                'id' => 74,
-                'name' => 'Role delete',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            27 => 
-            array (
-                'id' => 75,
-                'name' => 'Role print',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            28 => 
-            array (
-                'id' => 76,
-                'name' => 'Role trash',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            29 => 
-            array (
-                'id' => 77,
-                'name' => 'Role show',
-                'guard_name' => 'web',
-                'parent' => 'Role',
-                'created_at' => '2024-06-22 14:49:32',
-                'updated_at' => '2024-06-22 14:49:32',
-            ),
-            30 => 
-            array (
                 'id' => 78,
                 'name' => 'Users create',
                 'guard_name' => 'web',
@@ -298,7 +208,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            31 => 
+            21 => 
             array (
                 'id' => 79,
                 'name' => 'Users view',
@@ -307,7 +217,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            32 => 
+            22 => 
             array (
                 'id' => 80,
                 'name' => 'Users edit',
@@ -316,7 +226,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            33 => 
+            23 => 
             array (
                 'id' => 81,
                 'name' => 'Users destroy',
@@ -325,7 +235,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            34 => 
+            24 => 
             array (
                 'id' => 82,
                 'name' => 'Users status',
@@ -334,7 +244,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            35 => 
+            25 => 
             array (
                 'id' => 83,
                 'name' => 'Users restore',
@@ -343,7 +253,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            36 => 
+            26 => 
             array (
                 'id' => 84,
                 'name' => 'Users delete',
@@ -352,7 +262,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            37 => 
+            27 => 
             array (
                 'id' => 85,
                 'name' => 'Users print',
@@ -361,7 +271,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            38 => 
+            28 => 
             array (
                 'id' => 86,
                 'name' => 'Users trash',
@@ -370,7 +280,7 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            39 => 
+            29 => 
             array (
                 'id' => 87,
                 'name' => 'Users show',
@@ -379,14 +289,176 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-06-22 14:49:47',
                 'updated_at' => '2024-06-22 14:49:47',
             ),
-            40 => 
+            30 => 
             array (
-                'id' => 209,
-                'name' => 'Dashboard View',
+                'id' => 237,
+                'name' => 'Dashboard view',
                 'guard_name' => 'web',
                 'parent' => 'Dashboard',
-                'created_at' => '2024-12-03 14:13:34',
-                'updated_at' => '2024-12-03 14:13:34',
+                'created_at' => '2024-12-05 15:40:34',
+                'updated_at' => '2024-12-05 15:40:34',
+            ),
+            31 => 
+            array (
+                'id' => 238,
+                'name' => 'Role create',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            32 => 
+            array (
+                'id' => 239,
+                'name' => 'Role view',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            33 => 
+            array (
+                'id' => 240,
+                'name' => 'Role edit',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            34 => 
+            array (
+                'id' => 241,
+                'name' => 'Role destroy',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            35 => 
+            array (
+                'id' => 242,
+                'name' => 'Role status',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            36 => 
+            array (
+                'id' => 243,
+                'name' => 'Role restore',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            37 => 
+            array (
+                'id' => 244,
+                'name' => 'Role delete',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            38 => 
+            array (
+                'id' => 245,
+                'name' => 'Role print',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            39 => 
+            array (
+                'id' => 246,
+                'name' => 'Role show',
+                'guard_name' => 'web',
+                'parent' => 'Role',
+                'created_at' => '2024-12-05 15:43:54',
+                'updated_at' => '2024-12-05 15:43:54',
+            ),
+            40 => 
+            array (
+                'id' => 247,
+                'name' => 'Product Item create',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:31',
+                'updated_at' => '2024-12-05 15:48:31',
+            ),
+            41 => 
+            array (
+                'id' => 248,
+                'name' => 'Product Item view',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:31',
+                'updated_at' => '2024-12-05 15:48:31',
+            ),
+            42 => 
+            array (
+                'id' => 249,
+                'name' => 'Product Item edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:31',
+                'updated_at' => '2024-12-05 15:48:31',
+            ),
+            43 => 
+            array (
+                'id' => 250,
+                'name' => 'Product Item destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:31',
+                'updated_at' => '2024-12-05 15:48:31',
+            ),
+            44 => 
+            array (
+                'id' => 251,
+                'name' => 'Product Item status',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:31',
+                'updated_at' => '2024-12-05 15:48:31',
+            ),
+            45 => 
+            array (
+                'id' => 252,
+                'name' => 'Product Item restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:32',
+                'updated_at' => '2024-12-05 15:48:32',
+            ),
+            46 => 
+            array (
+                'id' => 253,
+                'name' => 'Product Item delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:32',
+                'updated_at' => '2024-12-05 15:48:32',
+            ),
+            47 => 
+            array (
+                'id' => 254,
+                'name' => 'Product Item print',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:32',
+                'updated_at' => '2024-12-05 15:48:32',
+            ),
+            48 => 
+            array (
+                'id' => 255,
+                'name' => 'Product Item show',
+                'guard_name' => 'web',
+                'parent' => 'Product Item',
+                'created_at' => '2024-12-05 15:48:32',
+                'updated_at' => '2024-12-05 15:48:32',
             ),
         ));
         

@@ -14,12 +14,12 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
+        
 
-        \Schema::disableForeignKeyConstraints();
         \DB::table('roles')->delete();
-
+        
         \DB::table('roles')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 2,
                 'name' => 'Super Admin',
@@ -31,7 +31,7 @@ class RolesTableSeeder extends Seeder
                 'updated_at' => '2024-04-25 14:03:59',
             ),
         ));
-
-
+        
+        
     }
 }
