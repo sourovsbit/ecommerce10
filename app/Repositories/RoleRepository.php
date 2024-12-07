@@ -56,6 +56,7 @@ class RoleRepository implements RoleInterface{
                     $show_btn ='';
                 }
 
+
                 if(Auth::user()->can('Role edit'))
                 {
                     $edit_btn = '<a class="dropdown-item" href="'.route('role.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';

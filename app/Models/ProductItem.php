@@ -11,8 +11,7 @@ class ProductItem extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $guarded =[];
-
+    protected $guarded = [];
     public static function boot()
     {
         parent::boot();
@@ -20,16 +19,4 @@ class ProductItem extends Model
             $model->create_by = Auth::user()->id;
         });
     }
-
-    public static function getActive()
-    {
-        $data = ProductItem::where('status',1)->get();
-        return $data;
-    }
-
-    public function category()
-    {
-        return $this->hasMan('App\Models\Category','item_id');
-    }
-
 }
