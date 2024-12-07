@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductItemController;
+use App\Http\Controllers\Admin\ProductCategoryController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -15,6 +16,7 @@ Route::resources([
     'role' => RoleController::class,
     'user' => UserController::class,
     'product_item' => ProductItemController::class,
+    'product_category' => ProductCategoryController::class,
 ]);
 
 // menu_label_extra_routes
