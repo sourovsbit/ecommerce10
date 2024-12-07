@@ -1,13 +1,40 @@
-@extends('stores.layouts.master')
+@extends('admin.layouts.master')
 @section('body')
-@component('components.store_breadcrumb')
+<div class="content">
 
+    @component('components.breadcrumb')
+    <!-- link 1 -->
+    @slot('link_one')
+    @lang('common.dashboard')
+    @endslot
+    @slot('link_one_url')
+    {{route('admin.view')}}
+    @endslot
+
+
+    <!-- link 2 -->
+    @slot('link_two')
+    @lang('product_item.item')
+    @endslot
+    @slot('link_two_url')
+    {{route('product_item.index')}}
+    @endslot
+
+
+    <!-- Active Link -->
+    @slot('active_link')
+    @lang('product_item.details')
+    @endslot
+
+    <!-- Page Title -->
     @slot('page_title')
     @lang('product_item.details')
     @endslot
 
-   @endcomponent
-<div class="content mt-2">
+
+
+
+    @endcomponent
 
     <div class="card">
         <div class="card-body">
@@ -29,9 +56,9 @@
     </div>
 
 
-@push('footer_scripts')
+@push('footer_script')
 <script>
-    $('.myTable').DataTable({
+    $(".myTable").DataTable({
         order: [[0, 'desc']]
     });
 </script>

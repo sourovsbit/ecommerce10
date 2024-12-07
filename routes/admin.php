@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\MenuLabelController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\StoreController;
+use App\Http\Controllers\Admin\ProductItemController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -14,7 +14,7 @@ Route::resources([
     'menu' => MenuController::class,
     'role' => RoleController::class,
     'user' => UserController::class,
-    'store' => StoreController::class,
+    'product_item' => ProductItemController::class,
 ]);
 
 // menu_label_extra_routes
@@ -29,7 +29,7 @@ Route::get('get_parent',[MenuController::class,'get_parent'])->name('menu.get_pa
 Route::get('menu_trash_list',[MenuController::class,'trash_list'])->name('menu.trash_list');
 Route::get('menu_restore/{id}',[MenuController::class,'restore'])->name('menu.restore');
 Route::get('menu_delete/{id}',[MenuController::class,'delete'])->name('menu.delete');
-Route::post('change_menu_status',[MenuController::class,'status'])->name('menu.status');
+
 
 // role extra routes;
 Route::get('/role_trash_list',[RoleController::class,'trash_list'])->name('role.trash_list');
@@ -45,8 +45,9 @@ Route::get('delete_user/{id}',[UserController::class,'delete'])->name('user.dele
 Route::get('user_profile/{id}',[UserController::class,'profile'])->name('user.profile');
 Route::post('user_profile_update/{id}',[UserController::class,'profile_update'])->name('user.profile_update');
 
-//store extra routes;
-Route::get('/store_trash_list',[StoreController::class,'trash_list'])->name('store.trash_list');
-Route::get('/store_restore/{id}',[StoreController::class,'restore'])->name('store.restore');
-Route::get('/store_delete/{id}',[StoreController::class,'delete'])->name('store.delete');
-Route::post('change_store_status',[StoreController::class,'status'])->name('store.status');
+
+//product item extra routes
+Route::post('change_menu_status',[ProductItemController::class,'status'])->name('product_item.status');
+Route::get('product_item_trash',[ProductItemController::class,'trash'])->name('product_item.trash');
+Route::get('restore_product_item/{id}',[ProductItemController::class,'restore'])->name('product_item.restore');
+Route::get('delete_product_item/{id}',[ProductItemController::class,'delete'])->name('product_item.delete');

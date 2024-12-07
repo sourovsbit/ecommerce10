@@ -1,17 +1,20 @@
 <?php
 return array(
-    'add'=> 'Crate Product Item',
-    'item_name' => 'Item Name',
-    'item_name_bn' => 'Item Name Bangla',
-    'item_name_required' => 'Item Name Required',
-    'create_message' => 'Product Item Crated Successfully',
-    'index_title' => 'Product Item',
-    'edit_title' => 'Edit Item',
-    'update_message' => 'Product Item Update Successfully',
+    'item' => 'Product Item',
+    'create_item' => 'Create Item',
+    'create_title' => 'Create Product Item',
+    'item_name' => 'Item Name (English)',
+    'item_name_bn' => 'Item Name (Bangla)',
+    'create_message' => 'Product Item Created',
+    'item_name_required' => 'Item Name (English) is requried',
+    'index_title' => 'Product Item List',
+    'status_message' => 'Product Item Status Changed',
     'details' => 'Product Item Details',
-    'delete_message' => 'Product Item Deleted Successfully',
-    'status_message' => 'Product Item Status Chagned',
-    'trash_title' => 'Trashed Product Item',
-    ''
-
+    'edit_item' => 'Edit Item',
+    'edit_title' => 'Edit Product Item',
+    'item_name_unique' => 'This Item Name is Already Taken',
+    'update_message' =>'Product Item Updated',
+    'delete_message' => 'Product Item Deleted',
+    'trash_title' => 'Product Item Trash Title',
+    'restore_message' => 'Product Item Restored',
 );
