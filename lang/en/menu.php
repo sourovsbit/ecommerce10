@@ -12,7 +12,7 @@ return array(
     'module' => 'Module',
     'single' => 'Single',
     'create_menu' => 'Create Menu',
-    'create_title' => 'Create Title',
+    'create_title' => 'Create Menu',
     'name_bn' => 'Name In Bangla',
     'slug' => "Slug",
     'system_name' => 'System Name',
