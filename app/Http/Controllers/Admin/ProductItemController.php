@@ -13,6 +13,14 @@ class ProductItemController extends Controller
     public function __construct(ProductItemInterface $interface)
     {
         $this->interface= $interface;
+        $this->middleware(['permission:Product Item view'])->only(['index']);
+        $this->middleware(['permission:Product Item create'])->only(['create']);
+        $this->middleware(['permission:Product Item edit'])->only(['edit']);
+        $this->middleware(['permission:Product Item destroy'])->only(['destroy']);
+        $this->middleware(['permission:Product Item status'])->only(['status']);
+        $this->middleware(['permission:Product Item restore'])->only(['restore']);
+        $this->middleware(['permission:Product Item delete'])->only(['delete']);
+        $this->middleware(['permission:Product Item show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.

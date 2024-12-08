@@ -23,7 +23,7 @@ class ProductItemRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'item_name' => 'required|unique:product_items,item_name,'.$request->item_name,
+            'item_name' => 'required|unique:product_items,item_name,'.$request->product_item,
         ];
     }
 

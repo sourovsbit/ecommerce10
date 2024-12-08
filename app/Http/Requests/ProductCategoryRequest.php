@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class ProductCategoryRequest extends FormRequest
 {
@@ -19,11 +20,11 @@ class ProductCategoryRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
             'item_id' => 'required',
-            'category_name' => 'required',
+            'category_name' => 'required|unique:product_categories,category_name,'.$request->product_category,
         ];
     }
 
@@ -32,6 +33,7 @@ class ProductCategoryRequest extends FormRequest
         return [
             'item_id.required' => __('product_category.item_id_required'),
             'category_name.required' => __('product_Category.category_name_required'),
+            'category_name.unique' => __('product_category.category_name_unique'),
         ];
     }
 }

@@ -381,7 +381,7 @@ class ProductItemRepository implements ProductItemInterface{
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
                 'description' => 'Change Status Product Item which name is '.$data->item_name,
-                'description_bn' => 'একটি মেনু স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->item_name,
+                'description_bn' => 'একটি পণ্য আইটেম স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->item_name,
             ]);
 
             History::create([

@@ -13,13 +13,27 @@ class ProductCategoryController extends Controller
     public function __construct(ProductCategoryInterface $interface)
     {
         $this->interface = $interface;
+        $this->middleware(['permission:Product Category view'])->only(['index']);
+        $this->middleware(['permission:Product Category create'])->only(['create']);
+        $this->middleware(['permission:Product Category edit'])->only(['edit']);
+        $this->middleware(['permission:Product Category destroy'])->only(['destroy']);
+        $this->middleware(['permission:Product Category status'])->only(['status']);
+        $this->middleware(['permission:Product Category restore'])->only(['restore']);
+        $this->middleware(['permission:Product Category delete'])->only(['delete']);
+        $this->middleware(['permission:Product Category show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $datatable = '';
+        if($request->ajax())
+        {
+            $datatable = true;
+        }
+
+        return $this->interface->index($datatable);
     }
 
     /**
@@ -35,7 +49,7 @@ class ProductCategoryController extends Controller
      */
     public function store(ProductCategoryRequest $request)
     {
-        //
+        return $this->interface->store($request);
     }
 
     /**
@@ -43,7 +57,7 @@ class ProductCategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return $this->interface->show($id);
     }
 
     /**
@@ -51,15 +65,15 @@ class ProductCategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return $this->interface->edit($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductCategoryRequest $request, string $id)
     {
-        //
+        return $this->interface->update($request,$id);
     }
 
     /**
@@ -67,6 +81,30 @@ class ProductCategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return $this->interface->destroy($id);
+    }
+
+    public function status(Request $request)
+    {
+        return $this->interface->status($request->id);
+    }
+
+    public function trash_list(Request $request)
+    {
+        $datatable = false;
+        if($request->ajax())
+        {
+            $datatable = true;
+        }
+        return $this->interface->trash_list($datatable);
+    }
+
+    public function restore($id)
+    {
+        return $this->interface->restore($id);
+    }
+    public function delete($id)
+    {
+        return $this->interface->delete($id);
     }
 }
