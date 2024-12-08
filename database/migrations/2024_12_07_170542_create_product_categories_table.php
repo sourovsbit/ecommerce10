@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('item_id')->nullable()->unsigned();
+            $table->foreign('item_id')->references('id')->on('product_items');
+            $table->string('category_name')->nullable();
+            $table->string('category_name_bn')->nullable();
+            $table->integer('status')->comment(' 0 - Inactive & 1 - Active');
+            $table->bigInteger('create_by')->unsigned();
+            $table->foreign('create_by')->references('id')->on('users');
+            $table->date('deleted_at')->nullable();
             $table->timestamps();
         });
     }

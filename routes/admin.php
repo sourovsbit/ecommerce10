@@ -53,3 +53,10 @@ Route::post('change_menu_status',[ProductItemController::class,'status'])->name(
 Route::get('product_item_trash',[ProductItemController::class,'trash'])->name('product_item.trash');
 Route::get('restore_product_item/{id}',[ProductItemController::class,'restore'])->name('product_item.restore');
 Route::get('delete_product_item/{id}',[ProductItemController::class,'delete'])->name('product_item.delete');
+
+
+//product category extra routes
+Route::post('change_category_status',[ProductCategoryController::class,'status'])->name('product_category.status');
+Route::get('product_category_trash',[ProductCategoryController::class,'trash_list'])->name('product_category.trash_list');
+Route::get('product_category_restore/{id}',[ProductCategoryController::class,'restore'])->name('product_category.restore');
+Route::get('product_category_delete/{id}',[ProductCategoryController::class,'delete'])->name('product_category.delete');
