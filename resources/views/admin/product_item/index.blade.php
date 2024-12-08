@@ -92,6 +92,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>@lang('common.sl')</th>
                             <th>@lang('product_item.item_name')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
@@ -115,6 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
         serverSide: true,
         ajax: "{{ route('product_item.index') }}",
         columns: [
+            {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
             {data : 'item_name', name: 'name'},
             {data : 'status', name: 'status'},

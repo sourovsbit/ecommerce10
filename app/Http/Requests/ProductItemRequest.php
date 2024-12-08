@@ -23,6 +23,7 @@ class ProductItemRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
+            'sl' => 'required|unique:product_items,sl,'.$request->product_item,
             'item_name' => 'required|unique:product_items,item_name,'.$request->product_item,
         ];
     }
@@ -30,6 +31,8 @@ class ProductItemRequest extends FormRequest
     public function messages()
     {
         return [
+            'sl.required' => __('common.serial_number_required'),
+            'sl.unique' => __('common.serial_number_unique'),
             'item_name.required' => __('product_item.item_name_required'),
             'item_name.unique' => __('product_item.item_name_unique'),
         ];
