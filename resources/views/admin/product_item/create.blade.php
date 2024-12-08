@@ -58,9 +58,18 @@
     <div class="card">
         <div class="card-body">
 
-            <form method="post" action="{{route('product_item.store')}}">
+            <form method="post" action="{{route('product_item.store')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 mt-2">
+                        <label>@lang('common.sl')</label><span class="text-danger">*</span>
+                        <input type="number" class="form-control form-control-sm @error('sl') is-invalid @enderror" name="sl" id="sl"  value="{{ old('sl') }}">
+                        @error('sl')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="col-lg-3 col-md-6 col-12 mt-2">
                         <label>@lang('product_item.item_name')</label><span class="text-danger">*</span>
                         <input type="text" class="form-control form-control-sm @error('item_name') is-invalid @enderror" name="item_name" id="item_name"  value="{{ old('item_name') }}">
@@ -74,6 +83,24 @@
                         <label>@lang('product_item.item_name_bn')</label>
                         <input type="text" class="form-control form-control-sm @error('item_name_bn') is-invalid @enderror" name="item_name_bn" id="item_name_bn"  value="{{ old('item_name_bn') }}">
                         @error('item_name_bn')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mt-2">
+                        <label>@lang('common.image')</label>
+                        <input type="file" class="form-control form-control-sm @error('image') is-invalid @enderror" name="image" id="image">
+                        @error('image')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12 mt-2">
+                        <label>@lang('common.banner')</label>
+                        <input type="file" class="form-control form-control-sm @error('banner') is-invalid @enderror" name="banner" id="banner">
+                        @error('banner')
                             <div class="alert alert-danger">
                                 {{ $message }}
                             </div>

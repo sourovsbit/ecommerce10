@@ -46,5 +46,9 @@ return array(
     'sl' => 'Serial No',
     'filter' => 'Filter',
     'export' => 'Export',
+    'image' => 'Image',
+    'banner' => 'Banner',
+    'serial_number_required' => 'Serial Number Required',
+    'serial_number_unique' => 'This Serial Number Is Already Taken',
 
 );

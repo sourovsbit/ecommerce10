@@ -25,7 +25,7 @@ class ProductItemRepository implements ProductItemInterface{
             $data = ProductItem::all();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('name',function($row){
@@ -106,7 +106,7 @@ class ProductItemRepository implements ProductItemInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','item_name','sl','status'])
+            ->rawColumns(['action','item_name','serial','status'])
             ->make(true);
 
         }
@@ -122,10 +122,29 @@ class ProductItemRepository implements ProductItemInterface{
     {
         try {
             $data = array(
+                'sl' => $request->sl,
                 'item_name' => $request->item_name,
                 'item_name_bn' => $request->item_name_bn,
                 'status' => 1,
+                'image' => '0',
+                'banner' => '0',
             );
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('/backend/ProductItem/ProductItemImage/'),$imageName);
+                $data['image'] = $imageName;
+            }
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path('/backend/ProductItem/ProductItemBanner/'),$bannerName);
+                $data['banner'] = $bannerName;
+            }
+
             ProductItem::create($data);
             //activity_log
             ActivityLog::create([
@@ -167,7 +186,49 @@ class ProductItemRepository implements ProductItemInterface{
             $data = array(
                 'item_name' => $request->item_name,
                 'item_name_bn' => $request->item_name_bn,
+                'sl' => $request->sl,
             );
+
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+            $pathImage = ProductItem::find($id);
+
+            if($image)
+            {
+                $path = public_path().'/backend/ProductItem/ProductItemImage/'.$pathImage->image;
+                if(file_exists($path))
+                {
+                    unlink($path);
+                }
+            }
+
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path('/backend/ProductItem/ProductItemImage/'),$imageName);
+                $data['image'] = $imageName;
+            }
+
+
+            if($banner)
+            {
+                $path = public_path().'/backend/ProductItem/ProductItemBanner/'.$pathImage->banner;
+                if(file_exists($path))
+                {
+                    unlink($path);
+                }
+            }
+
+
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path('/backend/ProductItem/ProductItemBanner/'),$bannerName);
+                $data['banner'] = $bannerName;
+            }
+
+
             ProductItem::find($id)->update($data);
             $data = ProductItem::find($id);
             //activity_log
@@ -230,7 +291,7 @@ class ProductItemRepository implements ProductItemInterface{
             $data = ProductItem::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('name',function($row){
@@ -297,7 +358,7 @@ class ProductItemRepository implements ProductItemInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','item_name','sl','status'])
+            ->rawColumns(['action','item_name','serial','status'])
             ->make(true);
 
         }
@@ -338,6 +399,18 @@ class ProductItemRepository implements ProductItemInterface{
     {
         try {
             $data = ProductItem::withTrashed()->where('id',$id)->first();
+
+            $path = public_path().'/backend/ProductItem/ProductItemImage/'.$data->image;
+            if(file_exists($path))
+            {
+                unlink($path);
+            }
+            $path = public_path().'/backend/ProductItem/ProductItemBanner/'.$data->banner;
+            if(file_exists($path))
+            {
+                unlink($path);
+            }
+
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
