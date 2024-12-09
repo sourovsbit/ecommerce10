@@ -568,6 +568,186 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-07 17:03:34',
                 'updated_at' => '2024-12-07 17:03:34',
             ),
+            61 => 
+            array (
+                'id' => 295,
+                'name' => 'Product Sub Category create',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            62 => 
+            array (
+                'id' => 296,
+                'name' => 'Product Sub Category view',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            63 => 
+            array (
+                'id' => 297,
+                'name' => 'Product Sub Category edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            64 => 
+            array (
+                'id' => 298,
+                'name' => 'Product Sub Category destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            65 => 
+            array (
+                'id' => 299,
+                'name' => 'Product Sub Category status',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            66 => 
+            array (
+                'id' => 300,
+                'name' => 'Product Sub Category restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            67 => 
+            array (
+                'id' => 301,
+                'name' => 'Product Sub Category delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            68 => 
+            array (
+                'id' => 302,
+                'name' => 'Product Sub Category print',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            69 => 
+            array (
+                'id' => 303,
+                'name' => 'Product Sub Category show',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            70 => 
+            array (
+                'id' => 304,
+                'name' => 'Product Sub Category trash',
+                'guard_name' => 'web',
+                'parent' => 'Product Sub Category',
+                'created_at' => '2024-12-09 12:07:18',
+                'updated_at' => '2024-12-09 12:07:18',
+            ),
+            71 => 
+            array (
+                'id' => 305,
+                'name' => 'Product Brand create',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            72 => 
+            array (
+                'id' => 306,
+                'name' => 'Product Brand view',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            73 => 
+            array (
+                'id' => 307,
+                'name' => 'Product Brand edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            74 => 
+            array (
+                'id' => 308,
+                'name' => 'Product Brand destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            75 => 
+            array (
+                'id' => 309,
+                'name' => 'Product Brand status',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            76 => 
+            array (
+                'id' => 310,
+                'name' => 'Product Brand restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            77 => 
+            array (
+                'id' => 311,
+                'name' => 'Product Brand delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            78 => 
+            array (
+                'id' => 312,
+                'name' => 'Product Brand print',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            79 => 
+            array (
+                'id' => 313,
+                'name' => 'Product Brand show',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
+            80 => 
+            array (
+                'id' => 314,
+                'name' => 'Product Brand trash',
+                'guard_name' => 'web',
+                'parent' => 'Product Brand',
+                'created_at' => '2024-12-09 12:10:03',
+                'updated_at' => '2024-12-09 12:10:03',
+            ),
         ));
         
         

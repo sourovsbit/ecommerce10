@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\StoreManager;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\Admin\AjaxController;
 use App\Http\Controllers\Admin\ProductItemController;
+use App\Http\Controllers\Admin\ProductSubCategoryController;
 use App\Http\Controllers\Admin\MenuController;
 
 /*
@@ -50,7 +51,7 @@ Route::post('pay_with_paypal',[PaypalController::class,'pay_with_paypal'])->name
 Route::get('success',[PaypalController::class,'success'])->name('success');
 Route::get('cancel',[PaypalController::class,'cancel'])->name('cancel');
 
-
+Route::get('GetCategorie/{category_id}',[ProductSubCategoryController::class,'GetCategorie']);
 
 Route::post('change_menu_status',[MenuController::class,'status'])->name('menu.status');
 require __DIR__.'/auth.php';
