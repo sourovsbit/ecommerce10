@@ -213,10 +213,10 @@ class ProductItemRepository implements ProductItemInterface{
 
             if($banner)
             {
-                $path = public_path().'/backend/ProductItem/ProductItemBanner/'.$pathImage->banner;
-                if(file_exists($path))
+                $banner = public_path().'/backend/ProductItem/ProductItemBanner/'.$pathImage->banner;
+                if(file_exists($banner))
                 {
-                    unlink($path);
+                    unlink($banner);
                 }
             }
 
@@ -405,8 +405,8 @@ class ProductItemRepository implements ProductItemInterface{
             {
                 unlink($path);
             }
-            $path = public_path().'/backend/ProductItem/ProductItemBanner/'.$data->banner;
-            if(file_exists($path))
+            $banner = public_path().'/backend/ProductItem/ProductItemBanner/'.$data->banner;
+            if(file_exists($banner))
             {
                 unlink($path);
             }

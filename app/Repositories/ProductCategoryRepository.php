@@ -23,7 +23,7 @@ class ProductCategoryRepository implements ProductCategoryInterface{
             $data = ProductCategory::all();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('item_name',function($row){
@@ -114,7 +114,7 @@ class ProductCategoryRepository implements ProductCategoryInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','item_name','category_name','sl','status'])
+            ->rawColumns(['action','item_name','category_name','serial','status'])
             ->make(true);
 
         }
@@ -131,11 +131,31 @@ class ProductCategoryRepository implements ProductCategoryInterface{
     {
         try {
             $data = array(
+                'sl' => $request->sl,
                 'item_id' => $request->item_id,
                 'category_name' => $request->category_name,
                 'category_name_bn' => $request->category_name_bn,
                 'status' => 1,
+                'image'=>'0',
+                'banner'=>'0',
             );
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path().'/backend/ProductCategory/ProductCategoryImage/',$imageName);
+                $data['image'] = $imageName;
+            }
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path().'/backend/ProductCategory/ProductCategoryBanner/',$bannerName);
+                $data['banner'] = $bannerName;
+            }
+
             ProductCategory::create($data);
             //activity_log
             ActivityLog::create([
@@ -181,6 +201,44 @@ class ProductCategoryRepository implements ProductCategoryInterface{
                 'category_name' => $request->category_name,
                 'category_name_bn' => $request->category_name_bn,
             );
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+            $path = ProductCategory::find($id);
+            if($image)
+            {
+                $pathImage = public_path().'/backend/ProductCategory/ProductCategoryImage/'.$path->image;
+                if(file_exists($pathImage))
+                {
+                    unlink($pathImage);
+                }
+            }
+
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path().'/backend/ProductCategory/ProductCategoryImage/',$imageName);
+                $data['image'] = $imageName;
+            }
+
+
+
+            if($banner)
+            {
+                $pathBanner = public_path().'/backend/ProductCategory/ProductCategoryBanner/'.$path->banner;
+                if(file_exists($pathBanner))
+                {
+                    unlink($pathBanner);
+                }
+            }
+
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path().'/backend/ProductCategory/ProductCategoryBanner/',$bannerName);
+                $data['banner'] = $bannerName;
+            }
+
             ProductCategory::find($id)->update($data);
             $data = ProductCategory::find($id);
             //activity_log
@@ -243,7 +301,7 @@ class ProductCategoryRepository implements ProductCategoryInterface{
             $data = ProductCategory::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('item_name',function($row){
@@ -320,7 +378,7 @@ class ProductCategoryRepository implements ProductCategoryInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','item_name','sl','status'])
+            ->rawColumns(['action','item_name','serial','status'])
             ->make(true);
 
         }
@@ -361,6 +419,20 @@ class ProductCategoryRepository implements ProductCategoryInterface{
     {
         try {
             $data = ProductCategory::withTrashed()->where('id',$id)->first();
+
+            $pathImage = public_path().'/backend/ProductCategory/ProductCategoryImage/'.$data->image;
+            if(file_exists($pathImage))
+            {
+                unlink($pathImage);
+            }
+
+
+            $pathBanner = public_path().'/backend/ProductCategory/ProductCategoryBanner/'.$data->banner;
+            if(file_exists($pathBanner))
+            {
+                unlink($pathBanner);
+            }
+
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
