@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductItemController;
 use App\Http\Controllers\Admin\ProductCategoryController;
+use App\Http\Controllers\Admin\ProductSubCategoryController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -17,6 +18,7 @@ Route::resources([
     'user' => UserController::class,
     'product_item' => ProductItemController::class,
     'product_category' => ProductCategoryController::class,
+    'product_sub_category' => ProductSubCategoryController::class,
 ]);
 
 // menu_label_extra_routes
@@ -60,3 +62,10 @@ Route::post('change_category_status',[ProductCategoryController::class,'status']
 Route::get('product_category_trash',[ProductCategoryController::class,'trash_list'])->name('product_category.trash_list');
 Route::get('product_category_restore/{id}',[ProductCategoryController::class,'restore'])->name('product_category.restore');
 Route::get('product_category_delete/{id}',[ProductCategoryController::class,'delete'])->name('product_category.delete');
+
+
+//product category extra routes
+Route::post('change_sub_category_status',[ProductSubCategoryController::class,'status'])->name('product_sub_category.status');
+Route::get('product_sub_category_trash',[ProductSubCategoryController::class,'trash_list'])->name('product_sub_category.trash_list');
+Route::get('product_sub_category_restore/{id}',[ProductSubCategoryController::class,'restore'])->name('product_sub_category.restore');
+Route::get('product_sub_category_delete/{id}',[ProductSubCategoryController::class,'delete'])->name('product_sub_category.delete');

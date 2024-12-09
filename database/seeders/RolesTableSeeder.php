@@ -14,7 +14,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        
+        \Schema::disableForeignKeyConstraints(); 
 
         \DB::table('roles')->delete();
         
