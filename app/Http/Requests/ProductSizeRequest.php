@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class BrandsRequest extends FormRequest
+class ProductSizeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +23,17 @@ class BrandsRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'sl' => 'required|unique:product_brands,sl,'.$request->product_brands,
-            'brand_name' => 'required|unique:product_brands,brand_name,'.$request->product_brands,
+            'sl' => 'required|unique:product_sizes,sl,'.$request->product_size,
+            'size_name' => 'required|unique:product_sizes,size_name,'.$request->product_size,
         ];
     }
-
     public function messages()
     {
         return [
             'sl.required' => __('common.serial_number_required'),
             'sl.unique' => __('common.serial_number_unique'),
-            'brand_name.required' => __('product_brands.brand_name_required'),
-            'brand_name.unique' => __('product_brands.brand_name_unique'),
+            'size_name.required' => __('product_size.size_name_required'),
+            'size_name.unique' => __('product_size.size_name_unique'),
         ];
     }
 }

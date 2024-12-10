@@ -24,7 +24,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
             $data = ProductSubCategory::all();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('item_name',function($row){
@@ -144,7 +144,6 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
         return ViewDirective::view($this->path,'index');
     }
 
-
     public function create()
     {
         $data['item'] = ProductItem::where('status',1)->get();
@@ -157,14 +156,33 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
     {
         try {
             $data = array(
+                'sl' => $request->sl,
                 'item_id' => $request->item_id,
                 'category_id' => $request->category_id,
                 'sub_category_name' => $request->sub_category_name,
                 'sub_category_name_bn' => $request->sub_category_name_bn,
                 'status' => 1,
+                'image' => '0',
+                'banner' => '0',
             );
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path().'/backend/ProductSubCategory/ProductSubCategoryImage/',$imageName);
+                $data['image'] = $imageName;
+            }
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path().'/backend/ProductSubCategory/ProductSubCategoryBanner/',$bannerName);
+                $data['banner'] = $bannerName;
+            }
+
             ProductSubCategory::create($data);
-            //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
@@ -210,6 +228,43 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
                 'sub_category_name' => $request->sub_category_name,
                 'sub_category_name_bn' => $request->sub_category_name_bn,
             );
+
+            $image = $request->file('image');
+            $banner = $request->file('banner');
+            $path = ProductSubCategory::find($id);
+            if($image)
+            {
+                $pathImage = public_path().'/backend/ProductSubCategory/ProductSubCategoryImage/'.$path->image;
+                if(file_exists($pathImage))
+                {
+                    unlink($pathImage);
+                }
+            }
+
+            if($image)
+            {
+                $imageName = rand().'.'.$image->getClientOriginalExtension();
+                $image->move(public_path().'/backend/ProductSubCategory/ProductSubCategoryImage/',$imageName);
+                $data['image'] = $imageName;
+            }
+
+
+
+            if($banner)
+            {
+                $pathBanner = public_path().'/backend/ProductSubCategory/ProductSubCategoryBanner/'.$path->banner;
+                if(file_exists($pathBanner))
+                {
+                    unlink($pathBanner);
+                }
+            }
+
+            if($banner)
+            {
+                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
+                $banner->move(public_path().'/backend/ProductSubCategory/ProductSubCategoryBanner/',$bannerName);
+                $data['banner'] = $bannerName;
+            }
             ProductSubCategory::find($id)->update($data);
             $data = ProductSubCategory::find($id);
             //activity_log
@@ -412,6 +467,19 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
     {
         try {
             $data = ProductSubCategory::withTrashed()->where('id',$id)->first();
+
+            $pathImage = public_path().'/backend/ProductSubCategory/ProductSubCategoryImage/'.$data->image;
+            if(file_exists($pathImage))
+            {
+                unlink($pathImage);
+            }
+
+
+            $pathBanner = public_path().'/backend/ProductSubCategory/ProductSubCategoryBanner/'.$data->banner;
+            if(file_exists($pathBanner))
+            {
+                unlink($pathBanner);
+            }
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),

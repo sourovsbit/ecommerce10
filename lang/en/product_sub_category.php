@@ -2,6 +2,7 @@
 return array(
     'sub_category' => 'Sub Category',
     'create_title' => 'Create Sub Category',
+    'edit_title' => 'Edit Sub Category',
     'select_item' => 'Select Item',
     'select_category' => 'Select Category',
     'sub_category_name' => 'Sub Category Name in English',

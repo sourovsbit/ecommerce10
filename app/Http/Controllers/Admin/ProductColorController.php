@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Interfaces\BrandsInterface;
-use App\Http\Requests\BrandsRequest;
+use App\Interfaces\ProductColorInterface;
+use App\Http\Requests\ProductColorRequest;
 
-class BrandsController extends Controller
+class ProductColorController extends Controller
 {
     protected $interface;
-    public function __construct(BrandsInterface $interface)
+    public function __construct(ProductColorInterface $interface)
     {
         $this->interface= $interface;
-        $this->middleware(['permission:Product Brand view'])->only(['index']);
-        $this->middleware(['permission:Product Brand create'])->only(['create']);
-        $this->middleware(['permission:Product Brand edit'])->only(['edit']);
-        $this->middleware(['permission:Product Brand destroy'])->only(['destroy']);
-        $this->middleware(['permission:Product Brand status'])->only(['status']);
-        $this->middleware(['permission:Product Brand restore'])->only(['restore']);
-        $this->middleware(['permission:Product Brand delete'])->only(['delete']);
-        $this->middleware(['permission:Product Brand show'])->only(['show']);
+        $this->middleware(['permission:Product Color view'])->only(['index']);
+        $this->middleware(['permission:Product Color create'])->only(['create']);
+        $this->middleware(['permission:Product Color edit'])->only(['edit']);
+        $this->middleware(['permission:Product Color destroy'])->only(['destroy']);
+        $this->middleware(['permission:Product Color status'])->only(['status']);
+        $this->middleware(['permission:Product Color restore'])->only(['restore']);
+        $this->middleware(['permission:Product Color delete'])->only(['delete']);
+        $this->middleware(['permission:Product Color show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
@@ -46,7 +46,7 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BrandsRequest $request)
+    public function store(ProductColorRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -70,7 +70,7 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BrandsRequest $request, string $id)
+    public function update(ProductColorRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }

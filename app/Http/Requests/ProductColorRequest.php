@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class BrandsRequest extends FormRequest
+class ProductColorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,18 +23,17 @@ class BrandsRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'sl' => 'required|unique:product_brands,sl,'.$request->product_brands,
-            'brand_name' => 'required|unique:product_brands,brand_name,'.$request->product_brands,
+            'sl' => 'required|unique:product_colors,sl,'.$request->product_color,
+            'color_name' => 'required|unique:product_colors,color_name,'.$request->product_color,
         ];
     }
-
     public function messages()
     {
         return [
             'sl.required' => __('common.serial_number_required'),
             'sl.unique' => __('common.serial_number_unique'),
-            'brand_name.required' => __('product_brands.brand_name_required'),
-            'brand_name.unique' => __('product_brands.brand_name_unique'),
+            'color_name.required' => __('product_color.color_name_required'),
+            'color_name.unique' => __('product_color.color_name_unique'),
         ];
     }
 }

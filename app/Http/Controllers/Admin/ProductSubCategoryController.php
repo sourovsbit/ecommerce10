@@ -47,7 +47,7 @@ class ProductSubCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductSubCategoryRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -71,7 +71,7 @@ class ProductSubCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProductSubCategoryRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }
