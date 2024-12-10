@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductItemController;
 use App\Http\Controllers\Admin\ProductCategoryController;
 use App\Http\Controllers\Admin\ProductSubCategoryController;
+use App\Http\Controllers\Admin\BrandsController;
+use App\Http\Controllers\Admin\ProductSizeController;
+use App\Http\Controllers\Admin\ProductColorController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -19,6 +22,9 @@ Route::resources([
     'product_item' => ProductItemController::class,
     'product_category' => ProductCategoryController::class,
     'product_sub_category' => ProductSubCategoryController::class,
+    'product_brands' => BrandsController::class,
+    'product_size' => ProductSizeController::class,
+    'product_color' => ProductColorController::class,
 ]);
 
 // menu_label_extra_routes
@@ -64,8 +70,29 @@ Route::get('product_category_restore/{id}',[ProductCategoryController::class,'re
 Route::get('product_category_delete/{id}',[ProductCategoryController::class,'delete'])->name('product_category.delete');
 
 
-//product category extra routes
+//product subcategory extra routes
 Route::post('change_sub_category_status',[ProductSubCategoryController::class,'status'])->name('product_sub_category.status');
 Route::get('product_sub_category_trash',[ProductSubCategoryController::class,'trash_list'])->name('product_sub_category.trash_list');
 Route::get('product_sub_category_restore/{id}',[ProductSubCategoryController::class,'restore'])->name('product_sub_category.restore');
 Route::get('product_sub_category_delete/{id}',[ProductSubCategoryController::class,'delete'])->name('product_sub_category.delete');
+
+
+//product brands extra routes
+Route::post('change_brands_status',[BrandsController::class,'status'])->name('product_brands.status');
+Route::get('product_brands_trash',[BrandsController::class,'trash'])->name('product_brands.trash');
+Route::get('product_brands_restore/{id}',[BrandsController::class,'restore'])->name('product_brands.restore');
+Route::get('product_brands_delete/{id}',[BrandsController::class,'delete'])->name('product_brands.delete');
+
+
+//product size extra routes
+Route::post('change_size_status',[ProductSizeController::class,'status'])->name('product_size.status');
+Route::get('product_size_trash',[ProductSizeController::class,'trash'])->name('product_size.trash');
+Route::get('product_size_restore/{id}',[ProductSizeController::class,'restore'])->name('product_size.restore');
+Route::get('product_size_delete/{id}',[ProductSizeController::class,'delete'])->name('product_size.delete');
+
+
+//product color extra routes
+Route::post('change_color_status',[ProductColorController::class,'status'])->name('product_color.status');
+Route::get('product_color_trash',[ProductColorController::class,'trash'])->name('product_color.trash');
+Route::get('product_color_restore/{id}',[ProductColorController::class,'restore'])->name('product_color.restore');
+Route::get('product_color_delete/{id}',[ProductColorController::class,'delete'])->name('product_color.delete');

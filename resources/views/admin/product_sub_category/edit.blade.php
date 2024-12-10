@@ -23,12 +23,12 @@
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('product_sub_category.create_title')
+    @lang('product_sub_category.edit_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('product_sub_category.create_title')
+    @lang('product_sub_category.edit_title')
     @endslot
 
 
@@ -58,10 +58,19 @@
     <div class="card">
         <div class="card-body">
 
-            <form method="post" action="{{route('product_sub_category.update',$data['data']->id)}}">
+            <form method="post" action="{{route('product_sub_category.update',$data['data']->id)}}" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
                 <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12 mt-2">
+                        <label>@lang('common.sl')</label><span class="text-danger">*</span>
+                        <input type="number" class="form-control form-control-sm @error('sl') is-invalid @enderror" name="sl" id="sl"  value="{{ $data['data']->sl }}">
+                        @error('sl')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div class="col-lg-3 col-md-6 col-12 mt-2">
                         <label>@lang('product_sub_category.select_item')</label><span class="text-danger">*</span>
                         <div class="showlabels">
@@ -127,6 +136,38 @@
                                 {{ $message }}
                             </div>
                         @enderror
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 mt-2">
+                        <label>@lang('common.image')</label>
+                        <input type="file" class="form-control form-control-sm @error('image') is-invalid @enderror" name="image" id="image">
+                        @error('image')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <br>
+                        @php
+                            $pathImage = public_path().'/backend/ProductSubCategory/ProductSubCategoryImage/'.$data['data']->image;
+                        @endphp
+                        @if(file_exists($pathImage))
+                            <img src="{{ asset('backend/ProductSubCategory/ProductSubCategoryImage') }}/{{ $data['data']->image }}" alt="" class="img-fluid" style="height: 70px;">
+                        @endif
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12 mt-2">
+                        <label>@lang('common.banner')</label>
+                        <input type="file" class="form-control form-control-sm @error('banner') is-invalid @enderror" name="banner" id="banner">
+                        @error('banner')
+                            <div class="alert alert-danger">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                        <br>
+                        @php
+                            $pathBanner = public_path().'/backend/ProductSubCategory/ProductSubCategoryBanner/'.$data['data']->banner;
+                        @endphp
+                        @if(file_exists($pathBanner))
+                            <img src="{{ asset('backend/ProductSubCategory/ProductSubCategoryBanner') }}/{{ $data['data']->banner }}" alt="" class="img-fluid" style="height: 70px;">
+                        @endif
                     </div>
 
                 </div>

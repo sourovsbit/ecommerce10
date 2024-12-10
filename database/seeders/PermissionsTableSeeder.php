@@ -748,6 +748,186 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-09 12:10:03',
                 'updated_at' => '2024-12-09 12:10:03',
             ),
+            81 => 
+            array (
+                'id' => 315,
+                'name' => 'Product Size create',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            82 => 
+            array (
+                'id' => 316,
+                'name' => 'Product Size view',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            83 => 
+            array (
+                'id' => 317,
+                'name' => 'Product Size edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            84 => 
+            array (
+                'id' => 318,
+                'name' => 'Product Size destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            85 => 
+            array (
+                'id' => 319,
+                'name' => 'Product Size status',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            86 => 
+            array (
+                'id' => 320,
+                'name' => 'Product Size restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            87 => 
+            array (
+                'id' => 321,
+                'name' => 'Product Size delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            88 => 
+            array (
+                'id' => 322,
+                'name' => 'Product Size print',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            89 => 
+            array (
+                'id' => 323,
+                'name' => 'Product Size show',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            90 => 
+            array (
+                'id' => 324,
+                'name' => 'Product Size trash',
+                'guard_name' => 'web',
+                'parent' => 'Product Size',
+                'created_at' => '2024-12-10 10:52:39',
+                'updated_at' => '2024-12-10 10:52:39',
+            ),
+            91 => 
+            array (
+                'id' => 325,
+                'name' => 'Product Color create',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            92 => 
+            array (
+                'id' => 326,
+                'name' => 'Product Color view',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            93 => 
+            array (
+                'id' => 327,
+                'name' => 'Product Color edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            94 => 
+            array (
+                'id' => 328,
+                'name' => 'Product Color destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            95 => 
+            array (
+                'id' => 329,
+                'name' => 'Product Color status',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            96 => 
+            array (
+                'id' => 330,
+                'name' => 'Product Color restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            97 => 
+            array (
+                'id' => 331,
+                'name' => 'Product Color delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            98 => 
+            array (
+                'id' => 332,
+                'name' => 'Product Color print',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            99 => 
+            array (
+                'id' => 333,
+                'name' => 'Product Color show',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
+            100 => 
+            array (
+                'id' => 334,
+                'name' => 'Product Color trash',
+                'guard_name' => 'web',
+                'parent' => 'Product Color',
+                'created_at' => '2024-12-10 10:53:32',
+                'updated_at' => '2024-12-10 10:53:32',
+            ),
         ));
         
         

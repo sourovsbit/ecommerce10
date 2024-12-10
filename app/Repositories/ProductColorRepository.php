@@ -1,28 +1,29 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\BrandsInterface;
+
+use App\Interfaces\ProductColorInterface;
 use App\Traits\ViewDirective;
-use App\Models\ProductBrands;
+use App\Models\ProductColor;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
-        
-class BrandsRepository implements BrandsInterface{
+
+class ProductColorRepository implements ProductColorInterface{
     
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.product_brands';
+        $this->path = 'admin.product_color';
     }
 
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = ProductBrands::all();
+            $data = ProductColor::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -31,15 +32,15 @@ class BrandsRepository implements BrandsInterface{
             ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->brand_name ?: $row->brand_name_bn;
+                    return $row->color_name ?: $row->color_name_bn;
                 }
                 else
                 {
-                    return $row->brand_name_bn ?: $row->brand_name;
+                    return $row->color_name_bn ?: $row->color_name;
                 }
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Product Brand status'))
+                if(Auth::user()->can('Product Color status'))
                 {
                     if($row->status == 1)
                     {
@@ -50,7 +51,7 @@ class BrandsRepository implements BrandsInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeBrandsStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeColorStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -66,27 +67,27 @@ class BrandsRepository implements BrandsInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Product Brand show'))
+                if(Auth::user()->can('Product Color show'))
                 {
-                    $show_btn = '<a class="dropdown-item" href="'.route('product_brands.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('product_color.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('Product Brand edit'))
+                if(Auth::user()->can('Product Color edit'))
                 {
-                    $edit_btn = '<a class="dropdown-item" href="'.route('product_brands.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('product_color.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('Product Brand destroy'))
+                if(Auth::user()->can('Product Color destroy'))
                 {
-                    $delete_btn = '<form id="" method="post" action="'.route('product_brands.destroy',$row->id).'">
+                    $delete_btn = '<form id="" method="post" action="'.route('product_color.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
                     <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
@@ -106,7 +107,7 @@ class BrandsRepository implements BrandsInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','brand_name','serial','status'])
+            ->rawColumns(['action','color_name','serial','status'])
             ->make(true);
 
         }
@@ -123,40 +124,23 @@ class BrandsRepository implements BrandsInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'brand_name' => $request->brand_name,
-                'brand_name_bn' => $request->brand_name_bn,
+                'color_name' => $request->color_name,
+                'color_name_bn' => $request->color_name_bn,
                 'status' => 1,
-                'image' => '0',
-                'banner' => '0',
             );
 
-            $image = $request->file('image');
-            $banner = $request->file('banner');
-            if($image)
-            {
-                $imageName = rand().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('/backend/ProductBrands/ProductBrandsImage/'),$imageName);
-                $data['image'] = $imageName;
-            }
-            if($banner)
-            {
-                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
-                $banner->move(public_path('/backend/ProductBrands/ProductBrandsBanner/'),$bannerName);
-                $data['banner'] = $bannerName;
-            }
-
-            ProductBrands::create($data);
+            ProductColor::create($data);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Product Brand which name is '.$request->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড তৈরি করেছেন যার নাম '.$request->brand_name,
+                'description' => 'Create Product Color which name is '.$request->color_name,
+                'description_bn' => 'একটি পণ্য কালার তৈরি করেছেন যার নাম '.$request->color_name,
             ]);
 
-            toastr()->success(__('product_brands.create_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('product_color.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -165,19 +149,18 @@ class BrandsRepository implements BrandsInterface{
 
     public function show($id)
     {
-        $data['data'] = ProductBrands::find($id);
-        $data['histories'] = History::where('tag','product_brands')->where('fk_id',$id)->get();
+        $data['data'] = ProductColor::find($id);
+        $data['histories'] = History::where('tag','product_color')->where('fk_id',$id)->get();
         return ViewDirective::view($this->path,'show',$data);
     }
 
-    public function properties($id)
-    {
+    public function properties($id){
 
     }
 
     public function edit($id)
     {
-        $data['data'] = ProductBrands::find($id);
+        $data['data'] = ProductColor::find($id);
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -185,71 +168,31 @@ class BrandsRepository implements BrandsInterface{
     {
         try {
             $data = array(
-                'brand_name' => $request->brand_name,
-                'brand_name_bn' => $request->brand_name_bn,
+                'color_name' => $request->color_name,
+                'color_name_bn' => $request->color_name_bn,
                 'sl' => $request->sl,
             );
 
-
-            $image = $request->file('image');
-            $banner = $request->file('banner');
-            $pathImage = ProductBrands::find($id);
-
-            if($image)
-            {
-                $path = public_path().'/backend/ProductBrands/ProductBrandsImage/'.$pathImage->image;
-                if(file_exists($path))
-                {
-                    unlink($path);
-                }
-            }
-
-            if($image)
-            {
-                $imageName = rand().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path('/backend/ProductBrands/ProductBrandsImage/'),$imageName);
-                $data['image'] = $imageName;
-            }
-
-
-            if($banner)
-            {
-                $banner = public_path().'/backend/ProductBrands/ProductBrandsBanner/'.$pathImage->banner;
-                if(file_exists($banner))
-                {
-                    unlink($banner);
-                }
-            }
-
-
-            if($banner)
-            {
-                $bannerName = rand().'.'.$banner->getClientOriginalExtension();
-                $banner->move(public_path('/backend/ProductBrands/ProductBrandsBanner/'),$bannerName);
-                $data['banner'] = $bannerName;
-            }
-
-
-            ProductBrands::find($id)->update($data);
-            $data = ProductBrands::find($id);
+            ProductColor::find($id)->update($data);
+            $data = ProductColor::find($id);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Product Brand which name is '.$data->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড আপডেট করেছেন যার নাম '.$data->brand_name,
+                'description' => 'Update Product Color which name is '.$data->color_name,
+                'description_bn' => 'একটি পণ্য কালার আপডেট করেছেন যার নাম '.$data->color_name,
             ]);
             History::create([
-                'tag' => 'product_brands',
+                'tag' => 'product_color',
                 'fk_id' => $id,
                 'type' => 'update',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_brands.update_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('product_color.update_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -259,26 +202,26 @@ class BrandsRepository implements BrandsInterface{
     public function destroy($id)
     {
         try {
-            ProductBrands::find($id)->delete();
-            $data = ProductBrands::withTrashed()->where('id',$id)->first();
+            ProductColor::find($id)->delete();
+            $data = ProductColor::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy Product Brand which name is '.$data->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড ডিলেট করেছেন যার নাম '.$data->brand_name,
+                'description' => 'Destroy Product Color which name is '.$data->color_name,
+                'description_bn' => 'একটি পণ্য কালার ডিলেট করেছেন যার নাম '.$data->color_name,
             ]);
 
             History::create([
-                'tag' => 'product_brands',
+                'tag' => 'product_color',
                 'fk_id' => $id,
                 'type' => 'destroy',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_brands.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('product_color.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -289,7 +232,7 @@ class BrandsRepository implements BrandsInterface{
     {
         if($datatable == 1)
         {
-            $data = ProductBrands::onlyTrashed()->get();
+            $data = ProductColor::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -298,15 +241,15 @@ class BrandsRepository implements BrandsInterface{
             ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->brand_name ?: $row->brand_name_bn;
+                    return $row->color_name ?: $row->color_name_bn;
                 }
                 else
                 {
-                    return $row->brand_name_bn ?: $row->brand_name;
+                    return $row->color_name_bn ?: $row->color_name;
                 }
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Product Brand status'))
+                if(Auth::user()->can('Product Color status'))
                 {
                     if($row->status == 1)
                     {
@@ -317,7 +260,7 @@ class BrandsRepository implements BrandsInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeBrandsStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeColorStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -333,18 +276,18 @@ class BrandsRepository implements BrandsInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Product Brand restore'))
+                if(Auth::user()->can('Product Color restore'))
                 {
-                    $restore_btn = '<a class="dropdown-item" href="'.route('product_brands.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('product_color.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('Product Brand delete'))
+                if(Auth::user()->can('Product Color delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('product_brands.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('product_color.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
@@ -359,7 +302,7 @@ class BrandsRepository implements BrandsInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','brand_name','serial','status'])
+            ->rawColumns(['action','color_name','serial','status'])
             ->make(true);
 
         }
@@ -369,11 +312,11 @@ class BrandsRepository implements BrandsInterface{
     public function restore($id)
     {
         try {
-            ProductBrands::withTrashed()->where('id',$id)->restore();
-            $data = ProductBrands::withTrashed()->where('id',$id)->first();
+            ProductColor::withTrashed()->where('id',$id)->restore();
+            $data = ProductColor::withTrashed()->where('id',$id)->first();
             //history
             History::create([
-                'tag' => 'product_brands',
+                'tag' => 'product_color',
                 'fk_id' => $id,
                 'type' => 'restore',
                 'date' => date('Y-m-d'),
@@ -386,10 +329,10 @@ class BrandsRepository implements BrandsInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore Product Brand which name is '.$data->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড পুনুরুদ্ধার করেছেন যার নাম '.$data->brand_name,
+                'description' => 'Restore Product Color which name is '.$data->color_name,
+                'description_bn' => 'একটি পণ্য কালার পুনুরুদ্ধার করেছেন যার নাম '.$data->color_name,
             ]);
-            toastr()->success(__('product_brands.restore_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('product_color.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -399,30 +342,19 @@ class BrandsRepository implements BrandsInterface{
     public function delete($id)
     {
         try {
-            $data = ProductBrands::withTrashed()->where('id',$id)->first();
-
-            $path = public_path().'/backend/ProductBrands/ProductBrandsImage/'.$data->image;
-            if(file_exists($path))
-            {
-                unlink($path);
-            }
-            $banner = public_path().'/backend/ProductBrands/ProductBrandsBanner/'.$data->banner;
-            if(file_exists($banner))
-            {
-                unlink($path);
-            }
+            $data = ProductColor::withTrashed()->where('id',$id)->first();
 
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete Product Brand which name is '.$data->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->brand_name,
+                'description' => 'Permenantly Delete Product Color which name is '.$data->color_name,
+                'description_bn' => 'একটি পণ্য কালার সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->color_name,
             ]);
-            History::where('tag','product_brands')->where('fk_id',$id)->delete();
-            ProductBrands::withTrashed()->where('id',$id)->forceDelete();
-            toastr()->success(__('product_brands.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            History::where('tag','product_color')->where('fk_id',$id)->delete();
+            ProductColor::withTrashed()->where('id',$id)->forceDelete();
+            toastr()->success(__('product_color.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -432,20 +364,20 @@ class BrandsRepository implements BrandsInterface{
     public function print(){
 
     }
-    
+
     public function status($id)
     {
         try {
-            $data = ProductBrands::withTrashed()->where('id',$id)->first();
+            $data = ProductColor::withTrashed()->where('id',$id)->first();
             if($data->status == 1)
             {
-                ProductBrands::withTrashed()->where('id',$id)->update([
+                ProductColor::withTrashed()->where('id',$id)->update([
                     'status' => 0,
                 ]);
             }
             else
             {
-                ProductBrands::withTrashed()->where('id',$id)->update([
+                ProductColor::withTrashed()->where('id',$id)->update([
                     'status' => 1,
                 ]);
             }
@@ -454,19 +386,19 @@ class BrandsRepository implements BrandsInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
-                'description' => 'Change Status Product Brand which name is '.$data->brand_name,
-                'description_bn' => 'একটি পণ্য ব্র্যান্ড স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->brand_name,
+                'description' => 'Change Status Product Color which name is '.$data->color_name,
+                'description_bn' => 'একটি পণ্য কালার স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->color_name,
             ]);
 
             History::create([
-                'tag' => 'product_brands',
+                'tag' => 'product_color',
                 'fk_id' => $id,
                 'type' => 'status',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_brands.status_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('product_color.status_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());

@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Interfaces\BrandsInterface;
-use App\Http\Requests\BrandsRequest;
+use App\Interfaces\ProductSizeInterface;
+use App\Http\Requests\ProductSizeRequest;
 
-class BrandsController extends Controller
+class ProductSizeController extends Controller
 {
     protected $interface;
-    public function __construct(BrandsInterface $interface)
+    public function __construct(ProductSizeInterface $interface)
     {
         $this->interface= $interface;
-        $this->middleware(['permission:Product Brand view'])->only(['index']);
-        $this->middleware(['permission:Product Brand create'])->only(['create']);
-        $this->middleware(['permission:Product Brand edit'])->only(['edit']);
-        $this->middleware(['permission:Product Brand destroy'])->only(['destroy']);
-        $this->middleware(['permission:Product Brand status'])->only(['status']);
-        $this->middleware(['permission:Product Brand restore'])->only(['restore']);
-        $this->middleware(['permission:Product Brand delete'])->only(['delete']);
-        $this->middleware(['permission:Product Brand show'])->only(['show']);
+        $this->middleware(['permission:Product Size view'])->only(['index']);
+        $this->middleware(['permission:Product Size create'])->only(['create']);
+        $this->middleware(['permission:Product Size edit'])->only(['edit']);
+        $this->middleware(['permission:Product Size destroy'])->only(['destroy']);
+        $this->middleware(['permission:Product Size status'])->only(['status']);
+        $this->middleware(['permission:Product Size restore'])->only(['restore']);
+        $this->middleware(['permission:Product Size delete'])->only(['delete']);
+        $this->middleware(['permission:Product Size show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
@@ -46,7 +46,7 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BrandsRequest $request)
+    public function store(ProductSizeRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -70,7 +70,7 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BrandsRequest $request, string $id)
+    public function update(ProductSizeRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }

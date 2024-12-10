@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('product_sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('brand_name')->nullable();
-            $table->string('brand_name_bn')->nullable();
+            $table->integer('sl')->nullable();
+            $table->string('size_name')->nullable();
+            $table->string('size_name_bn')->nullable();
             $table->integer('status')->comment(' 0 - Inactive & 1 - Active');
             $table->bigInteger('create_by')->unsigned();
             $table->foreign('create_by')->references('id')->on('users');
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brands');
+        Schema::dropIfExists('product_sizes');
     }
 };
