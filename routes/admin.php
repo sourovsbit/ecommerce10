@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\ProductSubCategoryController;
 use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProductColorController;
+use App\Http\Controllers\Admin\UnitController;
+use App\Http\Controllers\Admin\SubUnitController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -25,6 +27,8 @@ Route::resources([
     'product_brands' => BrandsController::class,
     'product_size' => ProductSizeController::class,
     'product_color' => ProductColorController::class,
+    'unit' => UnitController::class,
+    'sub_unit' => SubUnitController::class,
 ]);
 
 // menu_label_extra_routes
@@ -70,7 +74,7 @@ Route::get('product_category_restore/{id}',[ProductCategoryController::class,'re
 Route::get('product_category_delete/{id}',[ProductCategoryController::class,'delete'])->name('product_category.delete');
 
 
-//product subcategory extra routes
+//product sub category extra routes
 Route::post('change_sub_category_status',[ProductSubCategoryController::class,'status'])->name('product_sub_category.status');
 Route::get('product_sub_category_trash',[ProductSubCategoryController::class,'trash_list'])->name('product_sub_category.trash_list');
 Route::get('product_sub_category_restore/{id}',[ProductSubCategoryController::class,'restore'])->name('product_sub_category.restore');
@@ -96,3 +100,17 @@ Route::post('change_color_status',[ProductColorController::class,'status'])->nam
 Route::get('product_color_trash',[ProductColorController::class,'trash'])->name('product_color.trash');
 Route::get('product_color_restore/{id}',[ProductColorController::class,'restore'])->name('product_color.restore');
 Route::get('product_color_delete/{id}',[ProductColorController::class,'delete'])->name('product_color.delete');
+
+
+//product unit extra routes
+Route::post('change_unit_status',[UnitController::class,'status'])->name('unit.status');
+Route::get('unit_trash',[UnitController::class,'trash'])->name('unit.trash');
+Route::get('unit_restore/{id}',[UnitController::class,'restore'])->name('unit.restore');
+Route::get('unit_delete/{id}',[UnitController::class,'delete'])->name('unit.delete');
+
+
+//product sub unit extra routes
+Route::post('change_sub_unit_status',[SubUnitController::class,'status'])->name('sub_unit.status');
+Route::get('sub_unit_trash',[SubUnitController::class,'trash'])->name('sub_unit.trash');
+Route::get('sub_unit_restore/{id}',[SubUnitController::class,'restore'])->name('sub_unit.restore');
+Route::get('sub_unit_delete/{id}',[SubUnitController::class,'delete'])->name('sub_unit.delete');

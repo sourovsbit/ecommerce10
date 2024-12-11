@@ -1,6 +1,5 @@
 <?php
 namespace App\Repositories;
-
 use App\Interfaces\ProductColorInterface;
 use App\Traits\ViewDirective;
 use App\Models\ProductColor;

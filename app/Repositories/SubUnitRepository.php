@@ -1,45 +1,59 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\UnitInterface;
+use App\Interfaces\SubUnitInterface;
 use App\Traits\ViewDirective;
 use App\Models\Unit;
+use App\Models\SubUnit;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
 
-class UnitRepository implements UnitInterface{
+class SubUnitRepository implements SubUnitInterface{
     
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.unit';
+        $this->path = 'admin.sub_unit';
     }
 
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = Unit::all();
+            $data = SubUnit::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('name',function($row){
+            ->addColumn('unit_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->unit_name ?: $row->unit_name_bn;
+                    return $row->unit->unit_name ?: $row->unit->unit_name_bn;
                 }
                 else
                 {
-                    return $row->unit_name_bn ?: $row->unit_name;
+                    return $row->unit->unit_name_bn ?: $row->unit->unit_name;
                 }
             })
+            ->addColumn('sub_unit_name',function($row){
+                if(config('app.locale') == 'en')
+                {
+                    return $row->sub_unit_name ?: $row->sub_unit_name_bn;
+                }
+                else
+                {
+                    return $row->sub_unit_name_bn ?: $row->sub_unit_name;
+                }
+            })
+            ->addColumn('sub_unit_data',function($row){
+                return $row->sub_unit_data;
+            })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Unit status'))
+                if(Auth::user()->can('Sub Unit status'))
                 {
                     if($row->status == 1)
                     {
@@ -50,7 +64,7 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeSubUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -66,27 +80,27 @@ class UnitRepository implements UnitInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Unit show'))
+                if(Auth::user()->can('Sub Unit show'))
                 {
-                    $show_btn = '<a class="dropdown-item" href="'.route('unit.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('sub_unit.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('Unit edit'))
+                if(Auth::user()->can('Sub Unit edit'))
                 {
-                    $edit_btn = '<a class="dropdown-item" href="'.route('unit.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('sub_unit.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('Unit destroy'))
+                if(Auth::user()->can('Sub Unit destroy'))
                 {
-                    $delete_btn = '<form id="" method="post" action="'.route('unit.destroy',$row->id).'">
+                    $delete_btn = '<form id="" method="post" action="'.route('sub_unit.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
                     <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
@@ -97,8 +111,6 @@ class UnitRepository implements UnitInterface{
                     $delete_btn ='';
                 }
 
-
-
                 $output = '<div class="dropdown font-sans-serif">
                 <a class="btn btn-phoenix-default dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('common.action').'</a>
                 <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="dropdownMenuLink" style="">'.$show_btn.' '.$edit_btn.' '.$delete_btn.'
@@ -106,7 +118,7 @@ class UnitRepository implements UnitInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','unit_name','serial','status'])
+            ->rawColumns(['action','unit_name','sub_unit_name','serial','status'])
             ->make(true);
 
         }
@@ -115,7 +127,8 @@ class UnitRepository implements UnitInterface{
 
     public function create()
     {
-        return ViewDirective::view($this->path,'create');
+        $data['unit'] = Unit::where('status',1)->get();
+        return ViewDirective::view($this->path,'create',$data);
     }
 
     public function store($request)
@@ -123,23 +136,25 @@ class UnitRepository implements UnitInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'unit_name' => $request->unit_name,
-                'unit_name_bn' => $request->unit_name_bn,
+                'unit_id' => $request->unit_id,
+                'sub_unit_name' => $request->sub_unit_name,
+                'sub_unit_name_bn' => $request->sub_unit_name_bn,
+                'sub_unit_data' => $request->sub_unit_data,
                 'status' => 1,
             );
 
-            Unit::create($data);
+            SubUnit::create($data);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Unit which name is '.$request->unit_name,
-                'description_bn' => 'একটি ইউনিট তৈরি করেছেন যার নাম '.$request->unit_name,
+                'description' => 'Create Sub Unit which name is '.$request->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট তৈরি করেছেন যার নাম '.$request->sub_unit_name,
             ]);
 
-            toastr()->success(__('unit.create_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -148,8 +163,9 @@ class UnitRepository implements UnitInterface{
 
     public function show($id)
     {
-        $data['data'] = Unit::find($id);
-        $data['histories'] = History::where('tag','unit')->where('fk_id',$id)->get();
+        $data['histories'] = History::where('tag','sub_unit')->get();
+        $data['data'] = SubUnit::find($id);
+
         return ViewDirective::view($this->path,'show',$data);
     }
 
@@ -159,7 +175,8 @@ class UnitRepository implements UnitInterface{
 
     public function edit($id)
     {
-        $data['data'] = Unit::find($id);
+        $data['data'] = SubUnit::find($id);
+        $data['unit'] = Unit::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -167,31 +184,32 @@ class UnitRepository implements UnitInterface{
     {
         try {
             $data = array(
-                'unit_name' => $request->unit_name,
-                'unit_name_bn' => $request->unit_name_bn,
-                'sl' => $request->sl,
+                'unit_id' => $request->unit_id,
+                'sub_unit_name' => $request->sub_unit_name,
+                'sub_unit_name_bn' => $request->sub_unit_name_bn,
+                'sub_unit_data' => $request->sub_unit_data,
             );
 
-            Unit::find($id)->update($data);
-            $data = Unit::find($id);
+            SubUnit::find($id)->update($data);
+            $data = SubUnit::find($id);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট আপডেট করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Update Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট আপডেট করেছেন যার নাম '.$data->sub_unit_name,
             ]);
             History::create([
-                'tag' => 'unit',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'update',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('unit.update_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.update_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -201,26 +219,26 @@ class UnitRepository implements UnitInterface{
     public function destroy($id)
     {
         try {
-            Unit::find($id)->delete();
-            $data = Unit::withTrashed()->where('id',$id)->first();
+            SubUnit::find($id)->delete();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy Unit which name is '.$data->color_name,
-                'description_bn' => 'একটি ইউনিট ডিলেট করেছেন যার নাম '.$data->color_name,
+                'description' => 'Destroy Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট ডিলেট করেছেন যার নাম '.$data->sub_unit_name,
             ]);
 
             History::create([
-                'tag' => 'unit',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'destroy',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -231,24 +249,37 @@ class UnitRepository implements UnitInterface{
     {
         if($datatable == 1)
         {
-            $data = Unit::onlyTrashed()->get();
+            $data = SubUnit::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('name',function($row){
+            ->addColumn('unit_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->unit_name ?: $row->unit_name_bn;
+                    return $row->unit->unit_name ?: $row->unit->unit_name_bn;
                 }
                 else
                 {
-                    return $row->unit_name_bn ?: $row->unit_name;
+                    return $row->unit->unit_name_bn ?: $row->unit->unit_name;
                 }
             })
+            ->addColumn('sub_unit_name',function($row){
+                if(config('app.locale') == 'en')
+                {
+                    return $row->sub_unit_name ?: $row->sub_unit_name_bn;
+                }
+                else
+                {
+                    return $row->sub_unit_name_bn ?: $row->sub_unit_name;
+                }
+            })
+            ->addColumn('sub_unit_data',function($row){
+                return $row->sub_unit_data;
+            })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Unit status'))
+                if(Auth::user()->can('Sub Unit status'))
                 {
                     if($row->status == 1)
                     {
@@ -259,7 +290,7 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeSubUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -275,18 +306,18 @@ class UnitRepository implements UnitInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Unit restore'))
+                if(Auth::user()->can('Sub Unit restore'))
                 {
-                    $restore_btn = '<a class="dropdown-item" href="'.route('unit.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('sub_unit.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('Unit delete'))
+                if(Auth::user()->can('Sub Unit delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('unit.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('sub_unit.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
@@ -301,7 +332,7 @@ class UnitRepository implements UnitInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','unit_name','serial','status'])
+            ->rawColumns(['action','unit_name','sub_unit_name','sub_unit_data','serial','status'])
             ->make(true);
 
         }
@@ -311,11 +342,11 @@ class UnitRepository implements UnitInterface{
     public function restore($id)
     {
         try {
-            Unit::withTrashed()->where('id',$id)->restore();
-            $data = Unit::withTrashed()->where('id',$id)->first();
+            SubUnit::withTrashed()->where('id',$id)->restore();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
             //history
             History::create([
-                'tag' => 'unit',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'restore',
                 'date' => date('Y-m-d'),
@@ -328,10 +359,10 @@ class UnitRepository implements UnitInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore Unit which name is '.$data->color_name,
-                'description_bn' => 'একটি ইউনিট পুনুরুদ্ধার করেছেন যার নাম '.$data->color_name,
+                'description' => 'Restore Sub Unit which name is '.$data->category_name,
+                'description_bn' => 'একটি সাব ইউনিট পুনুরুদ্ধার করেছেন যার নাম '.$data->category_name,
             ]);
-            toastr()->success(__('unit.restore_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -340,24 +371,22 @@ class UnitRepository implements UnitInterface{
 
     public function delete($id)
     {
-        try{
-            $data = Unit::withTrashed()->where('id',$id)->first();
+        try {
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
+
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট সম্পূর্ণ করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Permenantly Sub Unit which name is '.$data->category_name,
+                'description_bn' => 'একটি সাব ইউনিট সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->category_name,
             ]);
-
-            History::where('tag','unit')->where('fk_id',$id)->delete();
-
-            Unit::withTrashed()->where('id',$id)->forceDelete();
-            toastr()->success(__('unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            History::where('tag','sub_unit')->where('fk_id',$id)->delete();
+            SubUnit::withTrashed()->where('id',$id)->forceDelete();
+            toastr()->success(__('sub_unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
-        }
-        catch(\Throwable $th){
+        } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
         }
     }
@@ -368,38 +397,42 @@ class UnitRepository implements UnitInterface{
 
     public function status($id)
     {
-        $check = Unit::withTrashed()->where('id',$id)->first();
-
-        if($check->status == 0)
-        {
-            $check->update([
-                'status' => '1',
+        try {
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
+            if($data->status == 1)
+            {
+                SubUnit::withTrashed()->where('id',$id)->update([
+                    'status' => 0,
+                ]);
+            }
+            else
+            {
+                SubUnit::withTrashed()->where('id',$id)->update([
+                    'status' => 1,
+                ]);
+            }
+            ActivityLog::create([
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'user_id' => Auth::user()->id,
+                'slug' => 'status',
+                'description' => 'Change Status Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->sub_unit_name,
             ]);
-        }
-        else
-        {
-            $check->update([
-                'status' => '0',
+
+            History::create([
+                'tag' => 'sub_unit',
+                'fk_id' => $id,
+                'type' => 'status',
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'user_id' => Auth::user()->id,
             ]);
+            toastr()->success(__('sub_unit.status_message'), __('common.success'), ['timeOut' => 5000]);
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error',$th->getMessage());
         }
-
-        ActivityLog::create([
-            'date' => date('Y-m-d'),
-            'time' => date('H:i:s'),
-            'user_id' => Auth::user()->id,
-            'slug' => 'status',
-            'description' => 'Change Status of Unit which name is '.$check->unit_name,
-            'description_bn' => 'একটি ইউনিট এর স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$check->unit_name,
-        ]);
-        History::create([
-            'tag' => 'unit',
-            'fk_id' => $id,
-            'type' => 'status',
-            'date' => date('Y-m-d'),
-            'time' => date('H:i:s'),
-            'user_id' => Auth::user()->id,
-        ]);
-
-        return 1;
     }
 }
+        
