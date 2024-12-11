@@ -38,25 +38,13 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
                 }
             })
             ->addColumn('category_name',function($row){
-                if($row->category_id > 0)
+                if(config('app.locale') == 'en')
                 {
-                    $category_name = ProductCategory::where('id',$row->category_id)->first();
+                    return $row->category->category_name ?: $row->category->category_name_bn;
                 }
                 else
                 {
-                    $category_name = '-';
-                }
-
-                if($row->category_id > 0)
-                {
-                    if(config('app.locale') == 'en')
-                    {
-                        return $category_name->category_name;
-                    }
-                    elseif(config('app.locale') == 'bn')
-                    {
-                        return $category_name->category_name_bn;
-                    }
+                    return $row->category->category_name_bn ?: $row->category->category_name;
                 }
             })
             ->addColumn('sub_category_name',function($row){

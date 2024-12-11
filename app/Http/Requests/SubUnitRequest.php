@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class SubUnitRequest extends FormRequest
 {
@@ -19,12 +20,13 @@ class SubUnitRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules(Request $request): array
     {
         return [
+            'sl' =>'required|unique:sub_units,sl,'.$request->sub_unit,
             'unit_id' => 'required',
-            'sub_unit_name' => 'required',
-            'sub_unit_data' => 'required',
+            'sub_unit_name' => 'required|unique:sub_units,sub_unit_name,'.$request->sub_unit,
+            'sub_unit_data' => 'required|unique:sub_units,sub_unit_data,'.$request->sub_unit,
         ];
     }
 
@@ -32,6 +34,8 @@ class SubUnitRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'sl.required' => __('common.serial_number_required'),
+            'sl.unique' => __('common.serial_number_unique'),
             'unit_id.required' => __('sub_unit.select_unit'),
             'sub_unit_name.required' => __('sub_unit.sub_unit_name_required'),
             'sub_unit_data.required' => __('sub_unit.sub_unit_data_required'),

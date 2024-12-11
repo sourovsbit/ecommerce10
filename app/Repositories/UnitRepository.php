@@ -3,31 +3,32 @@ namespace App\Repositories;
 use App\Interfaces\UnitInterface;
 use App\Traits\ViewDirective;
 use App\Models\Unit;
-use Session;
-use App\Models\ActivityLog;
 use Auth;
-use Yajra\DataTables\Facades\DataTables;
 use App\Models\History;
+use App\Models\ActivityLog;
+use Yajra\DataTables\Facades\DataTables;
 
 class UnitRepository implements UnitInterface{
+    
     use ViewDirective;
     protected $path,$sl;
+
     public function __construct()
     {
-        $this->path = 'stores.unit';
-        $this->sl = 0;
+        $this->path = 'admin.unit';
     }
+
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = Unit::where('store_id',Session::get('store_id'))->get();
+            $data = Unit::all();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('unit_name',function($row){
+            ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
                     return $row->unit_name ?: $row->unit_name_bn;
@@ -49,8 +50,8 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
-                    <label class="toggle" for="cbx-'.$row->id.'">
+                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
                           <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z"></path>
@@ -67,16 +68,16 @@ class UnitRepository implements UnitInterface{
             ->addColumn('action', function($row){
                 if(Auth::user()->can('Unit show'))
                 {
-                    $show_btn = '<a style="float:left;margin-right:5px;" href="'.route('unit.show',$row->id).'" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('unit.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
-                    $show_btn = '';
+                    $show_btn ='';
                 }
 
                 if(Auth::user()->can('Unit edit'))
                 {
-                    $edit_btn = '<a style="float:left;margin-right:5px;" href="'.route('unit.edit',$row->id).'" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('unit.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
@@ -88,7 +89,7 @@ class UnitRepository implements UnitInterface{
                     $delete_btn = '<form id="" method="post" action="'.route('unit.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
-                    <button onclick="return Sure()" type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                    <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
                     </form>';
                 }
                 else
@@ -98,11 +99,14 @@ class UnitRepository implements UnitInterface{
 
 
 
-                $return_btn = $show_btn.''.$edit_btn.''.$delete_btn;
-
-                return $return_btn;
+                $output = '<div class="dropdown font-sans-serif">
+                <a class="btn btn-phoenix-default dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('common.action').'</a>
+                <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="dropdownMenuLink" style="">'.$show_btn.' '.$edit_btn.' '.$delete_btn.'
+                </div>
+              </div>';
+                return $output;
             })
-            ->rawColumns(['action','color_name','sl','status'])
+            ->rawColumns(['action','unit_name','serial','status'])
             ->make(true);
 
         }
@@ -116,17 +120,16 @@ class UnitRepository implements UnitInterface{
 
     public function store($request)
     {
-        $data = array(
-            'unit_name' => $request->unit_name,
-            'unit_name_bn' => $request->unit_name_bn,
-            'status' => 1,
-            'store_id' => Session::get('store_id'),
-        );
-
-        // return $data;
-
         try {
+            $data = array(
+                'sl' => $request->sl,
+                'unit_name' => $request->unit_name,
+                'unit_name_bn' => $request->unit_name_bn,
+                'status' => 1,
+            );
+
             Unit::create($data);
+            //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
@@ -135,6 +138,7 @@ class UnitRepository implements UnitInterface{
                 'description' => 'Create Unit which name is '.$request->unit_name,
                 'description_bn' => 'একটি ইউনিট তৈরি করেছেন যার নাম '.$request->unit_name,
             ]);
+
             toastr()->success(__('unit.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
@@ -161,20 +165,23 @@ class UnitRepository implements UnitInterface{
 
     public function update($request, $id)
     {
-        $data = array(
-            'unit_name' => $request->unit_name,
-            'unit_name_bn' => $request->unit_name_bn,
-        );
-
         try {
+            $data = array(
+                'unit_name' => $request->unit_name,
+                'unit_name_bn' => $request->unit_name_bn,
+                'sl' => $request->sl,
+            );
+
             Unit::find($id)->update($data);
+            $data = Unit::find($id);
+            //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Unit which name is '.$request->unit_name,
-                'description_bn' => 'একটি ইউনিট সম্পাদন করেছেন যার নাম '.$request->unit_name,
+                'description' => 'Update Unit which name is '.$data->unit_name,
+                'description_bn' => 'একটি ইউনিট আপডেট করেছেন যার নাম '.$data->unit_name,
             ]);
             History::create([
                 'tag' => 'unit',
@@ -201,9 +208,10 @@ class UnitRepository implements UnitInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Delete Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট ডিলেট করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Destroy Unit which name is '.$data->color_name,
+                'description_bn' => 'একটি ইউনিট ডিলেট করেছেন যার নাম '.$data->color_name,
             ]);
+
             History::create([
                 'tag' => 'unit',
                 'fk_id' => $id,
@@ -218,17 +226,18 @@ class UnitRepository implements UnitInterface{
             return redirect()->back()->with('error',$th->getMessage());
         }
     }
+
     public function trash_list($datatable)
     {
         if($datatable == 1)
         {
-            $data = Unit::onlyTrashed()->where('store_id',Session::get('store_id'))->get();
+            $data = Unit::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('unit_name',function($row){
+            ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
                     return $row->unit_name ?: $row->unit_name_bn;
@@ -250,8 +259,8 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
-                    <label class="toggle" for="cbx-'.$row->id.'">
+                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
                           <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z"></path>
@@ -268,29 +277,31 @@ class UnitRepository implements UnitInterface{
             ->addColumn('action', function($row){
                 if(Auth::user()->can('Unit restore'))
                 {
-                    $edit_btn = '<a style="float:left;margin-right:5px;" href="'.route('unit.restore',$row->id).'" class="btn btn-sm btn-info"><i class="fa fa-arrow-left"></i></a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('unit.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
-                    $edit_btn ='';
+                    $restore_btn = '';
                 }
 
                 if(Auth::user()->can('Unit delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure();" style="float:left;margin-right:5px;" href="'.route('unit.delete',$row->id).'" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('unit.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
-                    $delete_btn ='';
+                    $delete_btn = '';
                 }
 
 
-
-                $return_btn = $edit_btn.''.$delete_btn;
-
-                return $return_btn;
+                $output = '<div class="dropdown font-sans-serif">
+                <a class="btn btn-phoenix-default dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('common.action').'</a>
+                <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="dropdownMenuLink" style="">'.$restore_btn.' '.$delete_btn.'
+                </div>
+              </div>';
+                return $output;
             })
-            ->rawColumns(['action','unit_name','sl','status'])
+            ->rawColumns(['action','unit_name','serial','status'])
             ->make(true);
 
         }
@@ -301,15 +312,8 @@ class UnitRepository implements UnitInterface{
     {
         try {
             Unit::withTrashed()->where('id',$id)->restore();
-            $data = Unit::find($id);
-            ActivityLog::create([
-                'date' => date('Y-m-d'),
-                'time' => date('H:i:s'),
-                'user_id' => Auth::user()->id,
-                'slug' => 'restore',
-                'description' => 'Restore Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট পুরুদ্ধার করেছেন যার নাম '.$data->unit_name,
-            ]);
+            $data = Unit::withTrashed()->where('id',$id)->first();
+            //history
             History::create([
                 'tag' => 'unit',
                 'fk_id' => $id,
@@ -317,6 +321,15 @@ class UnitRepository implements UnitInterface{
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
+            ]);
+            //actvity_log
+            ActivityLog::create([
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'user_id' => Auth::user()->id,
+                'slug' => 'restore',
+                'description' => 'Restore Unit which name is '.$data->color_name,
+                'description_bn' => 'একটি ইউনিট পুনুরুদ্ধার করেছেন যার নাম '.$data->color_name,
             ]);
             toastr()->success(__('unit.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();

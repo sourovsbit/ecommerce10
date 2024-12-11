@@ -1,45 +1,59 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\ProductColorInterface;
+use App\Interfaces\SubUnitInterface;
 use App\Traits\ViewDirective;
-use App\Models\ProductColor;
+use App\Models\Unit;
+use App\Models\SubUnit;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
 
-class ProductColorRepository implements ProductColorInterface{
+class SubUnitRepository implements SubUnitInterface{
     
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.product_color';
+        $this->path = 'admin.sub_unit';
     }
 
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = ProductColor::all();
+            $data = SubUnit::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('name',function($row){
+            ->addColumn('unit_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->color_name ?: $row->color_name_bn;
+                    return $row->unit->unit_name ?: $row->unit->unit_name_bn;
                 }
                 else
                 {
-                    return $row->color_name_bn ?: $row->color_name;
+                    return $row->unit->unit_name_bn ?: $row->unit->unit_name;
                 }
             })
+            ->addColumn('sub_unit_name',function($row){
+                if(config('app.locale') == 'en')
+                {
+                    return $row->sub_unit_name ?: $row->sub_unit_name_bn;
+                }
+                else
+                {
+                    return $row->sub_unit_name_bn ?: $row->sub_unit_name;
+                }
+            })
+            ->addColumn('sub_unit_data',function($row){
+                return $row->sub_unit_data;
+            })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Product Color status'))
+                if(Auth::user()->can('Sub Unit status'))
                 {
                     if($row->status == 1)
                     {
@@ -50,7 +64,7 @@ class ProductColorRepository implements ProductColorInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeColorStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeSubUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -66,27 +80,27 @@ class ProductColorRepository implements ProductColorInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Product Color show'))
+                if(Auth::user()->can('Sub Unit show'))
                 {
-                    $show_btn = '<a class="dropdown-item" href="'.route('product_color.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('sub_unit.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('Product Color edit'))
+                if(Auth::user()->can('Sub Unit edit'))
                 {
-                    $edit_btn = '<a class="dropdown-item" href="'.route('product_color.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('sub_unit.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('Product Color destroy'))
+                if(Auth::user()->can('Sub Unit destroy'))
                 {
-                    $delete_btn = '<form id="" method="post" action="'.route('product_color.destroy',$row->id).'">
+                    $delete_btn = '<form id="" method="post" action="'.route('sub_unit.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
                     <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
@@ -97,8 +111,6 @@ class ProductColorRepository implements ProductColorInterface{
                     $delete_btn ='';
                 }
 
-
-
                 $output = '<div class="dropdown font-sans-serif">
                 <a class="btn btn-phoenix-default dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.__('common.action').'</a>
                 <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="dropdownMenuLink" style="">'.$show_btn.' '.$edit_btn.' '.$delete_btn.'
@@ -106,7 +118,7 @@ class ProductColorRepository implements ProductColorInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','color_name','serial','status'])
+            ->rawColumns(['action','unit_name','sub_unit_name','serial','status'])
             ->make(true);
 
         }
@@ -115,7 +127,8 @@ class ProductColorRepository implements ProductColorInterface{
 
     public function create()
     {
-        return ViewDirective::view($this->path,'create');
+        $data['unit'] = Unit::where('status',1)->get();
+        return ViewDirective::view($this->path,'create',$data);
     }
 
     public function store($request)
@@ -123,23 +136,25 @@ class ProductColorRepository implements ProductColorInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'color_name' => $request->color_name,
-                'color_name_bn' => $request->color_name_bn,
+                'unit_id' => $request->unit_id,
+                'sub_unit_name' => $request->sub_unit_name,
+                'sub_unit_name_bn' => $request->sub_unit_name_bn,
+                'sub_unit_data' => $request->sub_unit_data,
                 'status' => 1,
             );
 
-            ProductColor::create($data);
+            SubUnit::create($data);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Product Color which name is '.$request->color_name,
-                'description_bn' => 'একটি পণ্য কালার তৈরি করেছেন যার নাম '.$request->color_name,
+                'description' => 'Create Sub Unit which name is '.$request->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট তৈরি করেছেন যার নাম '.$request->sub_unit_name,
             ]);
 
-            toastr()->success(__('product_color.create_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -148,8 +163,9 @@ class ProductColorRepository implements ProductColorInterface{
 
     public function show($id)
     {
-        $data['data'] = ProductColor::find($id);
-        $data['histories'] = History::where('tag','product_color')->where('fk_id',$id)->get();
+        $data['histories'] = History::where('tag','sub_unit')->get();
+        $data['data'] = SubUnit::find($id);
+
         return ViewDirective::view($this->path,'show',$data);
     }
 
@@ -159,7 +175,8 @@ class ProductColorRepository implements ProductColorInterface{
 
     public function edit($id)
     {
-        $data['data'] = ProductColor::find($id);
+        $data['data'] = SubUnit::find($id);
+        $data['unit'] = Unit::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -167,31 +184,32 @@ class ProductColorRepository implements ProductColorInterface{
     {
         try {
             $data = array(
-                'color_name' => $request->color_name,
-                'color_name_bn' => $request->color_name_bn,
-                'sl' => $request->sl,
+                'unit_id' => $request->unit_id,
+                'sub_unit_name' => $request->sub_unit_name,
+                'sub_unit_name_bn' => $request->sub_unit_name_bn,
+                'sub_unit_data' => $request->sub_unit_data,
             );
 
-            ProductColor::find($id)->update($data);
-            $data = ProductColor::find($id);
+            SubUnit::find($id)->update($data);
+            $data = SubUnit::find($id);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Product Color which name is '.$data->color_name,
-                'description_bn' => 'একটি পণ্য কালার আপডেট করেছেন যার নাম '.$data->color_name,
+                'description' => 'Update Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট আপডেট করেছেন যার নাম '.$data->sub_unit_name,
             ]);
             History::create([
-                'tag' => 'product_color',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'update',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_color.update_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.update_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -201,26 +219,26 @@ class ProductColorRepository implements ProductColorInterface{
     public function destroy($id)
     {
         try {
-            ProductColor::find($id)->delete();
-            $data = ProductColor::withTrashed()->where('id',$id)->first();
+            SubUnit::find($id)->delete();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy Product Color which name is '.$data->color_name,
-                'description_bn' => 'একটি পণ্য কালার ডিলেট করেছেন যার নাম '.$data->color_name,
+                'description' => 'Destroy Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট ডিলেট করেছেন যার নাম '.$data->sub_unit_name,
             ]);
 
             History::create([
-                'tag' => 'product_color',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'destroy',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_color.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -231,24 +249,37 @@ class ProductColorRepository implements ProductColorInterface{
     {
         if($datatable == 1)
         {
-            $data = ProductColor::onlyTrashed()->get();
+            $data = SubUnit::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
-            ->addColumn('name',function($row){
+            ->addColumn('unit_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->color_name ?: $row->color_name_bn;
+                    return $row->unit->unit_name ?: $row->unit->unit_name_bn;
                 }
                 else
                 {
-                    return $row->color_name_bn ?: $row->color_name;
+                    return $row->unit->unit_name_bn ?: $row->unit->unit_name;
                 }
             })
+            ->addColumn('sub_unit_name',function($row){
+                if(config('app.locale') == 'en')
+                {
+                    return $row->sub_unit_name ?: $row->sub_unit_name_bn;
+                }
+                else
+                {
+                    return $row->sub_unit_name_bn ?: $row->sub_unit_name;
+                }
+            })
+            ->addColumn('sub_unit_data',function($row){
+                return $row->sub_unit_data;
+            })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Product Color status'))
+                if(Auth::user()->can('Sub Unit status'))
                 {
                     if($row->status == 1)
                     {
@@ -259,7 +290,7 @@ class ProductColorRepository implements ProductColorInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeColorStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
+                    <input onchange="return changeSubUnitStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -275,18 +306,18 @@ class ProductColorRepository implements ProductColorInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Product Color restore'))
+                if(Auth::user()->can('Sub Unit restore'))
                 {
-                    $restore_btn = '<a class="dropdown-item" href="'.route('product_color.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('sub_unit.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('Product Color delete'))
+                if(Auth::user()->can('Sub Unit delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('product_color.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('sub_unit.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
@@ -301,7 +332,7 @@ class ProductColorRepository implements ProductColorInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','color_name','serial','status'])
+            ->rawColumns(['action','unit_name','sub_unit_name','sub_unit_data','serial','status'])
             ->make(true);
 
         }
@@ -311,11 +342,11 @@ class ProductColorRepository implements ProductColorInterface{
     public function restore($id)
     {
         try {
-            ProductColor::withTrashed()->where('id',$id)->restore();
-            $data = ProductColor::withTrashed()->where('id',$id)->first();
+            SubUnit::withTrashed()->where('id',$id)->restore();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
             //history
             History::create([
-                'tag' => 'product_color',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'restore',
                 'date' => date('Y-m-d'),
@@ -328,10 +359,10 @@ class ProductColorRepository implements ProductColorInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore Product Color which name is '.$data->color_name,
-                'description_bn' => 'একটি পণ্য কালার পুনুরুদ্ধার করেছেন যার নাম '.$data->color_name,
+                'description' => 'Restore Sub Unit which name is '.$data->category_name,
+                'description_bn' => 'একটি সাব ইউনিট পুনুরুদ্ধার করেছেন যার নাম '.$data->category_name,
             ]);
-            toastr()->success(__('product_color.restore_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -341,19 +372,19 @@ class ProductColorRepository implements ProductColorInterface{
     public function delete($id)
     {
         try {
-            $data = ProductColor::withTrashed()->where('id',$id)->first();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
 
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete Product Color which name is '.$data->color_name,
-                'description_bn' => 'একটি পণ্য কালার সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->color_name,
+                'description' => 'Permenantly Sub Unit which name is '.$data->category_name,
+                'description_bn' => 'একটি সাব ইউনিট সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->category_name,
             ]);
-            History::where('tag','product_color')->where('fk_id',$id)->delete();
-            ProductColor::withTrashed()->where('id',$id)->forceDelete();
-            toastr()->success(__('product_color.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            History::where('tag','sub_unit')->where('fk_id',$id)->delete();
+            SubUnit::withTrashed()->where('id',$id)->forceDelete();
+            toastr()->success(__('sub_unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -367,16 +398,16 @@ class ProductColorRepository implements ProductColorInterface{
     public function status($id)
     {
         try {
-            $data = ProductColor::withTrashed()->where('id',$id)->first();
+            $data = SubUnit::withTrashed()->where('id',$id)->first();
             if($data->status == 1)
             {
-                ProductColor::withTrashed()->where('id',$id)->update([
+                SubUnit::withTrashed()->where('id',$id)->update([
                     'status' => 0,
                 ]);
             }
             else
             {
-                ProductColor::withTrashed()->where('id',$id)->update([
+                SubUnit::withTrashed()->where('id',$id)->update([
                     'status' => 1,
                 ]);
             }
@@ -385,19 +416,19 @@ class ProductColorRepository implements ProductColorInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
-                'description' => 'Change Status Product Color which name is '.$data->color_name,
-                'description_bn' => 'একটি পণ্য কালার স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->color_name,
+                'description' => 'Change Status Sub Unit which name is '.$data->sub_unit_name,
+                'description_bn' => 'একটি সাব ইউনিট স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->sub_unit_name,
             ]);
 
             History::create([
-                'tag' => 'product_color',
+                'tag' => 'sub_unit',
                 'fk_id' => $id,
                 'type' => 'status',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('product_color.status_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('sub_unit.status_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
