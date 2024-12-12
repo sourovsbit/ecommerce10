@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\ProductColorController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\SubUnitController;
+use App\Http\Controllers\Admin\ProductInformationController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -29,6 +30,7 @@ Route::resources([
     'product_color' => ProductColorController::class,
     'unit' => UnitController::class,
     'sub_unit' => SubUnitController::class,
+    'product_information' => ProductInformationController::class,
 ]);
 
 // menu_label_extra_routes
@@ -114,3 +116,10 @@ Route::post('change_sub_unit_status',[SubUnitController::class,'status'])->name(
 Route::get('sub_unit_trash',[SubUnitController::class,'trash'])->name('sub_unit.trash');
 Route::get('sub_unit_restore/{id}',[SubUnitController::class,'restore'])->name('sub_unit.restore');
 Route::get('sub_unit_delete/{id}',[SubUnitController::class,'delete'])->name('sub_unit.delete');
+
+
+//product sub unit extra routes
+Route::post('change_product_information_status',[ProductInformationController::class,'status'])->name('product_information.status');
+Route::get('product_information_trash',[ProductInformationController::class,'trash'])->name('product_information.trash');
+Route::get('product_information_restore/{id}',[ProductInformationController::class,'restore'])->name('product_information.restore');
+Route::get('product_information_delete/{id}',[ProductInformationController::class,'delete'])->name('product_information.delete');

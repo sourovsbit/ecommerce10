@@ -1108,6 +1108,96 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-10 16:36:31',
                 'updated_at' => '2024-12-10 16:36:31',
             ),
+            121 => 
+            array (
+                'id' => 355,
+                'name' => 'Product Information create',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            122 => 
+            array (
+                'id' => 356,
+                'name' => 'Product Information view',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            123 => 
+            array (
+                'id' => 357,
+                'name' => 'Product Information edit',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            124 => 
+            array (
+                'id' => 358,
+                'name' => 'Product Information destroy',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            125 => 
+            array (
+                'id' => 359,
+                'name' => 'Product Information status',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            126 => 
+            array (
+                'id' => 360,
+                'name' => 'Product Information restore',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:46',
+                'updated_at' => '2024-12-12 12:52:46',
+            ),
+            127 => 
+            array (
+                'id' => 361,
+                'name' => 'Product Information delete',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:47',
+                'updated_at' => '2024-12-12 12:52:47',
+            ),
+            128 => 
+            array (
+                'id' => 362,
+                'name' => 'Product Information print',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:47',
+                'updated_at' => '2024-12-12 12:52:47',
+            ),
+            129 => 
+            array (
+                'id' => 363,
+                'name' => 'Product Information show',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:47',
+                'updated_at' => '2024-12-12 12:52:47',
+            ),
+            130 => 
+            array (
+                'id' => 364,
+                'name' => 'Product Information trash',
+                'guard_name' => 'web',
+                'parent' => 'Product Information',
+                'created_at' => '2024-12-12 12:52:47',
+                'updated_at' => '2024-12-12 12:52:47',
+            ),
         ));
         
         
