@@ -23,10 +23,10 @@ class SubUnitRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'sl' =>'required|unique:sub_units,sl,'.$request->sub_unit,
+            'sl' =>'required',
             'unit_id' => 'required',
             'sub_unit_name' => 'required|unique:sub_units,sub_unit_name,'.$request->sub_unit,
-            'sub_unit_data' => 'required|unique:sub_units,sub_unit_data,'.$request->sub_unit,
+            'sub_unit_data' => 'required'
         ];
     }
 

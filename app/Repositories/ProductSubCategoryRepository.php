@@ -211,6 +211,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
     {
         try {
             $data = array(
+                'sl' => $request->sl,
                 'item_id' => $request->item_id,
                 'category_id' => $request->category_id,
                 'sub_category_name' => $request->sub_category_name,
@@ -315,7 +316,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
             $data = ProductSubCategory::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('sl',function($row){
+            ->addColumn('serial',function($row){
                 return $this->sl = $this->sl +1;
             })
             ->addColumn('item_name',function($row){
@@ -414,7 +415,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','item_name','sl','status'])
+            ->rawColumns(['action','item_name','serial','status'])
             ->make(true);
 
         }
@@ -488,7 +489,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
     public function print(){
 
     }
-    
+
     public function status($id)
     {
         try {
@@ -532,7 +533,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
     public function GetCategorie($category_id)
     {
         $this->lang = config('app.locale');
-  
+
         $data = ProductCategory::where('item_id',$category_id)->get();
 
 
@@ -543,9 +544,8 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
         {
 
                 $output .= '<option value="'.$v->id.'">'.$v->category_name.'</option>';
-           
+
         }
         return $output;
     }
 }
-        

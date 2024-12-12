@@ -1,7 +1,7 @@
 <?php
 return array(
     'product_information' => 'Product Information',
-    'create_title' => 'Create Product Information',
+    'create_title' => 'Create Product',
     'edit_title' => 'Edit Product Information',
     'select_item' => 'Select Item',
     'select_category' => 'Select Category',

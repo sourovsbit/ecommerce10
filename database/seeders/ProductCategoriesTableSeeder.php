@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-class ProductItemsTableSeeder extends Seeder
+class ProductCategoriesTableSeeder extends Seeder
 {
 
     /**
@@ -16,36 +16,38 @@ class ProductItemsTableSeeder extends Seeder
     {
         
 
-        \DB::table('product_items')->delete();
+        \DB::table('product_categories')->delete();
         
-        \DB::table('product_items')->insert(array (
+        \DB::table('product_categories')->insert(array (
             0 => 
             array (
                 'id' => 1,
                 'sl' => 1,
-                'item_name' => 'Mens Item',
-                'item_name_bn' => NULL,
+                'item_id' => 1,
+                'category_name' => 'Mens Wear',
+                'category_name_bn' => NULL,
                 'image' => '0',
                 'banner' => '0',
                 'status' => 1,
                 'create_by' => 3,
                 'deleted_at' => NULL,
-                'created_at' => '2024-12-12 17:12:26',
-                'updated_at' => '2024-12-12 17:12:26',
+                'created_at' => '2024-12-12 17:13:22',
+                'updated_at' => '2024-12-12 17:13:22',
             ),
             1 => 
             array (
                 'id' => 2,
                 'sl' => 2,
-                'item_name' => 'Womens Fashion',
-                'item_name_bn' => NULL,
+                'item_id' => 1,
+                'category_name' => 'Mens Shoes',
+                'category_name_bn' => NULL,
                 'image' => '0',
                 'banner' => '0',
                 'status' => 1,
                 'create_by' => 3,
                 'deleted_at' => NULL,
-                'created_at' => '2024-12-12 17:12:44',
-                'updated_at' => '2024-12-12 17:12:44',
+                'created_at' => '2024-12-12 17:13:35',
+                'updated_at' => '2024-12-12 17:13:35',
             ),
         ));
         

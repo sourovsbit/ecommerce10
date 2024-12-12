@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
-class PrdouctSizeInfo extends Model
+class ProductImgae extends Model
 {
     use HasFactory,SoftDeletes;
 
