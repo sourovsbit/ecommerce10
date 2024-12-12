@@ -23,6 +23,7 @@ class ProductSubCategoryRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
+            'sl' => 'required|unique:product_sub_categories,sl,'.$request->product_sub_category,
             'item_id' => 'required',
             'category_id' => 'required',
             'sub_category_name' => 'required|unique:product_sub_categories,sub_category_name,'.$request->product_sub_category,

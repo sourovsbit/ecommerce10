@@ -6,12 +6,12 @@ use App\Models\ProductItem;
 use App\Models\ProductCategory;
 use App\Models\ProductSubCategory;
 use App\Models\Unit;
-use App\Models\PrdouctInformation;
+use App\Models\ProductInformation;
 use App\Models\ProductSize;
 use App\Models\ProductColor;
-use App\Models\PrdouctSizeInfo;
-use App\Models\PrdouctColorInfo;
-use App\Models\PrdouctImage;
+use App\Models\ProductSizeInfo;
+use App\Models\ProductColorInfo;
+use App\Models\ProductImage;
 use App\Models\ActivityLog;
 use Auth;
 use App\Models\History;
@@ -30,7 +30,7 @@ class ProductInformationRepository implements ProductInformationInterface{
     {
         if($datatable == 1)
         {
-            $data = PrdouctInformation::all();
+            $data = ProductInformation::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -87,12 +87,12 @@ class ProductInformationRepository implements ProductInformationInterface{
                 }
             })
             ->addColumn('purchase_price',function($row){
-                
+
                 return $row->purchase_price;
 
             })
             ->addColumn('sale_price',function($row){
-                
+
                 return $row->sale_price;
 
             })
@@ -205,7 +205,7 @@ class ProductInformationRepository implements ProductInformationInterface{
                 $data['image'] = $imageName;
             }
 
-            PrdouctInformation::create($data);
+            ProductInformation::create($data);
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
@@ -246,7 +246,7 @@ class ProductInformationRepository implements ProductInformationInterface{
     {
         if($datatable == 1)
         {
-            $data = PrdouctInformation::onlyTrashed()->get();
+            $data = ProductInformation::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('sl',function($row){
@@ -303,12 +303,12 @@ class ProductInformationRepository implements ProductInformationInterface{
                 }
             })
             ->addColumn('purchase_price',function($row){
-                
+
                 return $row->purchase_price;
 
             })
             ->addColumn('sale_price',function($row){
-                
+
                 return $row->sale_price;
 
             })
@@ -385,20 +385,20 @@ class ProductInformationRepository implements ProductInformationInterface{
 
     }
 
-    
+
     public function status($id)
     {
         try {
-            $data = PrdouctInformation::withTrashed()->where('id',$id)->first();
+            $data = ProductInformation::withTrashed()->where('id',$id)->first();
             if($data->status == 1)
             {
-                PrdouctInformation::withTrashed()->where('id',$id)->update([
+                ProductInformation::withTrashed()->where('id',$id)->update([
                     'status' => 0,
                 ]);
             }
             else
             {
-                PrdouctInformation::withTrashed()->where('id',$id)->update([
+                ProductInformation::withTrashed()->where('id',$id)->update([
                     'status' => 1,
                 ]);
             }
@@ -429,7 +429,7 @@ class ProductInformationRepository implements ProductInformationInterface{
     public function GetSubCategorie($sub_category_id)
     {
         $this->lang = config('app.locale');
-  
+
         $data = ProductSubCategory::where('category_id',$sub_category_id)->get();
 
 
@@ -440,9 +440,8 @@ class ProductInformationRepository implements ProductInformationInterface{
         {
 
                 $output .= '<option value="'.$v->id.'">'.$v->sub_category_name.'</option>';
-           
+
         }
         return $output;
     }
 }
-        

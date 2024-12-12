@@ -92,6 +92,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>@lang('common.sl')</th>
                             <th>@lang('product_sub_category.item')</th>
                             <th>@lang('product_sub_category.category')</th>
                             <th>@lang('product_sub_category.sub_category_name')</th>
@@ -117,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function() {
         serverSide: true,
         ajax: "{{ route('product_sub_category.trash_list') }}",
         columns: [
+            {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
             {data: 'item_name', name: 'item_name'},
             {data: 'category_name', name: 'category_name'},

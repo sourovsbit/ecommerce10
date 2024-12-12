@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prdouct_size_infos', function (Blueprint $table) {
+        Schema::create('product_imgaes', function (Blueprint $table) {
             $table->id();
             $table->integer('sl')->nullable();
             $table->string('product_id')->nullable();
-            $table->bigInteger('size_id')->nullable()->unsigned();
-            $table->foreign('size_id')->references('id')->on('product_sizes');
-            $table->date('deleted_at')->nullable();
+            $table->string('image',100)->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prdouct_size_infos');
+        Schema::dropIfExists('product_imgaes');
     }
 };

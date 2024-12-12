@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
-class PrdouctColorInfo extends Model
+class ProductColorInfo extends Model
 {
     use HasFactory,SoftDeletes;
 
