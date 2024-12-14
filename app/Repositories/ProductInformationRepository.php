@@ -275,20 +275,129 @@ class ProductInformationRepository implements ProductInformationInterface{
         }
     }
 
-    public function show($id){
-
+    public function show($id)
+    {
+        $data['data'] = ProductInformation::find($id);
+        $data['histories'] = History::where('fk_id',$id)->where('tag','product_information')->get();
+        return ViewDirective::view($this->path,'show',$data);
     }
 
     public function properties($id){
 
     }
 
-    public function edit($id){
-
+    public function edit($id)
+    {
+        $data['data'] = ProductInformation::find($id);
+        $data['item'] = ProductItem::where('status',1)->get();
+        $data['category'] = ProductCategory::where('status',1)->where('item_id',$data['data']->item_id)->get();
+        $data['sub_category'] = ProductSubCategory::where('status',1)->where('item_id',$data['data']->item_id)->where('category_id',$data['data']->category_id)->get();
+        $data['unit'] = Unit::where('status',1)->get();
+        $data['size'] = ProductSize::where('status',1)->get();
+        $data['color'] = ProductColor::where('status',1)->get();
+        $data['brand'] = ProductBrands::where('status',1)->get();
+        return ViewDirective::view($this->path,'edit',$data);
     }
 
-    public function update($request, $id){
+    public function update($request, $id)
+    {
+        try {
+            $data = array(
+                'sl' => $request->sl,
+                'item_id' => $request->item_id,
+                'category_id' => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
+                'brand_id' => $request->brand_id,
+                'unit_id' => $request->unit_id,
+                'product_name' => $request->product_name,
+                'product_name_bn' => $request->product_name_bn,
+                'purchase_price' => $request->purchase_price,
+                'sale_price' => $request->sale_price,
+                'moq' => $request->moq,
+                'short_description' => $request->short_description,
+                'description' => $request->description,
+                'product_type' => $request->product_type,
+                'status' => 1,
+            );
 
+
+            ProductInformation::find($id)->update($data);
+            $data = ProductInformation::find($id);
+            $image = $request->file('image');
+
+            if($image)
+            {
+                ProductImage::where('product_id',$data->product_id)->forceDelete();
+                for ($i=0; $i < count($image) ; $i++)
+                {
+                    $imageName = rand().'.'.$image[$i]->getClientOriginalExtension();
+                    $image[$i]->move(public_path().'/backend/Product/ProductImage/',$imageName);
+                    ProductImage::create([
+                        'sl' => $i,
+                        'product_id' => $data->product_id,
+                        'image' => $imageName,
+                    ]);
+                }
+            }
+
+            if($request->product_type == 1)
+            {
+                ProductSizeInfo::where('product_id',$data->product_id)->forceDelete();
+                ProductColorInfo::where('product_id',$data->product_id)->forceDelete();
+            }
+
+            if($request->product_type == 2)
+            {
+                if($request->size_id)
+                {
+                    ProductSizeInfo::where('product_id',$data->product_id)->forceDelete();
+                    for ($i=0; $i < count($request->size_id) ; $i++)
+                    {
+                        ProductSizeInfo::create([
+                            'sl' => $i,
+                            'product_id' => $data->product_id,
+                            'size_id' => $request->size_id[$i],
+                        ]);
+                    }
+                }
+                if($request->color)
+                {
+                    ProductColorInfo::where('product_id',$data->product_id)->forceDelete();
+                    for ($i=0; $i < count($request->color) ; $i++)
+                    {
+                        ProductColorInfo::create([
+                            'sl' => $i,
+                            'product_id' => $data->product_id,
+                            'color_id' => $request->color[$i],
+                        ]);
+                    }
+                }
+            }
+
+            ActivityLog::create([
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'user_id' => Auth::user()->id,
+                'slug' => 'update',
+                'description' => 'Update Product which name is '.$data->product_name,
+                'description_bn' => 'একটি পণ্য সম্পাদন করেছেন যার নাম '.$data->product_name,
+            ]);
+
+
+            History::create([
+                'tag' => 'product_information',
+                'fk_id' => $id,
+                'type' => 'update',
+                'date' => date('Y-m-d'),
+                'time' => date('H:i:s'),
+                'user_id' => Auth::user()->id,
+            ]);
+
+            toastr()->success(__('product_information.update_message'), __('common.success'), ['timeOut' => 5000]);
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error',$th->getMessage());
+        }
     }
 
     public function destroy($id){

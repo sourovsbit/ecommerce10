@@ -219,9 +219,12 @@ class AjaxController extends Controller
     public function searchProduct(Request $request)
     {
         // return $request->search;
-        $product = ProductInformation::where(function($query){
-            $query->where('product_name','LIKE','%'.$request->search.'%');
-        });
+        $search = $request->search;
+        $product = ProductInformation::query()
+        ->where('product_name','LIKE','%'.$search.'%')
+        ->orWhere('purchase_price','LIKE','%'.$search.'%')
+        ->orWhere('sale_price','LIKE','%'.$search.'%')
+        ->get();
 
         return view('admin.product_information.show_search_product',compact('product'));
     }
