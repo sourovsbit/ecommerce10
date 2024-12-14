@@ -1198,6 +1198,87 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-12 12:52:47',
                 'updated_at' => '2024-12-12 12:52:47',
             ),
+            131 => 
+            array (
+                'id' => 365,
+                'name' => 'Vendor create',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            132 => 
+            array (
+                'id' => 366,
+                'name' => 'Vendor view',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            133 => 
+            array (
+                'id' => 367,
+                'name' => 'Vendor edit',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            134 => 
+            array (
+                'id' => 368,
+                'name' => 'Vendor destroy',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            135 => 
+            array (
+                'id' => 369,
+                'name' => 'Vendor status',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            136 => 
+            array (
+                'id' => 370,
+                'name' => 'Vendor restore',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            137 => 
+            array (
+                'id' => 371,
+                'name' => 'Vendor delete',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            138 => 
+            array (
+                'id' => 372,
+                'name' => 'Vendor print',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
+            139 => 
+            array (
+                'id' => 373,
+                'name' => 'Vendor show',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-14 18:09:25',
+                'updated_at' => '2024-12-14 18:09:25',
+            ),
         ));
         
         

@@ -1,8 +1,7 @@
 <?php
-        namespace App\Interfaces;
-        use App\Interfaces\BaseInterface;
+namespace App\Interfaces;
+use App\Interfaces\BaseInterface;
 
-        interface VendorInterface extends BaseInterface{
-
-        }
-        
+interface VendorInterface extends BaseInterface{
+    public function status($id);
+}

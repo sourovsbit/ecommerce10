@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Interfaces\SubUnitInterface;
 use App\Http\Requests\SubUnitRequest;
+use App\Interfaces\SubUnitInterface;
 
 class SubUnitController extends Controller
 {
