@@ -55,6 +55,18 @@ class MenuLabelsTableSeeder extends Seeder
                 'created_at' => '2024-12-05 15:46:19',
                 'updated_at' => '2024-12-05 15:46:19',
             ),
+            3 => 
+            array (
+                'id' => 10,
+                'label_name' => 'Vendor Information',
+                'label_name_bn' => 'ভেন্ডর ইনফরমেশন',
+                'status' => 1,
+                'type' => 'cms',
+                'deleted_at' => NULL,
+                'create_by' => 3,
+                'created_at' => '2024-12-14 18:05:53',
+                'updated_at' => '2024-12-14 18:05:53',
+            ),
         ));
         
         
