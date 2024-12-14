@@ -1,0 +1,20 @@
+<?php
+return array(
+    'vendor' => 'Vendor',
+    'create_title' => 'Create Vendor',
+    'edit_title' => 'Edit Vendor',
+    'vendor_name' => 'Vendor Name in English',
+    'vendor_name_bn' => 'Vendor Name in Bangla',
+    'vendor_name_required' => 'Please Give A Vendor Name',
+    'vendor_name_unique' => 'This Vendor Name is Already Taken',
+    'company_name' => 'Company Name in English',
+    'company_name_bn' => 'Company Name in Bangla',
+    'create_message' => 'Product Vendor Created Successfully',
+    'index_title' => 'List of Product Vendor',
+    'status_message' => 'Product Vendor Status Updated',
+    'details' => 'Product Vendor Details',
+    'update_message' => 'Product Vendor Updated',
+    'delete_message' => 'Product Vendor Deleted',
+    'trash_title' => 'List Of Deleted Vendor',
+    'restore_message' => 'Product Vendor Restored',
+);
