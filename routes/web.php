@@ -56,4 +56,7 @@ Route::get('GetCategorie/{category_id}',[ProductSubCategoryController::class,'Ge
 Route::get('GetSubCategorie/{category_id}',[ProductInformationController::class,'GetSubCategorie']);
 
 Route::post('change_menu_status',[MenuController::class,'status'])->name('menu.status');
+
+Route::post('searchProduct',[AjaxController::class,'searchProduct']);
+
 require __DIR__.'/auth.php';
