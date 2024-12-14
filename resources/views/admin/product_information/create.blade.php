@@ -112,7 +112,7 @@
                                 @enderror
                             </div>
                             <div class="col-lg-6 col-md-12 col-12 mt-4">
-                                <label>@lang('product_information.select_sub_category')</label><span class="text-danger">*</span>
+                                <label>@lang('product_information.select_sub_category')</label>
                                 <div class="showlabels">
                                     <select class="form-select form-select-sm select2 @error('sub_category_id') is-invalid @enderror" name="sub_category_id" id="sub_category_id">
                                         <option value="">@lang('common.select_one')</option>
@@ -129,22 +129,22 @@
                             <div class="col-lg-6 col-md-12 col-12 mt-4">
                                 <label>@lang('product_information.brand')</label><span class="text-danger">*</span>
                                 <div class="showlabels">
-                                    <select class="form-select form-select-sm select2 @error('unit_id') is-invalid @enderror" name="unit_id" id="unit_id">
+                                    <select class="form-select form-select-sm select2 @error('brand_id') is-invalid @enderror" name="brand_id" id="brand_id">
                                         <option value="">@lang('common.select_one')</option>
-                                        @if(isset($data['unit']))
-                                        @foreach ($data['unit'] as $unit)
-                                        <option @if(old('unit_id') == $unit->id) selected @endif value="{{ $unit->id }}">
+                                        @if(isset($data['brand']))
+                                        @foreach ($data['brand'] as $brand)
+                                        <option @if(old('brand_id') == $brand->id) selected @endif value="{{ $brand->id }}">
                                             @if(config('app.locale') == 'en')
-                                            {{ $unit->unit_name ?: $unit->unit_name_bn }}
+                                            {{ $brand->brand_name ?: $brand->brand_name_bn }}
                                             @else
-                                            {{ $unit->unit_name_bn ?: $unit->unit_name }}
+                                            {{ $brand->brand_name_bn ?: $brand->brand_name }}
                                             @endif
                                         </option>
                                         @endforeach
                                         @endif
                                     </select>
                                 </div>
-                                @error('unit_id')
+                                @error('brand_id')
                                     <div class="alert alert-danger">
                                         {{ $message }}
                                     </div>
@@ -196,7 +196,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-12 col-12 mt-4">
-                                <label>@lang('product_information.purchase_price')</label>
+                                <label>@lang('product_information.purchase_price')</label><span class="text-danger">*</span>
                                 <input type="number" class="form-control form-control-sm @error('purchase_price') is-invalid @enderror" name="purchase_price" id="purchase_price"  value="{{ old('purchase_price') }}">
                                 @error('purchase_price')
                                     <div class="alert alert-danger">
@@ -206,7 +206,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-12 col-12 mt-4">
-                                <label>@lang('product_information.sale_price')</label>
+                                <label>@lang('product_information.sale_price')</label><span class="text-danger">*</span>
                                 <input type="number" class="form-control form-control-sm @error('sale_price') is-invalid @enderror" name="sale_price" id="sale_price"  value="{{ old('sale_price') }}">
                                 @error('sale_price')
                                     <div class="alert alert-danger">
@@ -215,8 +215,8 @@
                                 @enderror
                             </div>
                             <div class="col-lg-12 col-md-12 col-12 mt-4">
-                                <label>@lang('product_information.moq')</label>
-                                <input type="number" class="form-control form-control-sm @error('moq') is-invalid @enderror" name="moq" id="moq"  value="{{ old('moq') }}">
+                                <label>@lang('product_information.moq')</label><span class="text-danger">*</span>
+                                <input type="number" class="form-control form-control-sm @error('moq') is-invalid @enderror" name="moq" id="moq"  value="1">
                                 @error('moq')
                                 <div class="alert alert-danger">
                                     {{ $message }}
@@ -366,31 +366,56 @@
 </script>
 @endpush
 
+
+<script>
+
+    setTimeout(() => {
+        GetCategorie();
+    }, 1000);
+
+    function GetCategorie()
+    {
+        let item_id = $('#item_id').val();
+        if(item_id != "")
+        {
+            $.ajax({
+                headers : {
+                    'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                },
+
+                url : '{{url('GetCategorie')}}/'+item_id,
+
+                type : 'GET',
+
+                success : function(data)
+                {
+                    $('#category_id').html(data);
+                }
+            })
+        }
+    }
+</script>
+
     <script>
         function GetSubCategorie()
         {
-            let categorie_id = $('#categorie_id').val();
-            if(categorie_id != "")
+            let category_id = $('#category_id').val();
+            if(category_id != "")
             {
                 $.ajax({
                     headers : {
                         'X-CSRF-TOKEN' : '{{ csrf_token() }}'
                     },
 
-                    url : '{{url('GetSubCategorie')}}/'+categorie_id,
+                    url : '{{url('GetSubCategorie')}}/'+category_id,
 
                     type : 'GET',
 
                     success : function(data)
                     {
-                        $('#category_id').html(data);
+                        $('#sub_category_id').html(data);
                     }
                 })
-            }
-            else{
-                let html = '';
-                alert('Select Categorie');
-                $('#category_id').html(html);
             }
         }
     </script>

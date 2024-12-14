@@ -38,7 +38,7 @@ return array(
     'show' => 'Show',
     'edit' => 'Edit',
     'destroy' => 'Delete',
-    'select_one' => 'Select One',
+    'select_one' => '[CHOSE]',
     'restore' => 'Restore',
     'delete' => 'Delete',
     'select_all' => 'Select All',

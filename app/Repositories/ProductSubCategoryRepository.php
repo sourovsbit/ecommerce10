@@ -543,7 +543,7 @@ class ProductSubCategoryRepository implements ProductSubCategoryInterface{
         foreach($data as $v)
         {
 
-                $output .= '<option value="'.$v->id.'">'.$v->category_name.'</option>';
+            $output .= '<option value="'.$v->id.'">'.$v->category_name.'</option>';
 
         }
         return $output;

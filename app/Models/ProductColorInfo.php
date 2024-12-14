@@ -13,11 +13,5 @@ class ProductColorInfo extends Model
 
     protected $guarded = [];
 
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function($model){
-            $model->create_by = Auth::user()->id;
-        });
-    }
+    
 }

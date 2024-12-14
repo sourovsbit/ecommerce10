@@ -13,9 +13,11 @@ use App\Models\ProductSizeInfo;
 use App\Models\ProductColorInfo;
 use App\Models\ProductImage;
 use App\Models\ActivityLog;
+use App\Models\ProductBrands;
 use Auth;
 use App\Models\History;
 use Yajra\DataTables\Facades\DataTables;
+use App\Traits\Idgenerator;
 
 class ProductInformationRepository implements ProductInformationInterface{
 
@@ -59,21 +61,21 @@ class ProductInformationRepository implements ProductInformationInterface{
             ->addColumn('sub_category_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->sub_category_name ?: $row->sub_category_name_bn;
+                    return $row->sub_category->sub_category_name ?: $row->sub_category->sub_category_name_bn;
                 }
                 else
                 {
-                    return $row->sub_category_name_bn ?: $row->sub_category_name;
+                    return $row->sub_category->ub_category_name_bn ?: $row->sub_category->sub_category_name;
                 }
             })
             ->addColumn('unit_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->unit_name ?: $row->unit_name_bn;
+                    return $row->unit->unit_name ?: $row->unit->unit_name_bn;
                 }
                 else
                 {
-                    return $row->unit_name_bn ?: $row->unit_name;
+                    return $row->unit->unit_name_bn ?: $row->unit->unit_name;
                 }
             })
             ->addColumn('product_name',function($row){
@@ -179,40 +181,84 @@ class ProductInformationRepository implements ProductInformationInterface{
         $data['unit'] = Unit::where('status',1)->get();
         $data['size'] = ProductSize::where('status',1)->get();
         $data['color'] = ProductColor::where('status',1)->get();
+        $data['brand'] = ProductBrands::where('status',1)->get();
         return ViewDirective::view($this->path,'create',$data);
     }
 
     public function store($request)
     {
         try {
+            $product_id = Idgenerator::AutoCode('product_informations','product_id','PRD-','10');
             $data = array(
+                'product_id' => $product_id,
                 'sl' => $request->sl,
                 'item_id' => $request->item_id,
                 'category_id' => $request->category_id,
                 'sub_category_id' => $request->sub_category_id,
+                'brand_id' => $request->brand_id,
+                'unit_id' => $request->unit_id,
                 'product_name' => $request->product_name,
                 'product_name_bn' => $request->product_name_bn,
+                'purchase_price' => $request->purchase_price,
+                'sale_price' => $request->sale_price,
+                'moq' => $request->moq,
+                'short_description' => $request->short_description,
+                'description' => $request->description,
+                'product_type' => $request->product_type,
                 'status' => 1,
-                'image' => '0',
             );
 
+
+            ProductInformation::create($data);
             $image = $request->file('image');
 
             if($image)
             {
-                $imageName = rand().'.'.$image->getClientOriginalExtension();
-                $image->move(public_path().'/backend/Product/ProductImage/',$imageName);
-                $data['image'] = $imageName;
+                for ($i=0; $i < count($image) ; $i++)
+                {
+                    $imageName = rand().'.'.$image[$i]->getClientOriginalExtension();
+                    $image[$i]->move(public_path().'/backend/Product/ProductImage/',$imageName);
+                    ProductImage::create([
+                        'sl' => $i,
+                        'product_id' => $product_id,
+                        'image' => $imageName,
+                    ]);
+                }
             }
 
-            ProductInformation::create($data);
+            if($request->product_type == 2)
+            {
+                if($request->size_id)
+                {
+                    for ($i=0; $i < count($request->size_id) ; $i++)
+                    {
+                        ProductSizeInfo::create([
+                            'sl' => $i,
+                            'product_id' => $product_id,
+                            'size_id' => $request->size_id[$i],
+                        ]);
+                    }
+                }
+                if($request->color)
+                {
+                    for ($i=0; $i < count($request->color) ; $i++)
+                    {
+                        ProductColorInfo::create([
+                            'sl' => $i,
+                            'product_id' => $product_id,
+                            'color_id' => $request->color[$i],
+                        ]);
+                    }
+                }
+            }
+
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Product Information which name is '.$request->product_name,
-                'description_bn' => 'একটি পণ্য তথ্য তৈরি করেছেন যার নাম '.$request->product_name,
+                'description' => 'Create Product which name is '.$request->product_name,
+                'description_bn' => 'একটি পণ্য তৈরি করেছেন যার নাম '.$request->product_name,
             ]);
 
             toastr()->success(__('product_information.create_message'), __('common.success'), ['timeOut' => 5000]);
@@ -373,7 +419,8 @@ class ProductInformationRepository implements ProductInformationInterface{
         return ViewDirective::view($this->path,'trash_list');
     }
 
-    public function restore($id){
+    public function restore($id)
+    {
 
     }
 
@@ -426,11 +473,11 @@ class ProductInformationRepository implements ProductInformationInterface{
         }
     }
 
-    public function GetSubCategorie($sub_category_id)
+    public function GetSubCategorie($category_id)
     {
         $this->lang = config('app.locale');
 
-        $data = ProductSubCategory::where('category_id',$sub_category_id)->get();
+        $data = ProductSubCategory::where('category_id',$category_id)->get();
 
 
         $output = '<option value="">'.__('common.select_one').'</option>';
@@ -439,7 +486,7 @@ class ProductInformationRepository implements ProductInformationInterface{
         foreach($data as $v)
         {
 
-                $output .= '<option value="'.$v->id.'">'.$v->sub_category_name.'</option>';
+            $output .= '<option value="'.$v->id.'">'.$v->sub_category_name.'</option>';
 
         }
         return $output;

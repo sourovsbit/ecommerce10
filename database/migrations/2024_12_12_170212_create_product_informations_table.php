@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_information', function (Blueprint $table) {
+        Schema::create('product_informations', function (Blueprint $table) {
             $table->id();
             $table->string('product_id')->nullable();
             $table->integer('sl')->nullable();
@@ -21,6 +21,8 @@ return new class extends Migration
             $table->foreign('category_id')->references('id')->on('product_categories');
             $table->bigInteger('sub_category_id')->nullable()->unsigned();
             $table->foreign('sub_category_id')->references('id')->on('product_sub_categories');
+            $table->bigInteger('brand_id')->nullable()->unsigned();
+            $table->foreign('brand_id')->references('id')->on('product_brands');
             $table->bigInteger('unit_id')->nullable()->unsigned();
             $table->foreign('unit_id')->references('id')->on('units');
             $table->string('product_name')->nullable();
