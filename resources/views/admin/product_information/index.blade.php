@@ -93,26 +93,28 @@
                     <span class="input-group-text search" onclick="searchProduct()"><i class="fa fa-search"></i></span>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table myTable  fs--1 mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>@lang('product_information.item')</th>
-                            <th>@lang('product_information.category')</th>
-                            <th>@lang('product_information.sub_category')</th>
-                            <th>@lang('product_information.unit')</th>
-                            <th>@lang('product_information.product_name')</th>
-                            <th>@lang('product_information.purchase_price')</th>
-                            <th>@lang('product_information.sale_price')</th>
-                            <th>@lang('common.status')</th>
-                            <th>@lang('common.action')</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="showdata">
+                <div class="table-responsive">
+                    <table class="table myTable  fs--1 mb-0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>@lang('product_information.item')</th>
+                                <th>@lang('product_information.category')</th>
+                                <th>@lang('product_information.sub_category')</th>
+                                <th>@lang('product_information.unit')</th>
+                                <th>@lang('product_information.product_name')</th>
+                                <th>@lang('product_information.purchase_price')</th>
+                                <th>@lang('product_information.sale_price')</th>
+                                <th>@lang('common.status')</th>
+                                <th>@lang('common.action')</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -169,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 success : function(res)
                 {
                     $('.search').html('<i class="fa fa-search"></i>');
+                    $('.showdata').html(res);
                 }
             })
         }

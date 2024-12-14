@@ -28,7 +28,7 @@ class ProductInformationRequest extends FormRequest
             'category_id' => 'required',
             'brand_id' => 'required',
             'unit_id' => 'required',
-            'product_name' => 'required|unique:product_informations,product_name,'.$request->produproduct_informationct_name,
+            'product_name' => 'required|unique:product_informations,product_name,'.$request->product_information,
             'purchase_price' => 'required',
             'sale_price' => 'required',
             'moq' => 'required',

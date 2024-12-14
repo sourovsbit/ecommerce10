@@ -287,7 +287,7 @@
                                     </div>
                                 </div>
                             </div>
-
+ac
                             <div class="col-lg-12 col-md-12 col-12 mt-4" id="color_box">
                                 <label>@lang('product_information.select_color')</label><span class="text-danger">*</span>
                                 <div class="showlabels">
