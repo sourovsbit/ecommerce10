@@ -53,7 +53,7 @@ Route::get('success',[PaypalController::class,'success'])->name('success');
 Route::get('cancel',[PaypalController::class,'cancel'])->name('cancel');
 
 Route::get('GetCategorie/{category_id}',[ProductSubCategoryController::class,'GetCategorie']);
-Route::get('GetSubCategorie/{sub_category_id}',[ProductInformationController::class,'GetSubCategorie']);
+Route::get('GetSubCategorie/{category_id}',[ProductInformationController::class,'GetSubCategorie']);
 
 Route::post('change_menu_status',[MenuController::class,'status'])->name('menu.status');
 require __DIR__.'/auth.php';
