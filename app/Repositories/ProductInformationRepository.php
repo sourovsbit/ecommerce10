@@ -32,7 +32,7 @@ class ProductInformationRepository implements ProductInformationInterface{
     {
         if($datatable == 1)
         {
-            $data = ProductInformation::all();
+            $data = ProductInformation::query();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -59,13 +59,20 @@ class ProductInformationRepository implements ProductInformationInterface{
                 }
             })
             ->addColumn('sub_category_name',function($row){
-                if(config('app.locale') == 'en')
+                if(isset($row->sub_category_id))
                 {
-                    return $row->sub_category->sub_category_name ?: $row->sub_category->sub_category_name_bn;
+                    if(config('app.locale') == 'en')
+                    {
+                        return $row->sub_category->sub_category_name ?: $row->sub_category->sub_category_name_bn;
+                    }
+                    else
+                    {
+                        return $row->sub_category->ub_category_name_bn ?: $row->sub_category->sub_category_name;
+                    }
                 }
                 else
                 {
-                    return $row->sub_category->ub_category_name_bn ?: $row->sub_category->sub_category_name;
+                    return '';
                 }
             })
             ->addColumn('unit_name',function($row){
@@ -110,8 +117,8 @@ class ProductInformationRepository implements ProductInformationInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeProductInformationStatus('.$row->id.')" id="cbx-51" type="checkbox" '.$checked.'>
-                    <label class="toggle" for="cbx-51">
+                    <input onchange="return changeProductInformationStatus('.$row->id.')" id="cbx-51'.$row->id.'" type="checkbox" '.$checked.'>
+                    <label class="toggle" for="cbx-51'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
                           <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z"></path>

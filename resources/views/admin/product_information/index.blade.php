@@ -87,6 +87,12 @@
                     </ul>
                 </div>
             @endif
+            <div class="form-group mb-4">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" name="search" id="search" placeholder="Search Product.....">
+                    <span class="input-group-text search" onclick="searchProduct()"><i class="fa fa-search"></i></span>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table myTable  fs--1 mb-0">
                     <thead>
@@ -119,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
     $(".myTable").DataTable({
         processing: true,
         serverSide: true,
+        searching : false,
         ajax: "{{ route('product_information.index') }}",
         columns: [
             {data: 'sl', name: 'sl'},
@@ -137,6 +144,36 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <script>
+
+    function searchProduct()
+    {
+        let search = $('#search').val();
+        if(search != '')
+        {
+            $.ajax({
+                headers : {
+                    'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                },
+
+                url : '{{ url('searchProduct') }}',
+
+                type : 'POST',
+
+                data : {search},
+
+                beforeSend : function()
+                {
+                    $('.search').html('Loading...');
+                },
+
+                success : function(res)
+                {
+                    $('.search').html('<i class="fa fa-search"></i>');
+                }
+            })
+        }
+    }
+
     function changeProductInformationStatus(id)
     {
         // alert(id);

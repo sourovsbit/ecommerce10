@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\Color;
 use Session;
 use App\Models\Size;
-use App\Models\Product;
+use App\Models\ProductInformation;
 use App\Models\SupplierArea;
 use App\Models\Supplier;
 use App\Models\User;
@@ -214,5 +214,15 @@ class AjaxController extends Controller
             $user->assignRole($role);
         }
         return 'Ok';
+    }
+
+    public function searchProduct(Request $request)
+    {
+        // return $request->search;
+        $product = ProductInformation::where(function($query){
+            $query->where('product_name','LIKE','%'.$request->search.'%');
+        });
+
+        return view('admin.product_information.show_search_product',compact('product'));
     }
 }
