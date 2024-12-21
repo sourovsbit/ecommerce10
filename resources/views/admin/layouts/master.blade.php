@@ -19,6 +19,10 @@
   </head>
 
   <style>
+
+.select2-selection__rendered {
+    font-size: 13px;
+}
     .alert {
     padding: 2px;
     font-size: 12px;

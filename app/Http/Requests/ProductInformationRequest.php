@@ -33,6 +33,7 @@ class ProductInformationRequest extends FormRequest
             'sale_price' => 'required',
             'moq' => 'required',
             'product_type' => 'required',
+            'country_id' => 'required',
         ];
     }
 
@@ -51,6 +52,7 @@ class ProductInformationRequest extends FormRequest
             'sale_price.required' => __('product_information.sale_price_required'),
             'moq.required' => __('product_information.moq_required'),
             'product_type.required' => __('product_information.product_type.required'),
+            'country_id.required' => __('product_informatoin.country_required'),
         ];
     }
 }

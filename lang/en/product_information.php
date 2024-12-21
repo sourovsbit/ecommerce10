@@ -47,4 +47,6 @@ return array(
     'sale_price_required' => 'Please Give Sale Price',
     'moq_required' => 'Please Give Minimum Order Quantity',
     'product_type.required' => 'Please Select Product Type',
+    'vendor' => 'Vendor',
+    'country' => 'Country',
 );

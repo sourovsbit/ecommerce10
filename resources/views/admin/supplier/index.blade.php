@@ -76,42 +76,53 @@
 
     @endcomponent
 
-    <div class="card">
-        <div class="card-body">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <div class="table-responsive">
-                <table class="table myTable  fs--1 mb-0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>@lang('common.sl')</th>
-                            <th>@lang('vendor.country')</th>
-                            <th>@lang('vendor.vendor_name')</th>
-                            <th>@lang('vendor.vendor_phone')</th>
-                            <th>@lang('vendor.company_name')</th>
-                            <th>@lang('vendor.company_phone')</th>
-                            <th>@lang('common.status')</th>
-                            <th>@lang('common.action')</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    @push('header_script')
+    <style>
+    .cover {
+        height: 130px;
+        width: 100%;
+        overflow: hidden;
+    }
+    .card-body.p-0 {
+        position: relative;
+    }
 
-                    </tbody>
-                </table>
+    .profile {
+        position: absolute;
+        top: 92px;
+        height: 70px;
+        width: 70px;
+        overflow: hidden;
+        border-radius: 100%;
+        border: 2px solid lightgray;
+    }
+    </style>
+    @endpush
+
+    <div class="row">
+        @forelse ($data['data'] as $d)
+        <div class="col-lg-3 col-md-4 col-12">
+            <div class="card p-0">
+                <div class="card-body p-0">
+                    <div class="cover">
+                        <img src="{{ asset('backend/Supplier/Supplierbanner') }}/{{ $d->banner }}" alt="" sizes="" srcset="" class="img-fluid">
+                    </div>
+                    <div class="profile">
+                        <img src="{{ asset('backend/Supplier/Supplierimage') }}/{{ $d->image }}" alt="" sizes="" srcset="" class="img-fluid" height="70px" width="70px">
+                    </div>
+                    <div class="info p-2 mt-5">
+                        <b>{{ $d->supplier_name }}</b>
+                    </div>
+                </div>
             </div>
         </div>
+        @empty
+
+        @endforelse
     </div>
 
 
-@push('footer_script')
+{{-- @push('footer_script')
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Datatables Responsive
@@ -157,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 </script>
 
-@endpush
+@endpush --}}
 
 
 @endsection

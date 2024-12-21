@@ -14,7 +14,7 @@
 
     <!-- link 2 -->
     @slot('link_two')
-    @lang('vendor.category')
+    @lang('vendor.vendor')
     @endslot
     @slot('link_two_url')
     {{route('vendor.index')}}
