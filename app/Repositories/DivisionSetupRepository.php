@@ -3,6 +3,7 @@ namespace App\Repositories;
 use App\Interfaces\DivisionSetupInterface;
 use App\Traits\ViewDirective;
 use App\Models\DivisionSetup;
+use App\Models\Country;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
@@ -125,7 +126,8 @@ class DivisionSetupRepository implements DivisionSetupInterface{
 
     public function create()
     {
-        return ViewDirective::view($this->path,'create');
+        $data['country'] = Country::where('status',1)->get();
+        return ViewDirective::view($this->path,'create',$data);
     }
 
     public function store($request)
@@ -133,8 +135,7 @@ class DivisionSetupRepository implements DivisionSetupInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'country_name' => $request->country_name,
-                'country_name_bn' => $request->country_name_bn,
+                'country_id' => $request->country_id,
                 'division_name' => $request->division_name,
                 'division_name_bn' => $request->division_name_bn,
                 'status' => 1,
@@ -172,6 +173,7 @@ class DivisionSetupRepository implements DivisionSetupInterface{
     public function edit($id)
     {
         $data['data'] = DivisionSetup::find($id);
+        $data['country'] = Country::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -179,11 +181,10 @@ class DivisionSetupRepository implements DivisionSetupInterface{
     {
         try {
             $data = array(
-                'country_name' => $request->country_name,
-                'country_name_bn' => $request->country_name_bn,
+                'sl' => $request->sl,
+                'country_id' => $request->country_id,
                 'division_name' => $request->division_name,
                 'division_name_bn' => $request->division_name_bn,
-                'sl' => $request->sl,
             );
 
             DivisionSetup::find($id)->update($data);
@@ -283,7 +284,7 @@ class DivisionSetupRepository implements DivisionSetupInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeColorStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
+                    <input onchange="return changeDivisionSetupStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51-'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -409,7 +410,7 @@ class DivisionSetupRepository implements DivisionSetupInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
-                'description' => 'Change Status Division which name is '.$data->division_name,
+                'description' => 'Change Division Status which name is '.$data->division_name,
                 'description_bn' => 'একটি বিভাগ স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->division_name,
             ]);
 

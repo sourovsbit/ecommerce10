@@ -1471,6 +1471,11 @@ class PermissionsTableSeeder extends Seeder
             161 => 
             array (
                 'id' => 434,
+                'name' => 'Shipping Class create',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info create',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1480,6 +1485,11 @@ class PermissionsTableSeeder extends Seeder
             162 => 
             array (
                 'id' => 435,
+                'name' => 'Shipping Class view',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info view',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1489,6 +1499,11 @@ class PermissionsTableSeeder extends Seeder
             163 => 
             array (
                 'id' => 436,
+                'name' => 'Shipping Class edit',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info edit',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1498,6 +1513,11 @@ class PermissionsTableSeeder extends Seeder
             164 => 
             array (
                 'id' => 437,
+                'name' => 'Shipping Class destroy',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info destroy',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1507,6 +1527,11 @@ class PermissionsTableSeeder extends Seeder
             165 => 
             array (
                 'id' => 438,
+                'name' => 'Shipping Class status',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info status',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1516,6 +1541,11 @@ class PermissionsTableSeeder extends Seeder
             166 => 
             array (
                 'id' => 439,
+                'name' => 'Shipping Class restore',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info restore',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1525,6 +1555,11 @@ class PermissionsTableSeeder extends Seeder
             167 => 
             array (
                 'id' => 440,
+                'name' => 'Shipping Class delete',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info delete',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1534,6 +1569,11 @@ class PermissionsTableSeeder extends Seeder
             168 => 
             array (
                 'id' => 441,
+                'name' => 'Shipping Class print',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info print',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1543,6 +1583,11 @@ class PermissionsTableSeeder extends Seeder
             169 => 
             array (
                 'id' => 442,
+                'name' => 'Shipping Class show',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info show',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',
@@ -1552,6 +1597,11 @@ class PermissionsTableSeeder extends Seeder
             170 => 
             array (
                 'id' => 443,
+                'name' => 'Shipping Class trash',
+                'guard_name' => 'web',
+                'parent' => 'Shipping Class',
+                'created_at' => '2024-12-21 16:51:42',
+                'updated_at' => '2024-12-21 16:51:42',
                 'name' => 'Supplier Info trash',
                 'guard_name' => 'web',
                 'parent' => 'Supplier Info',

@@ -3,6 +3,8 @@ return array(
     'division_setup' => 'Division Setup',
     'create_title' => 'Create Division',
     'edit_title' => 'Edit Division',
+    'country' => 'Country',
+    'select_country' => 'Select Country',
     'division_name' => 'Division Name in English',
     'division_name_bn' => 'Division Name in Bangla',
     'division_name_required' => 'Please Give A Division Name',

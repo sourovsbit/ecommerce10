@@ -60,7 +60,7 @@
     @endslot
 
     @slot('button_two_route')
-    {{route('division_setup.trash')}}
+    {{route('division_setup.trash_list')}}
     @endslot
 
     @slot('button_two_class')
@@ -93,7 +93,7 @@
                         <tr>
                             <th>#</th>
                             <th>@lang('common.sl')</th>
-                            <th>@lang('division_setup.country_name')</th>
+                            <th>@lang('division_setup.country')</th>
                             <th>@lang('division_setup.division_name')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN' : '{{ csrf_token() }}'
             },
 
-            url : '{{ route('district_setup.status') }}',
+            url : '{{ route('division_setup.status') }}',
 
             type : 'POST',
 

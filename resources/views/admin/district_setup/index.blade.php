@@ -60,7 +60,7 @@
     @endslot
 
     @slot('button_two_route')
-    {{route('district_setup.trash')}}
+    {{route('district_setup.trash_list')}}
     @endslot
 
     @slot('button_two_class')
@@ -93,8 +93,8 @@
                         <tr>
                             <th>#</th>
                             <th>@lang('common.sl')</th>
-                            <th>@lang('district_setup.country_name')</th>
-                            <th>@lang('district_setup.division_name')</th>
+                            <th>@lang('district_setup.country')</th>
+                            <th>@lang('district_setup.division')</th>
                             <th>@lang('district_setup.district_name')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
