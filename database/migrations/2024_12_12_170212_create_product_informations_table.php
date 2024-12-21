@@ -34,6 +34,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('product_type')->comment(' 1 = Simple Product , 2 = Variable Product')->nullable();
             $table->integer('status')->comment(' 0 - Inactive & 1 - Active');
+            $table->bigInteger('vendor_id')->nullable()->unsigned();
+            $table->foreign('vendor_id')->references('id')->on('vendors');
+            $table->bigInteger('country_id')->nullable()->unsigned();
+            $table->foreign('country_id')->references('id')->on('countries');
             $table->bigInteger('create_by')->unsigned();
             $table->foreign('create_by')->references('id')->on('users');
             $table->date('deleted_at')->nullable();

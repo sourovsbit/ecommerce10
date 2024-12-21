@@ -79,6 +79,18 @@ class MenuLabelsTableSeeder extends Seeder
                 'created_at' => '2024-12-19 17:20:07',
                 'updated_at' => '2024-12-19 17:20:07',
             ),
+            5 => 
+            array (
+                'id' => 12,
+                'label_name' => 'POS',
+                'label_name_bn' => 'পজ',
+                'status' => 0,
+                'type' => 'cms',
+                'deleted_at' => NULL,
+                'create_by' => 3,
+                'created_at' => '2024-12-21 14:56:07',
+                'updated_at' => '2024-12-21 16:26:19',
+            ),
         ));
         
         
