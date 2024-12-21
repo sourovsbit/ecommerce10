@@ -1,28 +1,28 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\UnitInterface;
+use App\Interfaces\ShippingClassInterface;
 use App\Traits\ViewDirective;
-use App\Models\Unit;
+use App\Models\ShippingClass;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
 
-class UnitRepository implements UnitInterface{
+class ShippingClassRepository implements ShippingClassInterface{
 
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.unit';
+        $this->path = 'admin.shipping_class';
     }
 
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = Unit::all();
+            $data = ShippingClass::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -31,15 +31,15 @@ class UnitRepository implements UnitInterface{
             ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->unit_name ?: $row->unit_name_bn;
+                    return $row->shipping_name ?: $row->shipping_name_bn;
                 }
                 else
                 {
-                    return $row->unit_name_bn ?: $row->unit_name;
+                    return $row->shipping_name_bn ?: $row->shipping_name;
                 }
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Unit status'))
+                if(Auth::user()->can('Shipping Class status'))
                 {
                     if($row->status == 1)
                     {
@@ -50,7 +50,7 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
+                    <input onchange="return changeShippingClassStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -66,27 +66,27 @@ class UnitRepository implements UnitInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Unit show'))
+                if(Auth::user()->can('Shipping Class show'))
                 {
-                    $show_btn = '<a class="dropdown-item" href="'.route('unit.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('shipping_class.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('Unit edit'))
+                if(Auth::user()->can('Shipping Class edit'))
                 {
-                    $edit_btn = '<a class="dropdown-item" href="'.route('unit.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('shipping_class.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('Unit destroy'))
+                if(Auth::user()->can('Shipping Class destroy'))
                 {
-                    $delete_btn = '<form id="" method="post" action="'.route('unit.destroy',$row->id).'">
+                    $delete_btn = '<form id="" method="post" action="'.route('shipping_class.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
                     <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
@@ -106,7 +106,7 @@ class UnitRepository implements UnitInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','unit_name','serial','status'])
+            ->rawColumns(['action','shipping_name','serial','status'])
             ->make(true);
 
         }
@@ -123,23 +123,23 @@ class UnitRepository implements UnitInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'unit_name' => $request->unit_name,
-                'unit_name_bn' => $request->unit_name_bn,
+                'shipping_name' => $request->shipping_name,
+                'shipping_name_bn' => $request->shipping_name_bn,
                 'status' => 1,
             );
 
-            Unit::create($data);
+            ShippingClass::create($data);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Unit which name is '.$request->unit_name,
-                'description_bn' => 'একটি ইউনিট তৈরি করেছেন যার নাম '.$request->unit_name,
+                'description' => 'Create Shipping Class which name is '.$request->shipping_name,
+                'description_bn' => 'একটি শিপিং ক্লাস তৈরি করেছেন যার নাম '.$request->shipping_name,
             ]);
 
-            toastr()->success(__('unit.create_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('shipping_class.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -148,8 +148,8 @@ class UnitRepository implements UnitInterface{
 
     public function show($id)
     {
-        $data['data'] = Unit::find($id);
-        $data['histories'] = History::where('tag','unit')->where('fk_id',$id)->get();
+        $data['data'] = ShippingClass::find($id);
+        $data['histories'] = History::where('tag','shipping_class')->where('fk_id',$id)->get();
         return ViewDirective::view($this->path,'show',$data);
     }
 
@@ -159,7 +159,7 @@ class UnitRepository implements UnitInterface{
 
     public function edit($id)
     {
-        $data['data'] = Unit::find($id);
+        $data['data'] = ShippingClass::find($id);
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -167,31 +167,31 @@ class UnitRepository implements UnitInterface{
     {
         try {
             $data = array(
-                'unit_name' => $request->unit_name,
-                'unit_name_bn' => $request->unit_name_bn,
+                'shipping_name' => $request->shipping_name,
+                'shipping_name_bn' => $request->shipping_name_bn,
                 'sl' => $request->sl,
             );
 
-            Unit::find($id)->update($data);
-            $data = Unit::find($id);
+            ShippingClass::find($id)->update($data);
+            $data = ShippingClass::find($id);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট আপডেট করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Update Shipping Class which name is '.$data->shipping_name,
+                'description_bn' => 'একটি শিপিং ক্লাস আপডেট করেছেন যার নাম '.$data->shipping_name,
             ]);
             History::create([
-                'tag' => 'unit',
+                'tag' => 'shipping_class',
                 'fk_id' => $id,
                 'type' => 'update',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('unit.update_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('shipping_class.update_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -201,26 +201,26 @@ class UnitRepository implements UnitInterface{
     public function destroy($id)
     {
         try {
-            Unit::find($id)->delete();
-            $data = Unit::withTrashed()->where('id',$id)->first();
+            ShippingClass::find($id)->delete();
+            $data = ShippingClass::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট ডিলেট করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Destroy Shipping Class which name is '.$data->shipping_name,
+                'description_bn' => 'একটি শিপিং ক্লাস ডিলেট করেছেন যার নাম '.$data->shipping_name,
             ]);
 
             History::create([
-                'tag' => 'unit',
+                'tag' => 'shipping_class',
                 'fk_id' => $id,
                 'type' => 'destroy',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('shipping_class.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -231,7 +231,7 @@ class UnitRepository implements UnitInterface{
     {
         if($datatable == 1)
         {
-            $data = Unit::onlyTrashed()->get();
+            $data = ShippingClass::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -240,15 +240,15 @@ class UnitRepository implements UnitInterface{
             ->addColumn('name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->unit_name ?: $row->unit_name_bn;
+                    return $row->shipping_name ?: $row->shipping_name_bn;
                 }
                 else
                 {
-                    return $row->unit_name_bn ?: $row->unit_name;
+                    return $row->shipping_name_bn ?: $row->shipping_name;
                 }
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Unit status'))
+                if(Auth::user()->can('Shipping Class status'))
                 {
                     if($row->status == 1)
                     {
@@ -259,7 +259,7 @@ class UnitRepository implements UnitInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeUnitStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
+                    <input onchange="return changeShippingClassStatus('.$row->id.')" id="cbx-'.$row->id.'" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -275,18 +275,18 @@ class UnitRepository implements UnitInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Unit restore'))
+                if(Auth::user()->can('Shipping Class restore'))
                 {
-                    $restore_btn = '<a class="dropdown-item" href="'.route('unit.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('shipping_class.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('Unit delete'))
+                if(Auth::user()->can('Shipping Class delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('unit.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('shipping_class.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
@@ -301,7 +301,7 @@ class UnitRepository implements UnitInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','unit_name','serial','status'])
+            ->rawColumns(['action','shipping_name','serial','status'])
             ->make(true);
 
         }
@@ -311,11 +311,11 @@ class UnitRepository implements UnitInterface{
     public function restore($id)
     {
         try {
-            Unit::withTrashed()->where('id',$id)->restore();
-            $data = Unit::withTrashed()->where('id',$id)->first();
+            ShippingClass::withTrashed()->where('id',$id)->restore();
+            $data = ShippingClass::withTrashed()->where('id',$id)->first();
             //history
             History::create([
-                'tag' => 'unit',
+                'tag' => 'shipping_class',
                 'fk_id' => $id,
                 'type' => 'restore',
                 'date' => date('Y-m-d'),
@@ -328,10 +328,10 @@ class UnitRepository implements UnitInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট পুনুরুদ্ধার করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Restore Shipping Class which name is '.$data->shipping_name,
+                'description_bn' => 'একটি শিপিং ক্লাস পুনুরুদ্ধার করেছেন যার নাম '.$data->shipping_name,
             ]);
-            toastr()->success(__('unit.restore_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('shipping_class.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -341,20 +341,20 @@ class UnitRepository implements UnitInterface{
     public function delete($id)
     {
         try{
-            $data = Unit::withTrashed()->where('id',$id)->first();
+            $data = ShippingClass::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete Unit which name is '.$data->unit_name,
-                'description_bn' => 'একটি ইউনিট সম্পূর্ণ করেছেন যার নাম '.$data->unit_name,
+                'description' => 'Permenantly Delete Shipping Class which name is '.$data->shipping_name,
+                'description_bn' => 'একটি শিপিং ক্লাস সম্পূর্ণ করেছেন যার নাম '.$data->shipping_name,
             ]);
 
-            History::where('tag','unit')->where('fk_id',$id)->delete();
+            History::where('tag','shipping_class')->where('fk_id',$id)->delete();
 
             Unit::withTrashed()->where('id',$id)->forceDelete();
-            toastr()->success(__('unit.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('shipping_class.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         }
         catch(\Throwable $th){
@@ -368,7 +368,7 @@ class UnitRepository implements UnitInterface{
 
     public function status($id)
     {
-        $check = Unit::withTrashed()->where('id',$id)->first();
+        $check = ShippingClass::withTrashed()->where('id',$id)->first();
 
         if($check->status == 0)
         {
@@ -388,11 +388,11 @@ class UnitRepository implements UnitInterface{
             'time' => date('H:i:s'),
             'user_id' => Auth::user()->id,
             'slug' => 'status',
-            'description' => 'Change Status of Unit which name is '.$check->unit_name,
-            'description_bn' => 'একটি ইউনিট এর স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$check->unit_name,
+            'description' => 'Change Status of Shipping Class which name is '.$check->shipping_name,
+            'description_bn' => 'একটি শিপিং ক্লাস এর স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$check->shipping_name,
         ]);
         History::create([
-            'tag' => 'unit',
+            'tag' => 'shipping_class',
             'fk_id' => $id,
             'type' => 'status',
             'date' => date('Y-m-d'),
@@ -403,3 +403,4 @@ class UnitRepository implements UnitInterface{
         return 1;
     }
 }
+        

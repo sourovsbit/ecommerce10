@@ -89,7 +89,7 @@
                                 @endif
                             </select>
                         </div>
-                        @error('unit_id')
+                        @error('country_id')
                             <div class="alert alert-danger">
                                 {{ $message }}
                             </div>

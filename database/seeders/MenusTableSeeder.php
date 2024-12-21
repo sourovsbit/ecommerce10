@@ -479,6 +479,26 @@ class MenusTableSeeder extends Seeder
                 'created_at' => '2024-12-19 18:05:35',
                 'updated_at' => '2024-12-19 18:05:35',
             ),
+            23 => 
+            array (
+                'id' => 43,
+                'position' => 'cms',
+                'label_id' => 11,
+                'parent_id' => 37,
+                'name' => 'Shipping Class',
+                'name_bn' => 'শিপিং ক্লাস',
+                'system_name' => 'Shipping Class',
+                'route' => 'shipping_class',
+                'slug' => 'index',
+                'icon' => NULL,
+                'status' => 0,
+                'type' => 2,
+                'order_by' => 2,
+                'create_by' => 3,
+                'deleted_at' => NULL,
+                'created_at' => '2024-12-21 16:51:41',
+                'updated_at' => '2024-12-21 16:51:41',
+            ),
         ));
         
         

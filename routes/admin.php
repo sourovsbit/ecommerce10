@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\ProductInformationController;
 use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\DivisionSetupController;
 use App\Http\Controllers\Admin\DistrictSetupController;
+use App\Http\Controllers\Admin\ShippingClassController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -37,6 +38,7 @@ Route::resources([
     'vendor' => VendorController::class,
     'division_setup' => DivisionSetupController::class,
     'district_setup' => DistrictSetupController::class,
+    'shipping_class' => ShippingClassController::class,
 ]);
 
 // menu_label_extra_routes
@@ -140,13 +142,20 @@ Route::get('vendor_delete/{id}',[VendorController::class,'delete'])->name('vendo
 
 //product division setup extra routes
 Route::post('change_division_setup_status',[DivisionSetupController::class,'status'])->name('division_setup.status');
-Route::get('division_setup_trash',[DivisionSetupController::class,'trash'])->name('division_setup.trash');
+Route::get('division_setup_trash',[DivisionSetupController::class,'trash'])->name('division_setup.trash_list');
 Route::get('division_setup_restore/{id}',[DivisionSetupController::class,'restore'])->name('division_setup.restore');
 Route::get('division_setup_delete/{id}',[DivisionSetupController::class,'delete'])->name('division_setup.delete');
 
 
 //product district setup extra routes
 Route::post('change_district_setup_status',[DistrictSetupController::class,'status'])->name('district_setup.status');
-Route::get('district_setup_trash',[DistrictSetupController::class,'trash'])->name('district_setup.trash');
+Route::get('district_setup_trash',[DistrictSetupController::class,'trash'])->name('district_setup.trash_list');
 Route::get('district_setup_restore/{id}',[DistrictSetupController::class,'restore'])->name('district_setup.restore');
 Route::get('district_setup_delete/{id}',[DistrictSetupController::class,'delete'])->name('district_setup.delete');
+
+
+//product shipping class setup extra routes
+Route::post('change_shipping_class_status',[ShippingClassController::class,'status'])->name('shipping_class.status');
+Route::get('shipping_class_trash',[ShippingClassController::class,'trash'])->name('shipping_class.trash_list');
+Route::get('shipping_class_restore/{id}',[ShippingClassController::class,'restore'])->name('shipping_class.restore');
+Route::get('shipping_class_delete/{id}',[ShippingClassController::class,'delete'])->name('shipping_class.delete');

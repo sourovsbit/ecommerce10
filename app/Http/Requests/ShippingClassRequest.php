@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class DivisionSetupRequest extends FormRequest
+class ShippingClassRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,18 +24,16 @@ class DivisionSetupRequest extends FormRequest
     {
         return [
             'sl' =>'required',
-            'country_id' => 'required',
-            'division_name' => 'required|unique:division_setups,division_name,'.$request->division_setup,
+            'shipping_name' => 'required|unique:shipping_classes,shipping_name,'.$request->shipping_class,
         ];
     }
-
-    public function messages() : array
+    public function messages()
     {
         return [
             'sl.required' => __('common.serial_number_required'),
             'sl.unique' => __('common.serial_number_unique'),
-            'country_id.required' => __('division_setup.select_country'),
-            'division_name.required' => __('division_setup.division_name_required'),
+            'shipping_name.required' => __('shipping_class.shipping_name_required'),
+            'shipping_name.unique' => __('shipping_class.shipping_name_unique'),
         ];
     }
 }

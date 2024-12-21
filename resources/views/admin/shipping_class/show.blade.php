@@ -11,23 +11,24 @@
     {{route('admin.view')}}
     @endslot
 
+
     <!-- link 2 -->
     @slot('link_two')
-    @lang('district_setup.district_setup')
+    @lang('shipping_class.shipping_class')
     @endslot
     @slot('link_two_url')
-    {{route('district_setup.index')}}
+    {{route('shipping_class.index')}}
     @endslot
 
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('district_setup.details')
+    @lang('shipping_class.details')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('district_setup.details')
+    @lang('shipping_class.details')
     @endslot
 
 
@@ -39,9 +40,9 @@
         <div class="card-body">
             <h4>
                 @if(config('app.locale') == 'en')
-                {{ $data['data']->district_name ?: $data['data']->district_name_bn }}
+                {{ $data['data']->shipping_name ?: $data['data']->shipping_name_bn }}
                 @else
-                {{ $data['data']->district_name_bn ?: $data['data']->district_name }}
+                {{ $data['data']->shipping_name_bn ?: $data['data']->shipping_name }}
                 @endif
             </h4>
             @php

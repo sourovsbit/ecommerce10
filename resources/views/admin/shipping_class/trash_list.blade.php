@@ -14,32 +14,32 @@
 
     <!-- link 2 -->
     @slot('link_two')
-    @lang('district_setup.district_setup')
+    @lang('shipping_class.shipping_class')
     @endslot
     @slot('link_two_url')
-    {{route('district_setup.index')}}
+    {{route('shipping_class.index')}}
     @endslot
 
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('district_setup.trash_title')
+    @lang('shipping_class.trash_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('district_setup.trash_title')
+    @lang('shipping_class.trash_title')
     @endslot
 
 
-    @if(Auth::user()->can('District Setup create'))
+    @if(Auth::user()->can('Shipping Class create'))
     <!-- button one -->
     @slot('button_one_name')
     @lang('common.create')
     @endslot
 
     @slot('button_one_route')
-    {{route('district_setup.create')}}
+    {{route('shipping_class.create')}}
     @endslot
 
     @slot('button_one_class')
@@ -53,14 +53,14 @@
     @endif
 
 
-    @if(Auth::user()->can('District Setup view'))
+    @if(Auth::user()->can('Shipping Class view'))
     <!-- button two -->
     @slot('button_two_name')
     @lang('common.view')
     @endslot
 
     @slot('button_two_route')
-    {{route('district_setup.index')}}
+    {{route('shipping_class.index')}}
     @endslot
 
     @slot('button_two_class')
@@ -93,9 +93,7 @@
                         <tr>
                             <th>#</th>
                             <th>@lang('common.sl')</th>
-                            <th>@lang('district_setup.country')</th>
-                            <th>@lang('district_setup.division')</th>
-                            <th>@lang('district_setup.district_name')</th>
+                            <th>@lang('shipping_class.shipping_name')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
                         </tr>
@@ -116,14 +114,12 @@ document.addEventListener("DOMContentLoaded", function() {
     $(".myTable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('district_setup.trash_list') }}",
+        ajax: "{{ route('shipping_class.trash_list') }}",
         columns: [
             {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
-            {data: 'country_name', name: 'country_name'},
-            {data: 'division_name', name: 'division_name'},
-            {data: 'district_name', name: 'district_name'},
-            {data: 'status', name: 'status'},
+            {data : 'shipping_name', name: 'shipping_name'},
+            {data : 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -131,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <script>
-    function changeDistrictSetupStatus(id)
+    function changeShippingClassStatus(id)
     {
         // alert(id);
         $.ajax({
@@ -139,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN' : '{{ csrf_token() }}'
             },
 
-            url : '{{ route('district_setup.status') }}',
+            url : '{{ route('shipping_class.status') }}',
 
             type : 'POST',
 
@@ -154,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 @endpush
-
 
 
 @endsection

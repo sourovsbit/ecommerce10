@@ -4,23 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\DistrictSetupRequest;
-use App\Interfaces\DistrictSetupInterface;
+use App\Interfaces\ShippingClassInterface;
+use App\Http\Requests\ShippingClassRequest;
 
-class DistrictSetupController extends Controller
+class ShippingClassController extends Controller
 {
     protected $interface;
-    public function __construct(DistrictSetupInterface $interface)
+    public function __construct(ShippingClassInterface $interface)
     {
         $this->interface = $interface;
-        $this->middleware(['permission:District Setup view'])->only(['index']);
-        $this->middleware(['permission:District Setup create'])->only(['create']);
-        $this->middleware(['permission:District Setup edit'])->only(['edit']);
-        $this->middleware(['permission:District Setup destroy'])->only(['destroy']);
-        $this->middleware(['permission:District Setup status'])->only(['status']);
-        $this->middleware(['permission:District Setup restore'])->only(['restore']);
-        $this->middleware(['permission:District Setup delete'])->only(['delete']);
-        $this->middleware(['permission:District Setup show'])->only(['show']);
+        $this->middleware(['permission:Shipping Class view'])->only(['index']);
+        $this->middleware(['permission:Shipping Class create'])->only(['create']);
+        $this->middleware(['permission:Shipping Class edit'])->only(['edit']);
+        $this->middleware(['permission:Shipping Class destroy'])->only(['destroy']);
+        $this->middleware(['permission:Shipping Class status'])->only(['status']);
+        $this->middleware(['permission:Shipping Class restore'])->only(['restore']);
+        $this->middleware(['permission:Shipping Class delete'])->only(['delete']);
+        $this->middleware(['permission:Shipping Class show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
@@ -46,7 +46,7 @@ class DistrictSetupController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DistrictSetupRequest $request)
+    public function store(ShippingClassRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -70,7 +70,7 @@ class DistrictSetupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(DistrictSetupRequest $request, string $id)
+    public function update(ShippingClassRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }
@@ -106,10 +106,5 @@ class DistrictSetupController extends Controller
     public function delete($id)
     {
         return $this->interface->delete($id);
-    }
-
-    public function GetDivision($id)
-    {
-        return $this->interface->GetDivision($id);
     }
 }

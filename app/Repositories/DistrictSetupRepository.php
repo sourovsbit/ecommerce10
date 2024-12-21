@@ -3,6 +3,8 @@ namespace App\Repositories;
 use App\Interfaces\DistrictSetupInterface;
 use App\Traits\ViewDirective;
 use App\Models\DistrictSetup;
+use App\Models\DivisionSetup;
+use App\Models\Country;
 use Auth;
 use App\Models\History;
 use App\Models\ActivityLog;
@@ -41,11 +43,11 @@ class DistrictSetupRepository implements DistrictSetupInterface{
             ->addColumn('division_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->division_name ?: $row->division_name_bn;
+                    return $row->division->division_name ?: $row->division->division_name_bn;
                 }
                 else
                 {
-                    return $row->division_name_bn ?: $row->division_name;
+                    return $row->division->division_name_bn ?: $row->division->division_name;
                 }
             })
             ->addColumn('district_name',function($row){
@@ -135,7 +137,9 @@ class DistrictSetupRepository implements DistrictSetupInterface{
 
     public function create()
     {
-        return ViewDirective::view($this->path,'create');
+        $data['country'] = Country::where('status',1)->get();
+        $data['division'] = DivisionSetup::where('status',1)->get();
+        return ViewDirective::view($this->path,'create',$data);
     }
 
     public function store($request)
@@ -143,10 +147,8 @@ class DistrictSetupRepository implements DistrictSetupInterface{
         try {
             $data = array(
                 'sl' => $request->sl,
-                'country_name' => $request->country_name,
-                'country_name_bn' => $request->country_name_bn,
-                'division_name' => $request->division_name,
-                'division_name_bn' => $request->division_name_bn,
+                'country_id' => $request->country_id,
+                'division_id' => $request->division_id,
                 'district_name' => $request->district_name,
                 'district_name_bn' => $request->district_name_bn,
                 'status' => 1,
@@ -184,6 +186,8 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     public function edit($id)
     {
         $data['data'] = DistrictSetup::find($id);
+        $data['country'] = Country::where('status',1)->get();
+        $data['division'] = DivisionSetup::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -191,11 +195,11 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     {
         try {
             $data = array(
-                'country_name' => $request->country_name,
-                'country_name_bn' => $request->country_name_bn,
-                'division_name' => $request->division_name,
-                'division_name_bn' => $request->division_name_bn,
                 'sl' => $request->sl,
+                'country_id' => $request->country_id,
+                'division_id' => $request->division_id,
+                'district_name' => $request->district_name,
+                'district_name_bn' => $request->district_name_bn,
             );
 
             DistrictSetup::find($id)->update($data);
@@ -276,11 +280,11 @@ class DistrictSetupRepository implements DistrictSetupInterface{
             ->addColumn('division_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->division_name ?: $row->division_name_bn;
+                    return $row->division->division_name ?: $row->division->division_name_bn;
                 }
                 else
                 {
-                    return $row->division_name_bn ?: $row->division_name;
+                    return $row->division->division_name_bn ?: $row->division->division_name;
                 }
             })
             ->addColumn('district_name',function($row){
@@ -448,6 +452,25 @@ class DistrictSetupRepository implements DistrictSetupInterface{
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
         }
+    }
+
+    public function GetDivision($division_id)
+    {
+        $this->lang = config('app.locale');
+
+        $data = DivisionSetup::where('country_id',$division_id)->get();
+
+
+        $output = '<option value="">'.__('common.select_one').'</option>';
+
+
+        foreach($data as $v)
+        {
+
+            $output .= '<option value="'.$v->id.'">'.$v->division_name.'</option>';
+
+        }
+        return $output;
     }
 }
         
