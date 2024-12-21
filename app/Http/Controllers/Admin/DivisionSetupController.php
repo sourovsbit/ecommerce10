@@ -4,35 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Interfaces\ProductInformationInterface;
-use App\Http\Requests\ProductInformationRequest;
+use App\Http\Requests\DivisionSetupRequest;
+use App\Interfaces\DivisionSetupInterface;
 
-class ProductInformationController extends Controller
+class DivisionSetupController extends Controller
 {
     protected $interface;
-    public function __construct(ProductInformationInterface $interface)
+    public function __construct(DivisionSetupInterface $interface)
     {
         $this->interface = $interface;
-        $this->middleware(['permission:Product Information view'])->only(['index']);
-        $this->middleware(['permission:Product Information create'])->only(['create']);
-        $this->middleware(['permission:Product Information edit'])->only(['edit']);
-        $this->middleware(['permission:Product Information destroy'])->only(['destroy']);
-        $this->middleware(['permission:Product Information status'])->only(['status']);
-        $this->middleware(['permission:Product Information restore'])->only(['restore']);
-        $this->middleware(['permission:Product Information delete'])->only(['delete']);
-        $this->middleware(['permission:Product Information show'])->only(['show']);
+        $this->middleware(['permission:Division Setup view'])->only(['index']);
+        $this->middleware(['permission:Division Setup create'])->only(['create']);
+        $this->middleware(['permission:Division Setup edit'])->only(['edit']);
+        $this->middleware(['permission:Division Setup destroy'])->only(['destroy']);
+        $this->middleware(['permission:Division Setup status'])->only(['status']);
+        $this->middleware(['permission:Division Setup restore'])->only(['restore']);
+        $this->middleware(['permission:Division Setup delete'])->only(['delete']);
+        $this->middleware(['permission:Division Setup show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $datatable = '';
+        $datatable ='';
         if($request->ajax())
         {
             $datatable = true;
         }
-
         return $this->interface->index($datatable);
     }
 
@@ -47,7 +46,7 @@ class ProductInformationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductInformationRequest $request)
+    public function store(DivisionSetupRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -71,7 +70,7 @@ class ProductInformationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductInformationRequest $request, string $id)
+    public function update(DivisionSetupRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }
@@ -91,11 +90,12 @@ class ProductInformationController extends Controller
 
     public function trash(Request $request)
     {
-        $datatable = false;
+        $datatable ='';
         if($request->ajax())
         {
             $datatable = true;
         }
+
         return $this->interface->trash_list($datatable);
     }
 
@@ -106,10 +106,5 @@ class ProductInformationController extends Controller
     public function delete($id)
     {
         return $this->interface->delete($id);
-    }
-    
-    public function GetSubCategorie($id)
-    {
-        return $this->interface->GetSubCategorie($id);
     }
 }

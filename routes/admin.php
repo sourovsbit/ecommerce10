@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\SubUnitController;
 use App\Http\Controllers\Admin\ProductInformationController;
 use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\DivisionSetupController;
+use App\Http\Controllers\Admin\DistrictSetupController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -33,6 +35,8 @@ Route::resources([
     'sub_unit' => SubUnitController::class,
     'product_information' => ProductInformationController::class,
     'vendor' => VendorController::class,
+    'division_setup' => DivisionSetupController::class,
+    'district_setup' => DistrictSetupController::class,
 ]);
 
 // menu_label_extra_routes
@@ -120,15 +124,29 @@ Route::get('sub_unit_restore/{id}',[SubUnitController::class,'restore'])->name('
 Route::get('sub_unit_delete/{id}',[SubUnitController::class,'delete'])->name('sub_unit.delete');
 
 
-//product sub unit extra routes
+//product product info extra routes
 Route::post('change_product_information_status',[ProductInformationController::class,'status'])->name('product_information.status');
-Route::get('product_information_trash',[ProductInformationController::class,'trash'])->name('product_information.trash');
+Route::get('product_information_trash',[ProductInformationController::class,'trash'])->name('product_information.trash_list');
 Route::get('product_information_restore/{id}',[ProductInformationController::class,'restore'])->name('product_information.restore');
 Route::get('product_information_delete/{id}',[ProductInformationController::class,'delete'])->name('product_information.delete');
 
 
-//product sub unit extra routes
+//product vendor extra routes
 Route::post('change_vendor_status',[VendorController::class,'status'])->name('vendor.status');
-Route::get('vendor_trash',[VendorController::class,'trash'])->name('vendor.trash');
+Route::get('vendor_trash',[VendorController::class,'trash'])->name('vendor.trash_list');
 Route::get('vendor_restore/{id}',[VendorController::class,'restore'])->name('vendor.restore');
 Route::get('vendor_delete/{id}',[VendorController::class,'delete'])->name('vendor.delete');
+
+
+//product division setup extra routes
+Route::post('change_division_setup_status',[DivisionSetupController::class,'status'])->name('division_setup.status');
+Route::get('division_setup_trash',[DivisionSetupController::class,'trash'])->name('division_setup.trash');
+Route::get('division_setup_restore/{id}',[DivisionSetupController::class,'restore'])->name('division_setup.restore');
+Route::get('division_setup_delete/{id}',[DivisionSetupController::class,'delete'])->name('division_setup.delete');
+
+
+//product district setup extra routes
+Route::post('change_district_setup_status',[DistrictSetupController::class,'status'])->name('district_setup.status');
+Route::get('district_setup_trash',[DistrictSetupController::class,'trash'])->name('district_setup.trash');
+Route::get('district_setup_restore/{id}',[DistrictSetupController::class,'restore'])->name('district_setup.restore');
+Route::get('district_setup_delete/{id}',[DistrictSetupController::class,'delete'])->name('district_setup.delete');

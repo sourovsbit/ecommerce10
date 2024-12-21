@@ -14,32 +14,32 @@
 
     <!-- link 2 -->
     @slot('link_two')
-    @lang('product_information.product_information')
+    @lang('division_setup.division_setup')
     @endslot
     @slot('link_two_url')
-    {{route('product_information.index')}}
+    {{route('division_setup.index')}}
     @endslot
 
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('product_information.trash_title')
+    @lang('division_setup.index_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('product_information.trash_title')
+    @lang('division_setup.index_title')
     @endslot
 
 
-    @if(Auth::user()->can('Product Information create'))
+    @if(Auth::user()->can('Division Setup create'))
     <!-- button one -->
     @slot('button_one_name')
     @lang('common.create')
     @endslot
 
     @slot('button_one_route')
-    {{route('product_information.create')}}
+    {{route('division_setup.create')}}
     @endslot
 
     @slot('button_one_class')
@@ -53,18 +53,18 @@
     @endif
 
 
-    @if(Auth::user()->can('Product Information view'))
+    @if(Auth::user()->can('Division Setup trash'))
     <!-- button two -->
     @slot('button_two_name')
-    @lang('common.view')
+    @lang('common.trash_list')
     @endslot
 
     @slot('button_two_route')
-    {{route('product_information.index')}}
+    {{route('division_setup.trash')}}
     @endslot
 
     @slot('button_two_class')
-    btn btn-sm btn-info
+    btn btn-sm btn-danger
     @endslot
 
     @slot('button_two_icon')
@@ -92,13 +92,9 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>@lang('product_information.item')</th>
-                            <th>@lang('product_information.category')</th>
-                            <th>@lang('product_information.sub_category')</th>
-                            <th>@lang('product_information.unit')</th>
-                            <th>@lang('product_information.product_name')</th>
-                            <th>@lang('product_information.purchase_price')</th>
-                            <th>@lang('product_information.sale_price')</th>
+                            <th>@lang('common.sl')</th>
+                            <th>@lang('division_setup.country_name')</th>
+                            <th>@lang('division_setup.division_name')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
                         </tr>
@@ -119,25 +115,22 @@ document.addEventListener("DOMContentLoaded", function() {
     $(".myTable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('product_information.trash_list') }}",
+        ajax: "{{ route('division_setup.index') }}",
         columns: [
+            {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
-            {data: 'item_name', name: 'item_name'},
-            {data: 'category_name', name: 'category_name'},
-            {data: 'sub_category_name', name: 'sub_category_name'},
-            {data: 'unit_name', name: 'unit_name'},
-            {data: 'product_name', name: 'product_name'},
-            {data: 'purchase_price', name: 'purchase_price'},
-            {data: 'sale_price', name: 'sale_price'},
-            {data: 'status', name: 'status'},
+            {data : 'country_name', name: 'country_name'},
+            {data : 'division_name', name: 'division_name'},
+            {data : 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 });
 </script>
 
+
 <script>
-    function changeProductInformationStatus(id)
+    function changeDivisionSetupStatus(id)
     {
         // alert(id);
         $.ajax({
@@ -145,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN' : '{{ csrf_token() }}'
             },
 
-            url : '{{ route('product_information.status') }}',
+            url : '{{ route('district_setup.status') }}',
 
             type : 'POST',
 
@@ -158,6 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 </script>
+
 
 @endpush
 
