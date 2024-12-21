@@ -1200,84 +1200,273 @@ class PermissionsTableSeeder extends Seeder
             ),
             131 => 
             array (
-                'id' => 365,
-                'name' => 'Vendor create',
+                'id' => 404,
+                'name' => 'Division Setup create',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             132 => 
             array (
-                'id' => 366,
-                'name' => 'Vendor view',
+                'id' => 405,
+                'name' => 'Division Setup view',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             133 => 
             array (
-                'id' => 367,
-                'name' => 'Vendor edit',
+                'id' => 406,
+                'name' => 'Division Setup edit',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             134 => 
             array (
-                'id' => 368,
-                'name' => 'Vendor destroy',
+                'id' => 407,
+                'name' => 'Division Setup destroy',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             135 => 
             array (
-                'id' => 369,
-                'name' => 'Vendor status',
+                'id' => 408,
+                'name' => 'Division Setup status',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             136 => 
             array (
-                'id' => 370,
-                'name' => 'Vendor restore',
+                'id' => 409,
+                'name' => 'Division Setup restore',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             137 => 
             array (
-                'id' => 371,
-                'name' => 'Vendor delete',
+                'id' => 410,
+                'name' => 'Division Setup delete',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             138 => 
             array (
-                'id' => 372,
-                'name' => 'Vendor print',
+                'id' => 411,
+                'name' => 'Division Setup print',
                 'guard_name' => 'web',
-                'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
             ),
             139 => 
             array (
-                'id' => 373,
+                'id' => 412,
+                'name' => 'Division Setup show',
+                'guard_name' => 'web',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
+            ),
+            140 => 
+            array (
+                'id' => 413,
+                'name' => 'Division Setup trash',
+                'guard_name' => 'web',
+                'parent' => 'Division Setup',
+                'created_at' => '2024-12-19 18:04:09',
+                'updated_at' => '2024-12-19 18:04:09',
+            ),
+            141 => 
+            array (
+                'id' => 414,
+                'name' => 'District Setup create',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            142 => 
+            array (
+                'id' => 415,
+                'name' => 'District Setup view',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            143 => 
+            array (
+                'id' => 416,
+                'name' => 'District Setup edit',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            144 => 
+            array (
+                'id' => 417,
+                'name' => 'District Setup destroy',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            145 => 
+            array (
+                'id' => 418,
+                'name' => 'District Setup status',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            146 => 
+            array (
+                'id' => 419,
+                'name' => 'District Setup restore',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            147 => 
+            array (
+                'id' => 420,
+                'name' => 'District Setup delete',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            148 => 
+            array (
+                'id' => 421,
+                'name' => 'District Setup print',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            149 => 
+            array (
+                'id' => 422,
+                'name' => 'District Setup show',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            150 => 
+            array (
+                'id' => 423,
+                'name' => 'District Setup trash',
+                'guard_name' => 'web',
+                'parent' => 'District Setup',
+                'created_at' => '2024-12-19 18:05:36',
+                'updated_at' => '2024-12-19 18:05:36',
+            ),
+            151 => 
+            array (
+                'id' => 424,
+                'name' => 'Vendor create',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            152 => 
+            array (
+                'id' => 425,
+                'name' => 'Vendor view',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            153 => 
+            array (
+                'id' => 426,
+                'name' => 'Vendor edit',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            154 => 
+            array (
+                'id' => 427,
+                'name' => 'Vendor destroy',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            155 => 
+            array (
+                'id' => 428,
+                'name' => 'Vendor status',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            156 => 
+            array (
+                'id' => 429,
+                'name' => 'Vendor restore',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            157 => 
+            array (
+                'id' => 430,
+                'name' => 'Vendor delete',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            158 => 
+            array (
+                'id' => 431,
+                'name' => 'Vendor print',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            159 => 
+            array (
+                'id' => 432,
                 'name' => 'Vendor show',
                 'guard_name' => 'web',
                 'parent' => 'Vendor',
-                'created_at' => '2024-12-14 18:09:25',
-                'updated_at' => '2024-12-14 18:09:25',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
+            ),
+            160 => 
+            array (
+                'id' => 433,
+                'name' => 'Vendor trash',
+                'guard_name' => 'web',
+                'parent' => 'Vendor',
+                'created_at' => '2024-12-19 18:24:27',
+                'updated_at' => '2024-12-19 18:24:27',
             ),
         ));
         

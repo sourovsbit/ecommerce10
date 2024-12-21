@@ -53,7 +53,7 @@
     @endif
 
 
- {{--   @if(Auth::user()->can('Product Information trash'))
+    @if(Auth::user()->can('Product Information trash'))
     <!-- button two -->
     @slot('button_two_name')
     @lang('common.trash_list')
@@ -72,7 +72,6 @@
     @endslot
 
     @endif
---}}
 
     @endcomponent
 

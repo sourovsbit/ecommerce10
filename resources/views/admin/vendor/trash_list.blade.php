@@ -14,32 +14,32 @@
 
     <!-- link 2 -->
     @slot('link_two')
-    @lang('product_information.product_information')
+    @lang('vendor.vendor')
     @endslot
     @slot('link_two_url')
-    {{route('product_information.index')}}
+    {{route('vendor.index')}}
     @endslot
 
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('product_information.trash_title')
+    @lang('vendor.trash_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('product_information.trash_title')
+    @lang('vendor.trash_title')
     @endslot
 
 
-    @if(Auth::user()->can('Product Information create'))
+    @if(Auth::user()->can('Vendor create'))
     <!-- button one -->
     @slot('button_one_name')
     @lang('common.create')
     @endslot
 
     @slot('button_one_route')
-    {{route('product_information.create')}}
+    {{route('vendor.create')}}
     @endslot
 
     @slot('button_one_class')
@@ -53,14 +53,14 @@
     @endif
 
 
-    @if(Auth::user()->can('Product Information view'))
+    @if(Auth::user()->can('Vendor view'))
     <!-- button two -->
     @slot('button_two_name')
     @lang('common.view')
     @endslot
 
     @slot('button_two_route')
-    {{route('product_information.index')}}
+    {{route('vendor.index')}}
     @endslot
 
     @slot('button_two_class')
@@ -92,13 +92,12 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>@lang('product_information.item')</th>
-                            <th>@lang('product_information.category')</th>
-                            <th>@lang('product_information.sub_category')</th>
-                            <th>@lang('product_information.unit')</th>
-                            <th>@lang('product_information.product_name')</th>
-                            <th>@lang('product_information.purchase_price')</th>
-                            <th>@lang('product_information.sale_price')</th>
+                            <th>@lang('common.sl')</th>
+                            <th>@lang('vendor.country')</th>
+                            <th>@lang('vendor.vendor_name')</th>
+                            <th>@lang('vendor.vendor_phone')</th>
+                            <th>@lang('vendor.company_name')</th>
+                            <th>@lang('vendor.company_phone')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
                         </tr>
@@ -119,16 +118,15 @@ document.addEventListener("DOMContentLoaded", function() {
     $(".myTable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('product_information.trash_list') }}",
+        ajax: "{{ route('vendor.trash_list') }}",
         columns: [
+            {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
-            {data: 'item_name', name: 'item_name'},
-            {data: 'category_name', name: 'category_name'},
-            {data: 'sub_category_name', name: 'sub_category_name'},
-            {data: 'unit_name', name: 'unit_name'},
-            {data: 'product_name', name: 'product_name'},
-            {data: 'purchase_price', name: 'purchase_price'},
-            {data: 'sale_price', name: 'sale_price'},
+            {data: 'country_name', name: 'country_name'},
+            {data: 'vendor_name', name: 'vendor_name'},
+            {data: 'vendor_phone', name: 'vendor_phone'},
+            {data: 'company_name', name: 'company_name'},
+            {data: 'company_phone', name: 'company_phone'},
             {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
@@ -137,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 <script>
-    function changeProductInformationStatus(id)
+    function changeVendorStatus(id)
     {
         // alert(id);
         $.ajax({
@@ -145,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN' : '{{ csrf_token() }}'
             },
 
-            url : '{{ route('product_information.status') }}',
+            url : '{{ route('vendor.status') }}',
 
             type : 'POST',
 

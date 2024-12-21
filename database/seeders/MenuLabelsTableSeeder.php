@@ -67,6 +67,18 @@ class MenuLabelsTableSeeder extends Seeder
                 'created_at' => '2024-12-14 18:05:53',
                 'updated_at' => '2024-12-14 18:05:53',
             ),
+            4 => 
+            array (
+                'id' => 11,
+                'label_name' => 'Delivery Charge Information',
+                'label_name_bn' => 'ডেলিভারি চার্জ ইনফরমেশন',
+                'status' => 1,
+                'type' => 'cms',
+                'deleted_at' => NULL,
+                'create_by' => 3,
+                'created_at' => '2024-12-19 17:20:07',
+                'updated_at' => '2024-12-19 17:20:07',
+            ),
         ));
         
         

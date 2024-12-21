@@ -82,6 +82,13 @@ class ActionsTableSeeder extends Seeder
                 'created_at' => NULL,
                 'updated_at' => NULL,
             ),
+            9 => 
+            array (
+                'id' => 10,
+                'name' => 'trash',
+                'created_at' => NULL,
+                'updated_at' => NULL,
+            ),
         ));
         
         

@@ -178,7 +178,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6 col-12 mt-2">
                         <label>@lang('menu.order_by')</label>
-                        <input type="text" class="form-control form-control-sm @error('order_by') is-invalid @enderror" name="order_by" id="order_by"  value="{{ old('order_by') }}">
+                        <input type="text" class="form-control form-control-sm @error('order_by') is-invalid @enderror" name="order_by" id="order_by"  value="{{ $data['data']->order_by }}">
                         @error('order_by')
                             <div class="alert alert-danger">
                                 {{ $message }}
