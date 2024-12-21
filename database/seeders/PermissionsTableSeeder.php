@@ -1476,6 +1476,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info create',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             162 => 
             array (
@@ -1485,6 +1490,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info view',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             163 => 
             array (
@@ -1494,6 +1504,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info edit',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             164 => 
             array (
@@ -1503,6 +1518,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info destroy',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             165 => 
             array (
@@ -1512,6 +1532,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info status',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             166 => 
             array (
@@ -1521,6 +1546,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info restore',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             167 => 
             array (
@@ -1530,6 +1560,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info delete',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             168 => 
             array (
@@ -1539,6 +1574,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info print',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             169 => 
             array (
@@ -1548,6 +1588,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info show',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
             170 => 
             array (
@@ -1557,6 +1602,11 @@ class PermissionsTableSeeder extends Seeder
                 'parent' => 'Shipping Class',
                 'created_at' => '2024-12-21 16:51:42',
                 'updated_at' => '2024-12-21 16:51:42',
+                'name' => 'Supplier Info trash',
+                'guard_name' => 'web',
+                'parent' => 'Supplier Info',
+                'created_at' => '2024-12-21 14:57:47',
+                'updated_at' => '2024-12-21 14:57:47',
             ),
         ));
         

@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\VendorController;
 use App\Http\Controllers\Admin\DivisionSetupController;
 use App\Http\Controllers\Admin\DistrictSetupController;
 use App\Http\Controllers\Admin\ShippingClassController;
+use App\Http\Controllers\Admin\SupplierController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -39,6 +40,7 @@ Route::resources([
     'division_setup' => DivisionSetupController::class,
     'district_setup' => DistrictSetupController::class,
     'shipping_class' => ShippingClassController::class,
+    'supplier_info' => SupplierController::class,
 ]);
 
 // menu_label_extra_routes

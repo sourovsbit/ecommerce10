@@ -338,6 +338,51 @@
                             </div>
 
                             <div class="col-lg-12 col-md-12 col-12 mt-4">
+                                <label>@lang('product_information.vendor')</label>
+                                <div class="showlabels">
+                                    <select class="form-select form-select-sm select2 @error('vendor_id') is-invalid @enderror" name="vendor_id" id="vendor_id">
+                                        <option value="">@lang('common.select_one')</option>
+                                        @if(isset($data['vendor']))
+                                        @foreach ($data['vendor'] as $v)
+                                        <option @if($data['data']->vendor_id == $v->id) selected @endif value="{{ $v->id }}">
+                                        @if(config('app.locale') == 'en')
+                                            {{ $v->vendor_name ?: $v->vendor_name_bn }}
+                                        @else
+                                            {{ $v->vendor_name_bn ?: $v->vendor_name }}
+                                        @endif
+                                        </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('vendor_id')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-12 mt-4">
+                                <label>@lang('product_information.country')</label><span class="text-danger">*</span>
+                                <div class="showlabels">
+                                    <select class="form-select form-select-sm select2 @error('country_id') is-invalid @enderror" name="country_id" id="country_id">
+                                        <option value="">@lang('common.select_one')</option>
+                                        @if(isset($data['country']))
+                                        @foreach ($data['country'] as $v)
+                                        <option @if($data['data']->country_id == $v->id) selected @endif value="{{ $v->id }}">
+                                        {{ $v->country_name }}
+                                        </option>
+                                        @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                @error('country_id')
+                                    <div class="alert alert-danger">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-12 mt-4">
                                 <label>@lang('common.image')</label>
                                 <input type="file" class="form-control form-control-sm @error('image') is-invalid @enderror" name="image[]" id="image" multiple accept=".jpg,.png,.jpeg,.webp">
                                 @error('image')

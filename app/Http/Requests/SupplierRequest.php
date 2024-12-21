@@ -23,9 +23,10 @@ class SupplierRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'area_id' => 'required',
+            'sl' => 'required',
             'supplier_name' => 'required',
-            'phone' => 'required|unique:suppliers,phone,'.$request->hone,
+            'phone_number' => 'required|unique:suppliers,phone_number,'.$request->supplier_info,
+            'company_name' => 'required',
         ];
 
     }
@@ -33,10 +34,10 @@ class SupplierRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'area_id.required' => __('supplier.area_id_required'),
+            'sl.required' => __('common.serial_number_required'),
             'supplier_name.required' => __('supplier.supplier_name_required'),
-            'phone.required' => __('supplier.phone_required'),
+            'phone_number.required' => __('supplier.phone_number_required'),
+            'company_name.required' => __('supplier.company_name_required'),
         ];
-
     }
 }

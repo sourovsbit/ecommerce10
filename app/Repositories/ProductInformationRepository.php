@@ -18,6 +18,8 @@ use Auth;
 use App\Models\History;
 use Yajra\DataTables\Facades\DataTables;
 use App\Traits\Idgenerator;
+use App\Models\Vendor;
+use App\Models\Country;
 
 class ProductInformationRepository implements ProductInformationInterface{
 
@@ -189,6 +191,8 @@ class ProductInformationRepository implements ProductInformationInterface{
         $data['size'] = ProductSize::where('status',1)->get();
         $data['color'] = ProductColor::where('status',1)->get();
         $data['brand'] = ProductBrands::where('status',1)->get();
+        $data['vendor'] = Vendor::all();
+        $data['country'] = Country::all();
         return ViewDirective::view($this->path,'create',$data);
     }
 
@@ -213,6 +217,8 @@ class ProductInformationRepository implements ProductInformationInterface{
                 'description' => $request->description,
                 'product_type' => $request->product_type,
                 'status' => 1,
+                'vendor_id' => $request->vendor_id,
+                'country_id' => $request->country_id,
             );
 
 
@@ -296,6 +302,8 @@ class ProductInformationRepository implements ProductInformationInterface{
         $data['size'] = ProductSize::where('status',1)->get();
         $data['color'] = ProductColor::where('status',1)->get();
         $data['brand'] = ProductBrands::where('status',1)->get();
+        $data['vendor'] = Vendor::all();
+        $data['country'] = Country::all();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -317,6 +325,8 @@ class ProductInformationRepository implements ProductInformationInterface{
                 'short_description' => $request->short_description,
                 'description' => $request->description,
                 'product_type' => $request->product_type,
+                'vendor_id' => $request->vendor_id,
+                'country_id' => $request->country_id,
                 'status' => 1,
             );
 

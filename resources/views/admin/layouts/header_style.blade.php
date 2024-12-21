@@ -40,6 +40,8 @@
 </style>
 @endif
 
+@stack('header_script')
+
 <style>
     span.select2-selection.select2-selection--single {
     border-radius: 0px;
