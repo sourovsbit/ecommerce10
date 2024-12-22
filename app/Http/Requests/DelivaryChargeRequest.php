@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class ThanaRequest extends FormRequest
+class DelivaryChargeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,24 +23,21 @@ class ThanaRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'sl' => 'required',
+            'sl' =>'required',
             'country_id' => 'required',
             'division_id' => 'required',
-            'district_id' => 'required',
-            'thana_name' => 'required|unique:thanas,thana_name,'.$request->thana_setup,
+            'charge_amount' => 'required|unique:delivary_charges,charge_amount,'.$request->delivary_charge,
         ];
     }
 
-    public function messages(): array
+    public function messages() : array
     {
         return [
             'sl.required' => __('common.serial_number_required'),
             'sl.unique' => __('common.serial_number_unique'),
-            'country_id.required' => __('thana.country_id_required'),
-            'division_id.required' => __('thana.division_id_required'),
-            'district_id.required' => __('thana.district_id_required'),
-            'thana_name.required' => __('thana.thana_name_required'),
-            'thana_name.unique' => __('thana.thana_name_unique'),
+            'country_id.required' => __('delivary_charge.select_country'),
+            'division.required' => __('delivary_charge.select_division'),
+            'charge_amount.required' => __('delivary_charge.charge_amount_required'),
         ];
     }
 }

@@ -4,35 +4,34 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Interfaces\ThanaInterface;
-use App\Http\Requests\ThanaRequest;
+use App\Http\Requests\DelivaryChargeRequest;
+use App\Interfaces\DelivaryChargeInterface;
 
-class ThanaController extends Controller
+class DelivaryChargeController extends Controller
 {
     protected $interface;
-    public function __construct(ThanaInterface $interface)
+    public function __construct(DelivaryChargeInterface $interface)
     {
         $this->interface = $interface;
-        $this->middleware(['permission:Thana Setup view'])->only(['index']);
-        $this->middleware(['permission:Thana Setup create'])->only(['create']);
-        $this->middleware(['permission:Thana Setup edit'])->only(['edit']);
-        $this->middleware(['permission:Thana Setup destroy'])->only(['destroy']);
-        $this->middleware(['permission:Thana Setup status'])->only(['status']);
-        $this->middleware(['permission:Thana Setup restore'])->only(['restore']);
-        $this->middleware(['permission:Thana Setup delete'])->only(['delete']);
-        $this->middleware(['permission:Thana Setup show'])->only(['show']);
+        $this->middleware(['permission:Delivary Charge view'])->only(['index']);
+        $this->middleware(['permission:Delivary Charge create'])->only(['create']);
+        $this->middleware(['permission:Delivary Charge edit'])->only(['edit']);
+        $this->middleware(['permission:Delivary Charge destroy'])->only(['destroy']);
+        $this->middleware(['permission:Delivary Charge status'])->only(['status']);
+        $this->middleware(['permission:Delivary Charge restore'])->only(['restore']);
+        $this->middleware(['permission:Delivary Charge delete'])->only(['delete']);
+        $this->middleware(['permission:Delivary Charge show'])->only(['show']);
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $datatable = '';
+        $datatable ='';
         if($request->ajax())
         {
             $datatable = true;
         }
-
         return $this->interface->index($datatable);
     }
 
@@ -47,7 +46,7 @@ class ThanaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ThanaRequest $request)
+    public function store(DelivaryChargeRequest $request)
     {
         return $this->interface->store($request);
     }
@@ -71,7 +70,7 @@ class ThanaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ThanaRequest $request, string $id)
+    public function update(DelivaryChargeRequest $request, string $id)
     {
         return $this->interface->update($request,$id);
     }
@@ -91,11 +90,12 @@ class ThanaController extends Controller
 
     public function trash(Request $request)
     {
-        $datatable = false;
+        $datatable ='';
         if($request->ajax())
         {
             $datatable = true;
         }
+
         return $this->interface->trash_list($datatable);
     }
 
@@ -107,9 +107,9 @@ class ThanaController extends Controller
     {
         return $this->interface->delete($id);
     }
-    
-    public function GetDistrict($id)
+
+    public function GetDivision($id)
     {
-        return $this->interface->GetDistrict($id);
+        return $this->interface->GetDivision($id);
     }
 }
