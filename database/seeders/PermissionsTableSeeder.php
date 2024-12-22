@@ -1648,6 +1648,186 @@ class PermissionsTableSeeder extends Seeder
                 'created_at' => '2024-12-21 18:21:57',
                 'updated_at' => '2024-12-21 18:21:57',
             ),
+            181 => 
+            array (
+                'id' => 454,
+                'name' => 'Thana Setup create',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            182 => 
+            array (
+                'id' => 455,
+                'name' => 'Thana Setup view',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            183 => 
+            array (
+                'id' => 456,
+                'name' => 'Thana Setup edit',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            184 => 
+            array (
+                'id' => 457,
+                'name' => 'Thana Setup destroy',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            185 => 
+            array (
+                'id' => 458,
+                'name' => 'Thana Setup status',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            186 => 
+            array (
+                'id' => 459,
+                'name' => 'Thana Setup restore',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:29',
+                'updated_at' => '2024-12-22 11:59:29',
+            ),
+            187 => 
+            array (
+                'id' => 460,
+                'name' => 'Thana Setup delete',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:30',
+                'updated_at' => '2024-12-22 11:59:30',
+            ),
+            188 => 
+            array (
+                'id' => 461,
+                'name' => 'Thana Setup print',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:30',
+                'updated_at' => '2024-12-22 11:59:30',
+            ),
+            189 => 
+            array (
+                'id' => 462,
+                'name' => 'Thana Setup show',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:30',
+                'updated_at' => '2024-12-22 11:59:30',
+            ),
+            190 => 
+            array (
+                'id' => 463,
+                'name' => 'Thana Setup trash',
+                'guard_name' => 'web',
+                'parent' => 'Thana Setup',
+                'created_at' => '2024-12-22 11:59:30',
+                'updated_at' => '2024-12-22 11:59:30',
+            ),
+            191 => 
+            array (
+                'id' => 464,
+                'name' => 'Delivery Charge create',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:12',
+                'updated_at' => '2024-12-22 17:39:12',
+            ),
+            192 => 
+            array (
+                'id' => 465,
+                'name' => 'Delivery Charge view',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            193 => 
+            array (
+                'id' => 466,
+                'name' => 'Delivery Charge edit',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            194 => 
+            array (
+                'id' => 467,
+                'name' => 'Delivery Charge destroy',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            195 => 
+            array (
+                'id' => 468,
+                'name' => 'Delivery Charge status',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            196 => 
+            array (
+                'id' => 469,
+                'name' => 'Delivery Charge restore',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            197 => 
+            array (
+                'id' => 470,
+                'name' => 'Delivery Charge delete',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            198 => 
+            array (
+                'id' => 471,
+                'name' => 'Delivery Charge print',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            199 => 
+            array (
+                'id' => 472,
+                'name' => 'Delivery Charge show',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
+            200 => 
+            array (
+                'id' => 473,
+                'name' => 'Delivery Charge trash',
+                'guard_name' => 'web',
+                'parent' => 'Delivery Charge',
+                'created_at' => '2024-12-22 17:39:13',
+                'updated_at' => '2024-12-22 17:39:13',
+            ),
         ));
         
         

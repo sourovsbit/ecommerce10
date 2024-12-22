@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 
-class Thana extends Model
+class DelivaryCharge extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'thanas';
+
     protected $guarded = [];
 
     public static function boot()
@@ -31,8 +31,8 @@ class Thana extends Model
         return $this->belongsTo('App\Models\DivisionSetup','division_id');
     }
     
-    public function district()
+    public function shipping_class()
     {
-        return $this->belongsTo('App\Models\DistrictSetup','district_id');
+        return $this->belongsTo('App\Models\ShippingClass','shipping_class_id');
     }
 }

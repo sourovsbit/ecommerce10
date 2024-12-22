@@ -1,8 +1,9 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\DistrictSetupInterface;
+use App\Interfaces\DelivaryChargeInterface;
 use App\Traits\ViewDirective;
-use App\Models\DistrictSetup;
+use App\Models\DelivaryCharge;
+use App\Models\ShippingClass;
 use App\Models\DivisionSetup;
 use App\Models\Country;
 use Auth;
@@ -10,21 +11,21 @@ use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
 
-class DistrictSetupRepository implements DistrictSetupInterface{
+class DelivaryChargeRepository implements DelivaryChargeInterface{
     
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.district_setup';
+        $this->path = 'admin.shipping_class';
     }
 
     public function index($datatable)
     {
         if($datatable == 1)
         {
-            $data = DistrictSetup::all();
+            $data = DelivaryCharge::all();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -50,18 +51,11 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                     return $row->division->division_name_bn ?: $row->division->division_name;
                 }
             })
-            ->addColumn('district_name',function($row){
-                if(config('app.locale') == 'en')
-                {
-                    return $row->district_name ?: $row->district_name_bn;
-                }
-                else
-                {
-                    return $row->district_name_bn ?: $row->district_name;
-                }
+            ->addColumn('charge_amount',function($row){
+                return $row->charge_amount;
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('District Setup status'))
+                if(Auth::user()->can('Delivary Charge status'))
                 {
                     if($row->status == 1)
                     {
@@ -72,7 +66,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeDistrictSetupStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
+                    <input onchange="return changeDelivaryChargeStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51-'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -88,27 +82,27 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('District Setup show'))
+                if(Auth::user()->can('Delivary Charge show'))
                 {
-                    $show_btn = '<a class="dropdown-item" href="'.route('district_setup.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
+                    $show_btn = '<a class="dropdown-item" href="'.route('delivary_charge.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
                 else
                 {
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('District Setup edit'))
+                if(Auth::user()->can('Delivary Charge edit'))
                 {
-                    $edit_btn = '<a class="dropdown-item" href="'.route('district_setup.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
+                    $edit_btn = '<a class="dropdown-item" href="'.route('delivary_charge.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
                 else
                 {
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('District Setup destroy'))
+                if(Auth::user()->can('Delivary Charge destroy'))
                 {
-                    $delete_btn = '<form id="" method="post" action="'.route('district_setup.destroy',$row->id).'">
+                    $delete_btn = '<form id="" method="post" action="'.route('delivary_charge.destroy',$row->id).'">
                     '.csrf_field().'
                     '.method_field('DELETE').'
                     <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> '.__('common.destroy').'</button>
@@ -128,7 +122,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','country_name','division_name','district_name','serial','status'])
+            ->rawColumns(['action','country_name','division_name','charge_amount','serial','status'])
             ->make(true);
 
         }
@@ -149,23 +143,23 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 'sl' => $request->sl,
                 'country_id' => $request->country_id,
                 'division_id' => $request->division_id,
-                'district_name' => $request->district_name,
-                'district_name_bn' => $request->district_name_bn,
+                'shipping_class_id' => $request->shipping_class_id,
+                'charge_amount' => $request->charge_amount,
                 'status' => 1,
             );
 
-            DistrictSetup::create($data);
+            DelivaryCharge::create($data);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create District which name is '.$request->district_name,
-                'description_bn' => 'একটি জেলা তৈরি করেছেন যার নাম '.$request->district_name,
+                'description' => 'Create Delivary Charge which name is '.$request->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ তৈরি করেছেন যার নাম '.$request->charge_amount,
             ]);
 
-            toastr()->success(__('district_setup.create_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('delivary_charge.create_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -174,8 +168,8 @@ class DistrictSetupRepository implements DistrictSetupInterface{
 
     public function show($id)
     {
-        $data['data'] = DistrictSetup::find($id);
-        $data['histories'] = History::where('tag','district_setup')->where('fk_id',$id)->get();
+        $data['data'] = DelivaryCharge::find($id);
+        $data['histories'] = History::where('tag','delivary_charge')->where('fk_id',$id)->get();
         return ViewDirective::view($this->path,'show',$data);
     }
 
@@ -185,7 +179,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
 
     public function edit($id)
     {
-        $data['data'] = DistrictSetup::find($id);
+        $data['data'] = DelivaryCharge::find($id);
         $data['country'] = Country::where('status',1)->get();
         $data['division'] = DivisionSetup::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
@@ -198,30 +192,30 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 'sl' => $request->sl,
                 'country_id' => $request->country_id,
                 'division_id' => $request->division_id,
-                'district_name' => $request->district_name,
-                'district_name_bn' => $request->district_name_bn,
+                'shipping_class_id' => $request->shipping_class_id,
+                'charge_amount' => $request->charge_amount,
             );
 
-            DistrictSetup::find($id)->update($data);
-            $data = DistrictSetup::find($id);
+            DelivaryCharge::find($id)->update($data);
+            $data = DelivaryCharge::find($id);
             //activity_log
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update District which name is '.$data->district_name,
-                'description_bn' => 'একটি জেলা আপডেট করেছেন যার নাম '.$data->district_name,
+                'description' => 'Update Delivary Charge which name is '.$data->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ আপডেট করেছেন যার নাম '.$data->charge_amount,
             ]);
             History::create([
-                'tag' => 'district_setup',
+                'tag' => 'delivary_charge',
                 'fk_id' => $id,
                 'type' => 'update',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('district_setup.update_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('delivary_charge.update_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -231,26 +225,26 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     public function destroy($id)
     {
         try {
-            DistrictSetup::find($id)->delete();
-            $data = DistrictSetup::withTrashed()->where('id',$id)->first();
+            DelivaryCharge::find($id)->delete();
+            $data = DelivaryCharge::withTrashed()->where('id',$id)->first();
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy District which name is '.$data->district_name,
-                'description_bn' => 'একটি জেলা ডিলেট করেছেন যার নাম '.$data->district_name,
+                'description' => 'Destroy Delivary Charge which name is '.$data->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ ডিলেট করেছেন যার নাম '.$data->charge_amount,
             ]);
 
             History::create([
-                'tag' => 'district_setup',
+                'tag' => 'delivary_charge',
                 'fk_id' => $id,
                 'type' => 'destroy',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('district_setup.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('delivary_charge.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -261,7 +255,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     {
         if($datatable == 1)
         {
-            $data = DistrictSetup::onlyTrashed()->get();
+            $data = DelivaryCharge::onlyTrashed()->get();
             return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('serial',function($row){
@@ -287,18 +281,21 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                     return $row->division->division_name_bn ?: $row->division->division_name;
                 }
             })
-            ->addColumn('district_name',function($row){
+            ->addColumn('shipping_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->district_name ?: $row->district_name_bn;
+                    return $row->shipping_class->shipping_name ?: $row->shipping_class->shipping_name_bn;
                 }
                 else
                 {
-                    return $row->district_name_bn ?: $row->district_name;
+                    return $row->shipping_class->shipping_name_bn ?: $row->shipping_class->shipping_name;
                 }
             })
+            ->addColumn('charge_amount',function($row){
+                return $row->charge_amount;
+            })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('District Setup status'))
+                if(Auth::user()->can('Delivary Charge status'))
                 {
                     if($row->status == 1)
                     {
@@ -309,7 +306,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                         $checked = 'false';
                     }
                     return '<div class="checkbox-wrapper-51">
-                    <input onchange="return changeDistrictSetupStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
+                    <input onchange="return changeDelivaryChargeStatus('.$row->id.')" id="cbx-51-'.$row->id.'" type="checkbox" '.$checked.'>
                     <label class="toggle" for="cbx-51-'.$row->id.'">
                       <span>
                         <svg viewBox="0 0 10 10" height="10px" width="10px">
@@ -325,18 +322,18 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('District Setup restore'))
+                if(Auth::user()->can('Delivary Charge restore'))
                 {
-                    $restore_btn = '<a class="dropdown-item" href="'.route('district_setup.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
+                    $restore_btn = '<a class="dropdown-item" href="'.route('delivary_charge.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
                 else
                 {
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('District Setup delete'))
+                if(Auth::user()->can('Delivary Charge delete'))
                 {
-                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('district_setup.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
+                    $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('delivary_charge.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
                 else
                 {
@@ -351,7 +348,7 @@ class DistrictSetupRepository implements DistrictSetupInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','country_name'.'division_name','district_name','serial','status'])
+            ->rawColumns(['action','country_name'.'division_name','charge_amount','serial','status'])
             ->make(true);
 
         }
@@ -361,11 +358,11 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     public function restore($id)
     {
         try {
-            DistrictSetup::withTrashed()->where('id',$id)->restore();
-            $data = DistrictSetup::withTrashed()->where('id',$id)->first();
+            DelivaryCharge::withTrashed()->where('id',$id)->restore();
+            $data = DelivaryCharge::withTrashed()->where('id',$id)->first();
             //history
             History::create([
-                'tag' => 'district_setup',
+                'tag' => 'charge_amount',
                 'fk_id' => $id,
                 'type' => 'restore',
                 'date' => date('Y-m-d'),
@@ -378,10 +375,10 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore District which name is '.$data->district_name,
-                'description_bn' => 'একটি জেলা পুনুরুদ্ধার করেছেন যার নাম '.$data->district_name,
+                'description' => 'Restore Delivary Charge which name is '.$data->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ পুনুরুদ্ধার করেছেন যার নাম '.$data->charge_amount,
             ]);
-            toastr()->success(__('district_setup.restore_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('charge_amount.restore_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -391,19 +388,19 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     public function delete($id)
     {
         try {
-            $data = DistrictSetup::withTrashed()->where('id',$id)->first();
+            $data = DelivaryCharge::withTrashed()->where('id',$id)->first();
 
             ActivityLog::create([
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete District which name is '.$data->district_name,
-                'description_bn' => 'একটি জেলা সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->district_name,
+                'description' => 'Permenantly Delete Delivary Charge which name is '.$data->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->charge_amount,
             ]);
-            History::where('tag','district_setup')->where('fk_id',$id)->delete();
-            DistrictSetup::withTrashed()->where('id',$id)->forceDelete();
-            toastr()->success(__('district_setup.delete_message'), __('common.success'), ['timeOut' => 5000]);
+            History::where('tag','charge_amount')->where('fk_id',$id)->delete();
+            DelivaryCharge::withTrashed()->where('id',$id)->forceDelete();
+            toastr()->success(__('charge_amount.delete_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());
@@ -417,16 +414,16 @@ class DistrictSetupRepository implements DistrictSetupInterface{
     public function status($id)
     {
         try {
-            $data = DistrictSetup::withTrashed()->where('id',$id)->first();
+            $data = DelivaryCharge::withTrashed()->where('id',$id)->first();
             if($data->status == 1)
             {
-                DistrictSetup::withTrashed()->where('id',$id)->update([
+                DelivaryCharge::withTrashed()->where('id',$id)->update([
                     'status' => 0,
                 ]);
             }
             else
             {
-                DistrictSetup::withTrashed()->where('id',$id)->update([
+                DelivaryCharge::withTrashed()->where('id',$id)->update([
                     'status' => 1,
                 ]);
             }
@@ -435,19 +432,19 @@ class DistrictSetupRepository implements DistrictSetupInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
-                'description' => 'Change Status District which name is '.$data->district_name,
-                'description_bn' => 'একটি জেলা স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->district_name,
+                'description' => 'Change Status Delivary Charge which name is '.$data->charge_amount,
+                'description_bn' => 'একটি ডেলিভারি চার্জ স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->charge_amount,
             ]);
 
             History::create([
-                'tag' => 'district_setup',
+                'tag' => 'charge_amount',
                 'fk_id' => $id,
                 'type' => 'status',
                 'date' => date('Y-m-d'),
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
             ]);
-            toastr()->success(__('district_setup.status_message'), __('common.success'), ['timeOut' => 5000]);
+            toastr()->success(__('charge_amount.status_message'), __('common.success'), ['timeOut' => 5000]);
             return redirect()->back();
         } catch (\Throwable $th) {
             return redirect()->back()->with('error',$th->getMessage());

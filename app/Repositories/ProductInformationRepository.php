@@ -558,7 +558,6 @@ class ProductInformationRepository implements ProductInformationInterface{
 
     }
 
-
     public function status($id)
     {
         try {

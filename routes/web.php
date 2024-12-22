@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProductItemController;
 use App\Http\Controllers\Admin\ProductSubCategoryController;
 use App\Http\Controllers\Admin\ProductInformationController;
 use App\Http\Controllers\Admin\DistrictSetupController;
+use App\Http\Controllers\Admin\ThanaController;
 use App\Http\Controllers\Admin\MenuController;
 
 /*
@@ -56,6 +57,7 @@ Route::get('cancel',[PaypalController::class,'cancel'])->name('cancel');
 Route::get('GetCategorie/{category_id}',[ProductSubCategoryController::class,'GetCategorie']);
 Route::get('GetSubCategorie/{category_id}',[ProductInformationController::class,'GetSubCategorie']);
 Route::get('GetDivision/{division_id}',[DistrictSetupController::class,'GetDivision']);
+Route::get('GetDistrict/{district_id}',[ThanaController::class,'GetDistrict']);
 
 Route::post('change_menu_status',[MenuController::class,'status'])->name('menu.status');
 
