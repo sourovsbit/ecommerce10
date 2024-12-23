@@ -438,6 +438,10 @@
                 }
             })
         }
+        else
+        {
+            $('#category_id').html('');
+        }
     }
 </script>
 

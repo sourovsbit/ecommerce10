@@ -10,14 +10,16 @@ use Auth;
 
 class SupplierRepository implements SupplierInterface{
     use ViewDirective;
-    protected $path;
+    protected $path,$sl;
     public function __construct()
     {
         $this->path = 'admin.supplier';
     }
     public function index($datatable)
     {
-        $data['data'] = Supplier::all();
+        $data['data'] = Supplier::paginate(15);
+        $this->sl = 1;
+        $data['sl'] = $this->sl;
         return ViewDirective::view($this->path,'index',$data);
     }
 

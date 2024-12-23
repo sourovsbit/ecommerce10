@@ -14,32 +14,32 @@
 
     <!-- link 2 -->
     @slot('link_two')
-    @lang('vendor.vendor')
+    @lang('supplier.supplier')
     @endslot
     @slot('link_two_url')
-    {{route('vendor.index')}}
+    {{route('supplier_info.index')}}
     @endslot
 
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('vendor.index_title')
+    @lang('supplier.index_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('vendor.index_title')
+    @lang('supplier.index_title')
     @endslot
 
 
-    @if(Auth::user()->can('Vendor create'))
+    @if(Auth::user()->can('Supplier Info create'))
     <!-- button one -->
     @slot('button_one_name')
     @lang('common.create')
     @endslot
 
     @slot('button_one_route')
-    {{route('vendor.create')}}
+    {{route('supplier_info.create')}}
     @endslot
 
     @slot('button_one_class')
@@ -53,14 +53,14 @@
     @endif
 
 
-    @if(Auth::user()->can('Vendor trash'))
+    @if(Auth::user()->can('Supplier Info trash'))
     <!-- button two -->
     @slot('button_two_name')
     @lang('common.trash_list')
     @endslot
 
     @slot('button_two_route')
-    {{route('vendor.trash_list')}}
+    {{route('product_sub_category.trash_list')}}
     @endslot
 
     @slot('button_two_class')
@@ -76,77 +76,90 @@
 
     @endcomponent
 
-    @push('header_script')
-    <style>
-    .cover {
-        height: 130px;
-        width: 100%;
-        overflow: hidden;
-    }
-    .card-body.p-0 {
-        position: relative;
-    }
-
-    .profile {
-        position: absolute;
-        top: 92px;
-        height: 70px;
-        width: 70px;
-        overflow: hidden;
-        border-radius: 100%;
-        border: 2px solid lightgray;
-    }
-    </style>
-    @endpush
-
-    <div class="row">
-        @forelse ($data['data'] as $d)
-        <div class="col-lg-3 col-md-4 col-12">
-            <div class="card p-0">
-                <div class="card-body p-0">
-                    <div class="cover">
-                        <img src="{{ asset('backend/Supplier/Supplierbanner') }}/{{ $d->banner }}" alt="" sizes="" srcset="" class="img-fluid">
-                    </div>
-                    <div class="profile">
-                        <img src="{{ asset('backend/Supplier/Supplierimage') }}/{{ $d->image }}" alt="" sizes="" srcset="" class="img-fluid" height="70px" width="70px">
-                    </div>
-                    <div class="info p-2 mt-5">
-                        <b>{{ $d->supplier_name }}</b>
-                    </div>
+    <div class="card">
+        <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table myTable  fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>@lang('supplier.supplier_id')</th>
+                            <th>@lang('supplier.supplier_name')</th>
+                            <th>@lang('supplier.phone_number')</th>
+                            <th>@lang('supplier.company_name')</th>
+                            <th>@lang('supplier.company_phone')</th>
+                            <th>@lang('common.status')</th>
+                            <th>@lang('common.action')</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($data['data'] as $v)
+                        <tr>
+                            <td>{{ $data['sl']++ }}</td>
+                            <td>{{ $v->supplier_id }}</td>
+                            <td>{{ $v->supplier_name }}</td>
+                            <td>{{ $v->phone_number }}</td>
+                            <td>{{ $v->company_name }}</td>
+                            <td>{{ $v->company_phone }}</td>
+                            <td>
+                                @if(Auth::user()->can('Supplier Info status'))
+                                <div class="checkbox-wrapper-51">
+                                    <input onchange="return changeVendorStatus({{$v->id}})" id="cbx-51-{{$v->id}}" type="checkbox" @if($v->status == 1) checked @endif>
+                                    <label class="toggle" for="cbx-51-{{$v->id}}">
+                                    <span>
+                                        <svg viewBox="0 0 10 10" height="10px" width="10px">
+                                        <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z"></path>
+                                        </svg>
+                                    </span>
+                                    </label>
+                                </div>
+                                @endif
+                            </td>
+                            <td>
+                                <div class="dropdown font-sans-serif">
+                                    <a class="btn btn-phoenix-default dropdown-toggle" id="dropdownMenuLink" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@lang('common.action')</a>
+                                    <div class="dropdown-menu dropdown-menu-end py-0" aria-labelledby="dropdownMenuLink" style="">
+                                        @if(Auth::user()->can('Supplier Info show'))
+                                        <a class="dropdown-item" href="{{route('supplier_info.show',$v->id)}}"><i class="fa fa-eye"></i> @lang('common.show')</a>
+                                        @endif
+
+                                        @if(Auth::user()->can('Supplier Info edit'))
+                                        <a class="dropdown-item" href="{{route('supplier_info.edit',$v->id)}}"><i class="fa fa-edit"></i> @lang('common.edit')</a>
+                                        @endif
+                                        
+                                        @if(Auth::user()->can('Supplier Info destroy'))
+                                        <form id="" method="post" action="{{route('supplier_info.destroy',$v->id)}}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return Sure()" type="post" class="dropdown-item text-danger"><i class="fa fa-trash"></i> @lang('common.destroy')</button>
+                                        </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
-        @empty
-
-        @endforelse
     </div>
 
 
-{{-- @push('footer_script')
+@push('footer_script')
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Datatables Responsive
-    $(".myTable").DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('vendor.index') }}",
-        columns: [
-            {data: 'serial', name: 'serial'},
-            {data: 'sl', name: 'sl'},
-            {data: 'country_name', name: 'country_name'},
-            {data: 'vendor_name', name: 'vendor_name'},
-            {data: 'vendor_phone', name: 'vendor_phone'},
-            {data: 'company_name', name: 'company_name'},
-            {data: 'company_phone', name: 'company_phone'},
-            {data: 'status', name: 'status'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
-    });
-});
-</script>
-
-<script>
-    function changeVendorStatus(id)
+    function changeSubCategoryStatus(id)
     {
         // alert(id);
         $.ajax({
@@ -154,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 'X-CSRF-TOKEN' : '{{ csrf_token() }}'
             },
 
-            url : '{{ route('vendor.status') }}',
+            url : '{{ route('product_sub_category.status') }}',
 
             type : 'POST',
 
@@ -168,7 +181,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 </script>
 
-@endpush --}}
+@endpush
 
 
 @endsection

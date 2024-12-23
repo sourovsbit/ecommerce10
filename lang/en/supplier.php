@@ -1,6 +1,7 @@
 <?php
 return array(
     'create_title' => 'Create Supplier',
+    'index_title' => 'Suppliers',
     'supplier' => 'Supplier',
     'supplier_name' => 'Supplier Name',
     'phone_number' => 'Phone Number',
