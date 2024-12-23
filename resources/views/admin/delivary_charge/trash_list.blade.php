@@ -23,16 +23,16 @@
 
     <!-- Active Link -->
     @slot('active_link')
-    @lang('delivary_charge.index_title')
+    @lang('delivary_charge.trash_title')
     @endslot
 
     <!-- Page Title -->
     @slot('page_title')
-    @lang('delivary_charge.index_title')
+    @lang('delivary_charge.trash_title')
     @endslot
 
 
-    @if(Auth::user()->can('Delivary Charge create'))
+    @if(Auth::user()->can('Delivery Charge create'))
     <!-- button one -->
     @slot('button_one_name')
     @lang('common.create')
@@ -53,18 +53,18 @@
     @endif
 
 
-    @if(Auth::user()->can('Delivary Charge trash'))
+    @if(Auth::user()->can('Delivery Charge view'))
     <!-- button two -->
     @slot('button_two_name')
-    @lang('common.trash_list')
+    @lang('common.view')
     @endslot
 
     @slot('button_two_route')
-    {{route('delivary_charge.trash_list')}}
+    {{route('delivary_charge.index')}}
     @endslot
 
     @slot('button_two_class')
-    btn btn-sm btn-danger
+    btn btn-sm btn-info
     @endslot
 
     @slot('button_two_icon')
@@ -94,8 +94,8 @@
                             <th>#</th>
                             <th>@lang('common.sl')</th>
                             <th>@lang('delivary_charge.country')</th>
-                            <th>@lang('delivary_charge.division_name')</th>
-                            <th>@lang('delivary_charge.shipping_name')</th>
+                            <th>@lang('delivary_charge.division')</th>
+                            <th>@lang('delivary_charge.shipping')</th>
                             <th>@lang('delivary_charge.charge_amount')</th>
                             <th>@lang('common.status')</th>
                             <th>@lang('common.action')</th>
@@ -117,21 +117,20 @@ document.addEventListener("DOMContentLoaded", function() {
     $(".myTable").DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('delivary_charge.index') }}",
+        ajax: "{{ route('delivary_charge.trash_list') }}",
         columns: [
             {data: 'serial', name: 'serial'},
             {data: 'sl', name: 'sl'},
-            {data : 'country_name', name: 'country_name'},
-            {data : 'division_name', name: 'division_name'},
-            {data : 'shipping_name', name: 'shipping_name'},
-            {data : 'charge_amount', name: 'charge_amount'},
-            {data : 'status', name: 'status'},
+            {data: 'country_name', name: 'country_name'},
+            {data: 'division_name', name: 'division_name'},
+            {data: 'shipping_name', name: 'shipping_name'},
+            {data: 'charge_amount', name: 'charge_amount'},
+            {data: 'status', name: 'status'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 });
 </script>
-
 
 <script>
     function changeDelivaryChargeStatus(id)
@@ -156,9 +155,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 </script>
 
-
 @endpush
 
 
 
-  @endsection
+@endsection

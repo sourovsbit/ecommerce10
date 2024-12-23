@@ -21,7 +21,7 @@ use App\Http\Controllers\Admin\DistrictSetupController;
 use App\Http\Controllers\Admin\ShippingClassController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\ThanaController;
-use App\Http\Controllers\Admin\DelivaryChargeController;
+use App\Http\Controllers\Admin\DeliveryChargeController;
 
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
@@ -44,7 +44,7 @@ Route::resources([
     'shipping_class' => ShippingClassController::class,
     'supplier_info' => SupplierController::class,
     'thana_setup' => ThanaController::class,
-    'delivary_charge' => DelivaryChargeController::class,
+    'delivary_charge' => DeliveryChargeController::class,
 ]);
 
 // menu_label_extra_routes
@@ -175,7 +175,7 @@ Route::get('thana_setup_delete/{id}',[ThanaController::class,'delete'])->name('t
 
 
 //product thana setup extra routes
-Route::post('change_delivary_charge_status',[DelivaryChargeController::class,'status'])->name('delivary_charge.status');
-Route::get('delivary_charge_trash',[DelivaryChargeController::class,'trash'])->name('delivary_charge.trash_list');
-Route::get('delivary_charge_restore/{id}',[DelivaryChargeController::class,'restore'])->name('delivary_charge.restore');
-Route::get('delivary_charge_delete/{id}',[DelivaryChargeController::class,'delete'])->name('delivary_charge.delete');
+Route::post('change_delivary_charge_status',[DeliveryChargeController::class,'status'])->name('delivary_charge.status');
+Route::get('delivary_charge_trash',[DeliveryChargeController::class,'trash'])->name('delivary_charge.trash_list');
+Route::get('delivary_charge_restore/{id}',[DeliveryChargeController::class,'restore'])->name('delivary_charge.restore');
+Route::get('delivary_charge_delete/{id}',[DeliveryChargeController::class,'delete'])->name('delivary_charge.delete');

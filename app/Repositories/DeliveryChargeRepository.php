@@ -1,6 +1,6 @@
 <?php
 namespace App\Repositories;
-use App\Interfaces\DelivaryChargeInterface;
+use App\Interfaces\DeliveryChargeInterface;
 use App\Traits\ViewDirective;
 use App\Models\DelivaryCharge;
 use App\Models\ShippingClass;
@@ -11,14 +11,14 @@ use App\Models\History;
 use App\Models\ActivityLog;
 use Yajra\DataTables\Facades\DataTables;
 
-class DelivaryChargeRepository implements DelivaryChargeInterface{
+class DeliveryChargeRepository implements DeliveryChargeInterface{
     
     use ViewDirective;
     protected $path,$sl;
 
     public function __construct()
     {
-        $this->path = 'admin.shipping_class';
+        $this->path = 'admin.delivary_charge';
     }
 
     public function index($datatable)
@@ -51,11 +51,21 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                     return $row->division->division_name_bn ?: $row->division->division_name;
                 }
             })
+            ->addColumn('shipping_name',function($row){
+                if(config('app.locale') == 'en')
+                {
+                    return $row->shipping->shipping_name ?: $row->shipping->shipping_name_bn;
+                }
+                else
+                {
+                    return $row->shipping->shipping_name_bn ?: $row->shipping->shipping_name;
+                }
+            })
             ->addColumn('charge_amount',function($row){
                 return $row->charge_amount;
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Delivary Charge status'))
+                if(Auth::user()->can('Delivery Charge status'))
                 {
                     if($row->status == 1)
                     {
@@ -82,7 +92,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Delivary Charge show'))
+                if(Auth::user()->can('Delivery Charge show'))
                 {
                     $show_btn = '<a class="dropdown-item" href="'.route('delivary_charge.show',$row->id).'"><i class="fa fa-eye"></i> '.__('common.show').'</a>';
                 }
@@ -91,7 +101,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                     $show_btn ='';
                 }
 
-                if(Auth::user()->can('Delivary Charge edit'))
+                if(Auth::user()->can('Delivery Charge edit'))
                 {
                     $edit_btn = '<a class="dropdown-item" href="'.route('delivary_charge.edit',$row->id).'"><i class="fa fa-edit"></i> '.__('common.edit').'</a>';
                 }
@@ -100,7 +110,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                     $edit_btn ='';
                 }
 
-                if(Auth::user()->can('Delivary Charge destroy'))
+                if(Auth::user()->can('Delivery Charge destroy'))
                 {
                     $delete_btn = '<form id="" method="post" action="'.route('delivary_charge.destroy',$row->id).'">
                     '.csrf_field().'
@@ -122,7 +132,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','country_name','division_name','charge_amount','serial','status'])
+            ->rawColumns(['action','country_name','division_name','shipping_name','charge_amount','serial','status'])
             ->make(true);
 
         }
@@ -133,6 +143,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
     {
         $data['country'] = Country::where('status',1)->get();
         $data['division'] = DivisionSetup::where('status',1)->get();
+        $data['shipping'] = ShippingClass::where('status',1)->get();
         return ViewDirective::view($this->path,'create',$data);
     }
 
@@ -155,7 +166,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'create',
-                'description' => 'Create Delivary Charge which name is '.$request->charge_amount,
+                'description' => 'Create Delivery Charge which name is '.$request->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ তৈরি করেছেন যার নাম '.$request->charge_amount,
             ]);
 
@@ -182,6 +193,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
         $data['data'] = DelivaryCharge::find($id);
         $data['country'] = Country::where('status',1)->get();
         $data['division'] = DivisionSetup::where('status',1)->get();
+        $data['shipping'] = ShippingClass::where('status',1)->get();
         return ViewDirective::view($this->path,'edit',$data);
     }
 
@@ -204,7 +216,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'update',
-                'description' => 'Update Delivary Charge which name is '.$data->charge_amount,
+                'description' => 'Update Delivery Charge which name is '.$data->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ আপডেট করেছেন যার নাম '.$data->charge_amount,
             ]);
             History::create([
@@ -232,7 +244,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'destroy',
-                'description' => 'Destroy Delivary Charge which name is '.$data->charge_amount,
+                'description' => 'Destroy Delivery Charge which name is '.$data->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ ডিলেট করেছেন যার নাম '.$data->charge_amount,
             ]);
 
@@ -284,18 +296,18 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
             ->addColumn('shipping_name',function($row){
                 if(config('app.locale') == 'en')
                 {
-                    return $row->shipping_class->shipping_name ?: $row->shipping_class->shipping_name_bn;
+                    return $row->shipping->shipping_name ?: $row->shipping->shipping_name_bn;
                 }
                 else
                 {
-                    return $row->shipping_class->shipping_name_bn ?: $row->shipping_class->shipping_name;
+                    return $row->shipping->shipping_name_bn ?: $row->shipping->shipping_name;
                 }
             })
             ->addColumn('charge_amount',function($row){
                 return $row->charge_amount;
             })
             ->addColumn('status',function($row){
-                if(Auth::user()->can('Delivary Charge status'))
+                if(Auth::user()->can('Delivery Charge status'))
                 {
                     if($row->status == 1)
                     {
@@ -322,7 +334,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 }
             })
             ->addColumn('action', function($row){
-                if(Auth::user()->can('Delivary Charge restore'))
+                if(Auth::user()->can('Delivery Charge restore'))
                 {
                     $restore_btn = '<a class="dropdown-item" href="'.route('delivary_charge.restore',$row->id).'"><i class="fa fa-trash-arrow-up"></i> '.__('common.restore').'</a>';
                 }
@@ -331,7 +343,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                     $restore_btn = '';
                 }
 
-                if(Auth::user()->can('Delivary Charge delete'))
+                if(Auth::user()->can('Delivery Charge delete'))
                 {
                     $delete_btn = '<a onclick="return Sure()" class="dropdown-item text-danger" href="'.route('delivary_charge.delete',$row->id).'"><i class="fa fa-trash"></i> '.__('common.delete').'</a>';
                 }
@@ -348,7 +360,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
               </div>';
                 return $output;
             })
-            ->rawColumns(['action','country_name'.'division_name','charge_amount','serial','status'])
+            ->rawColumns(['action','country_name'.'division_name','shipping_name','charge_amount','serial','status'])
             ->make(true);
 
         }
@@ -375,7 +387,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'restore',
-                'description' => 'Restore Delivary Charge which name is '.$data->charge_amount,
+                'description' => 'Restore Delivery Charge which name is '.$data->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ পুনুরুদ্ধার করেছেন যার নাম '.$data->charge_amount,
             ]);
             toastr()->success(__('charge_amount.restore_message'), __('common.success'), ['timeOut' => 5000]);
@@ -395,7 +407,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'delete',
-                'description' => 'Permenantly Delete Delivary Charge which name is '.$data->charge_amount,
+                'description' => 'Permenantly Delete Delivery Charge which name is '.$data->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ সম্পূর্ণ ডিলেট করেছেন যার নাম '.$data->charge_amount,
             ]);
             History::where('tag','charge_amount')->where('fk_id',$id)->delete();
@@ -432,7 +444,7 @@ class DelivaryChargeRepository implements DelivaryChargeInterface{
                 'time' => date('H:i:s'),
                 'user_id' => Auth::user()->id,
                 'slug' => 'status',
-                'description' => 'Change Status Delivary Charge which name is '.$data->charge_amount,
+                'description' => 'Change Status Delivery Charge which name is '.$data->charge_amount,
                 'description_bn' => 'একটি ডেলিভারি চার্জ স্ট্যাটাস পরিবর্তন করেছেন যার নাম '.$data->charge_amount,
             ]);
 

@@ -31,7 +31,7 @@ class DelivaryCharge extends Model
         return $this->belongsTo('App\Models\DivisionSetup','division_id');
     }
     
-    public function shipping_class()
+    public function shipping()
     {
         return $this->belongsTo('App\Models\ShippingClass','shipping_class_id');
     }

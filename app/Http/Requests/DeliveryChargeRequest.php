@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class DelivaryChargeRequest extends FormRequest
+class DeliveryChargeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,7 @@ class DelivaryChargeRequest extends FormRequest
             'sl' =>'required',
             'country_id' => 'required',
             'division_id' => 'required',
+            'shipping_class_id' => 'required',
             'charge_amount' => 'required|unique:delivary_charges,charge_amount,'.$request->delivary_charge,
         ];
     }
@@ -36,7 +37,8 @@ class DelivaryChargeRequest extends FormRequest
             'sl.required' => __('common.serial_number_required'),
             'sl.unique' => __('common.serial_number_unique'),
             'country_id.required' => __('delivary_charge.select_country'),
-            'division.required' => __('delivary_charge.select_division'),
+            'division_id.required' => __('delivary_charge.select_division'),
+            'shipping_class_id.required' => __('delivary_charge.select_shipping'),
             'charge_amount.required' => __('delivary_charge.charge_amount_required'),
         ];
     }
