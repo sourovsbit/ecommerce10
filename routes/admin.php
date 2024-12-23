@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\ThanaController;
 use App\Http\Controllers\Admin\DeliveryChargeController;
 
+Route::middleware('auth')->group(function () {
+
 Route::get('/',[BackendController::class,'home'])->name('admin.view');
 Route::resources([
     'menu_label' => MenuLabelController::class,
@@ -179,3 +181,7 @@ Route::post('change_delivary_charge_status',[DeliveryChargeController::class,'st
 Route::get('delivary_charge_trash',[DeliveryChargeController::class,'trash'])->name('delivary_charge.trash_list');
 Route::get('delivary_charge_restore/{id}',[DeliveryChargeController::class,'restore'])->name('delivary_charge.restore');
 Route::get('delivary_charge_delete/{id}',[DeliveryChargeController::class,'delete'])->name('delivary_charge.delete');
+
+Route::post('searchSupplier',[SupplierController::class,'searchSupplier']);
+
+});

@@ -78,6 +78,28 @@
 
     <div class="card">
         <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-12 mt-2">
+                    <input type="text" class="form-control form-control-sm" name="supplier_id" id="supplier_id" placeholder="@lang('supplier.supplier_id_search')">
+                </div>
+                <div class="col-lg-3 col-md-3 col-12 mt-2">
+                    <input type="text" class="form-control form-control-sm" name="supplier_name" id="supplier_name" placeholder="@lang('supplier.supplier_name_search')">
+                </div>
+                <div class="col-lg-3 col-md-3 col-12 mt-2">
+                    <input type="text" class="form-control form-control-sm" name="supplier_phone" id="supplier_phone" placeholder="@lang('supplier.supplier_phone_search')">
+                </div>
+                <div class="col-lg-3 col-md-3 col-12 mt-2">
+                    <input type="text" class="form-control form-control-sm" name="company_name" id="company_name" placeholder="@lang('supplier.company_name_search')">
+                </div>
+                <div class="col-lg-3 col-md-3 col-12 mt-2">
+                    <button class="btn btn-sm btn-info"><i class="fa fa-filter"></i> @lang('common.filter')</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="card-body">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -101,7 +123,7 @@
                             <th>@lang('common.action')</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="showData">
                         @forelse ($data['data'] as $v)
                         <tr>
                             <td>{{ $data['sl']++ }}</td>
@@ -135,7 +157,7 @@
                                         @if(Auth::user()->can('Supplier Info edit'))
                                         <a class="dropdown-item" href="{{route('supplier_info.edit',$v->id)}}"><i class="fa fa-edit"></i> @lang('common.edit')</a>
                                         @endif
-                                        
+
                                         @if(Auth::user()->can('Supplier Info destroy'))
                                         <form id="" method="post" action="{{route('supplier_info.destroy',$v->id)}}">
                                             @csrf
@@ -148,10 +170,15 @@
                             </td>
                         </tr>
                         @empty
-
+                        <tr>
+                            <th colspan="8" class="text-danger" style="text-align: center">
+                                @lang('common.no_data_found')
+                            </th>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
+                {{ $data['data']->links() }}
             </div>
         </div>
     </div>
@@ -178,6 +205,41 @@
 
             }
         })
+    }
+</script>
+
+<script>
+    function searchSupplier()
+    {
+        let supplier_id = $('#supplier_id').val();
+        let supplier_name = $('#supplier_name').val();
+        let supplier_phone = $('#supplier_phone').val();
+        let company_name = $('#company_name').val();
+
+        if(supplier_id != '' || supplier_name != '' || supplier_phone != '' || company_name != '')
+        {
+            $.ajax({
+                headers : {
+                    'X-CSRF-TOKEN' : '{{ csrf_token() }}'
+                },
+
+                url : '{{ searchSupplier }}',
+
+                type : 'POST',
+
+                data : {supplier_id,supplier_name,supplier_phone,company_name},
+
+                beforeSend : function()
+                {
+
+                },
+
+                success : function(res)
+                {
+                    $('#showData').html(res);
+                }
+            });
+        }
     }
 </script>
 
